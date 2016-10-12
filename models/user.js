@@ -8,7 +8,7 @@ var userSchema = new mongoose.Schema({
   facebookId: String,
   twitterId: String,
   avatar: String,
-  passwordHash: String,
+  passwordHash: String
 });
 
 userSchema.pre("validate", function(next) {
