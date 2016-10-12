@@ -23,6 +23,9 @@ function secureRoute(req, res, next) {
   });
 }
 
+router.route('/')
+  .get(grouphugsController.index);
+
 router.route('/grouphugs')
   .get(grouphugsController.index)
   .post(grouphugsController.create);
