@@ -1,21 +1,20 @@
-var express = require('express');
+var express = require("express");
 var app = express();
-
-var environment = app.get('env');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var cors = require('cors');
-
+var morgan = require("morgan");
+var mongoose = require("mongoose");
+var bluebird = require("bluebird");
+var cors = require("cors");
 var port = process.env.PORT || 3000;
+var bodyParser = require ("body-parser");
+var routes = require("./config/routes");
+var environment = app.get("env");
+var databaseUri = require("./config/db")(environment);
 
-var routes = require('./config/routes');
-
-var databaseUri = require('./config/db')(environment);
-
+mongoose.Promise = bluebird
 mongoose.connect(databaseUri);
 
-if('test' !== app.get('env')) {
-  app.use(require('morgan')('dev'));
+if("test" !== environment) {
+  app.use(morgan("dev"));
 }
 
 app.use(cors());
@@ -25,10 +24,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-app.use('/api', routes);
+app.use("/api", routes);
 
-app.listen(port, function(){
-  console.log("Express is listening to port " + port);
+var server = app.listen(port, function() {
+  console.log("It's aliiiiiiiiiive!!!");
 });
 
 module.exports = app;
