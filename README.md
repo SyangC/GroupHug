@@ -1,3 +1,3 @@
 # GroupHug
 
-Something something
+Something something else
