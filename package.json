@@ -1,0 +1,19 @@
+{
+  "name": "grouphug",
+  "version": "1.0.0",
+  "description": "Bex testing...",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SyangC/GroupHug.git"
+  },
+  "author": "Becky Bolton and Shu-yang Chia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SyangC/GroupHug/issues"
+  },
+  "homepage": "https://github.com/SyangC/GroupHug#readme"
+}
