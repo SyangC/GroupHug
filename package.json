@@ -15,5 +15,28 @@
   "bugs": {
     "url": "https://github.com/SyangC/GroupHug/issues"
   },
-  "homepage": "https://github.com/SyangC/GroupHug#readme"
+  "homepage": "https://github.com/SyangC/GroupHug#readme",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.1.9",
+    "mongoose": "^4.6.3",
+    "morgan": "^1.7.0",
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "main-bower-files": "^2.13.1",
+    "run-sequence": "^1.2.2"
+  }
 }
