@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="GroupHug">
 <head>
   <title>GroupHug</title>
   <link rel="stylesheet" href="src/css/reset.css">
@@ -8,14 +8,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
 
-</head>
-<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-resource.min.js"></script>
+  <script src="//npmcdn.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
+  <script src="//cdn.jsdelivr.net/satellizer/0.13.1/satellizer.min.js"></script>
 
-  <div class="container">
-    
-    <h1> Hey, welcome to GroupHug </h1>
-    
-  </div>
+</head>
+<body ng-controller="MainController as main">
+
+<div class="container" ng-if="main.errorMessage">
+  <div class="alert alert-danger">{{ main.errorMessage }}</div>
+</div>
+
+<main ui-view></main>
 
 </body>
 </html>
