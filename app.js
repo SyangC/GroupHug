@@ -4,10 +4,12 @@ var morgan = require("morgan");
 var mongoose = require("mongoose");
 var bluebird = require("bluebird");
 var cors = require("cors");
-var port = process.env.PORT || 3000;
 var bodyParser = require ("body-parser");
 var routes = require("./config/routes");
+
 var environment = app.get("env");
+
+var port = process.env.PORT || 3000;
 var databaseUri = require("./config/db")(environment);
 
 mongoose.Promise = bluebird

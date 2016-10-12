@@ -1,11 +1,11 @@
 var router = require("express").Router();
 
 var facebookController = require("../controllers/facebookOauth");
-var twitterController = require("../controllers/instagramOauth");
+var twitterController = require("../controllers/twitterOauth");
 var authController = require("../controllers/auth");
 var usersController = require("../controllers/users");
 var grouphugsController = require("../controllers/grouphugs");
-var experiencesController = require("../controllers/expriences");
+var experiencesController = require("../controllers/experiences");
 
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
