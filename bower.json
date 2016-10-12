@@ -1,0 +1,17 @@
+{
+  "name": "grouphug",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Becky Bolton and Shu-yang Chia"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/SyangC/GroupHug",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
