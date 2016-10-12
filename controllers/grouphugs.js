@@ -56,5 +56,7 @@ function grouphugDelete(req, res) {
 module.exports = {
   index: grouphugIndex,
   show: grouphugShow,
-  update: grouphugUpdate
+  create: grouphugCreate,
+  update: grouphugUpdate,
+  delete: grouphugDelete
 }

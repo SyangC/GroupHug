@@ -21,22 +21,6 @@
     "sass": "^0.5.0"
   },
   "devDependencies": {
-    "body-parser": "^1.15.2",
-    "bower": "^1.7.9",
-    "cors": "^2.8.1",
-    "express": "^4.14.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-filter": "^4.0.0",
-    "gulp-livereload": "^3.8.1",
-    "gulp-sass": "^2.3.2",
-    "mongoose": "^4.6.3",
-    "morgan": "^1.7.0",
-    "bluebird": "^3.4.6",
-    "jsonwebtoken": "^7.1.9",
-    "request": "^2.75.0",
-    "request-promise": "^4.1.1"
-  },
-  "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.13",
     "gulp-concat": "^2.6.0",

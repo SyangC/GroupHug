@@ -41,7 +41,7 @@ function experienceUpdate(req, res) {
 }
 
 function experienceDelete(req, res) {
-  Grouphug.findById(req.params.id)
+  Experience.findById(req.params.id)
     .then(function(experience) {
       return experience.remove();
     })
@@ -56,5 +56,7 @@ function experienceDelete(req, res) {
 module.exports = {
   index: experienceIndex,
   show: experienceShow,
-  update: experienceUpdate
+  create: experienceCreate,
+  update: experienceUpdate,
+  delete: experienceDelete
 }
