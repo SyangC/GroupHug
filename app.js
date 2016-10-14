@@ -29,7 +29,7 @@ app.use(express.static("public"));
 app.use("/api", routes);
 
 var server = app.listen(port, function() {
-  console.log("It's aliiiiiiiiiive!!!");
+  console.log("Node running on port 3000, Cap'n.");
 });
 
 module.exports = app;
