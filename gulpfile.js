@@ -35,6 +35,17 @@ gulp.task('sass', function() {
 gulp.task('default', function() {
   livereload.listen();
 
+  nodemon({
+    // the script to run the app
+    script: 'app.js',
+    ext: 'js'
+  }).on('restart', function(){
+    // when the app has restarted, run livereload.
+    gulp.src('app.js')
+      .pipe(livereload())
+      .pipe(notify('Reloading page, please wait...'));
+  })
+
   gulp.watch(['lib/**/*', 'public/index.html', 'lib/templates/**'], function() {
     runSeq(['concat', 'sass'], function() {
       livereload.reload('public/index.html');
