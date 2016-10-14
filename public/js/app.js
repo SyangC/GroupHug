@@ -5,10 +5,10 @@ angular
 
 oAuthConfig.$inject = ["$authProvider"];
 function oAuthConfig($authProvider) {
-  // $authProvider.twitter({
-  //   url: "/api/oauth/twitter",
-  //   clientId: //no idea. Need to look into this later, as I did not do twitter for my project.
-  // })
+  $authProvider.twitter({
+    url: "/api/oauth/twitter",
+    clientId: //no idea. Need to look into this later, as I did not do twitter for my project.
+  })
   $authProvider.facebook({
     url: "/api/oauth/facebook",
     clientId: "1115097508582543"
