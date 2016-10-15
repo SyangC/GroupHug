@@ -105,7 +105,7 @@ User.create([{
         giftee: users[1]._id,
         contributors: [ users[2]._id, users[3]._id],
         experiences: [{
-          id: experiences[0]._id,
+          experienceId: experiences[0]._id,
           userWeightings: [{
             user: users[0]._id,
             weightValue: 5
