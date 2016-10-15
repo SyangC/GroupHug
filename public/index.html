@@ -2,11 +2,13 @@
 <html ng-app="GroupHugApp">
 <head>
   <title>GroupHug</title>
-  <link rel="stylesheet" href="./css/reset.css">
-  <link rel="stylesheet" href="./css/app.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
+
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/app.css">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,600" rel="stylesheet">
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-resource.min.js"></script>
@@ -39,6 +41,26 @@
   <div class="container" ng-if="main.errorMessage">
     <div class="alert alert-danger">{{ main.errorMessage }}</div>
   </div>
+
+  <ul>
+    <li><a ui-sref="home">Home</a></li>
+
+    <li><a ui-sref="login">Login</a></li>
+    <li><a ui-sref="register">Register</a></li>
+
+    <li><a ui-sref="experiencesIndex">Experiences</a></li>
+    <li><a ui-sref="experiencesShow">All Experiences</a></li>
+    <li><a ui-sref="experiencesEdit">Edit Experiences</a></li>
+    <li><a ui-sref="experiencesNew">New Experiences</a></li>
+
+    <li><a ui-sref="grouphugsIndex">Grouphugs</a></li>
+    <li><a ui-sref="grouphugsShow">All Grouphugs</a></li>
+    <li><a ui-sref="grouphugsNew">New Grouphug</a></li>
+    <li><a ui-sref="grouphugsEdit">Edit Grouphug</a></li>
+
+    <li><a ui-sref="usersIndex">Users Index</a></li>
+    <li><a ui-sref="usersShow">Show Users</a></li>
+  </ul>
 
   <main ui-view></main>
 

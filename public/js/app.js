@@ -36,52 +36,52 @@ function Router($stateProvider, $urlRouterProvider) {
     })
     .state("experiencesIndex", {
       url: "/experiences",
-      templateUrl: "/js/templates/experiences/experiencesIndex.html",
+      templateUrl: "/js/templates/experiences/index.html",
       controller: "ExperiencesIndexController as experiencesIndex"
     })
     .state("experiencesNew", {
-      url: "/experiences",
-      templateUrl: "/js/templates/experiences/experiencesNew.html",
+      url: "/experiences/new",
+      templateUrl: "/js/templates/experiences/new.html",
       controller: "ExperiencesNewController as experiencesNew"
     })
     .state("experiencesShow", {
       url: "/experiences/:id",
-      templateUrl: "/js/templates/experiences/experiencesShow.html",
+      templateUrl: "/js/templates/experiences/show.html",
       controller: "ExperiencesShowController as experiencesShow"
     })
     .state("experiencesEdit", {
-      url: "/experiences/:id",
-      templateUrl: "/js/templates/experiences/experiencesEdit.html",
+      url: "/experiences/:id/edit",
+      templateUrl: "/js/templates/experiences/edit.html",
       controller: "ExperiencesEditController as experiencesEdit"
     })
     .state("grouphugsIndex", {
       url: "/grouphugs",
-      templateUrl: "/js/templates/grouphugs/grouphugsIndex.html",
+      templateUrl: "/js/templates/grouphugs/index.html",
       controller: "GrouphugsIndexController as grouphugsIndex"
     })
     .state("grouphugsNew", {
-      url: "/grouphugs",
-      templateUrl: "/js/templates/grouphugs/grouphugsNew.html",
+      url: "/grouphugs/new",
+      templateUrl: "/js/templates/grouphugs/new.html",
       controller: "GrouphugsNewController as grouphugsNew"
     })
     .state("grouphugsShow", {
       url: "/grouphugs/:id",
-      templateUrl: "/js/templates/grouphugs/grouphugsShow.html",
+      templateUrl: "/js/templates/grouphugs/show.html",
       controller: "GrouphugsShowController as grouphugsShow"
     })
     .state("grouphugsEdit", {
-      url: "/grouphugs/:id",
-      templateUrl: "/js/templates/grouphugs/grouphugsEdit.html",
+      url: "/grouphugs/:id/edit",
+      templateUrl: "/js/templates/grouphugs/edit.html",
       controller: "GrouphugsEditController as grouphugsEdit"
     })
     .state("usersIndex", {
       url: "/users",
-      templateUrl: "/js/templates/users/usersIndex.html",
+      templateUrl: "/js/templates/users/index.html",
       controller: "UsersIndexController as usersIndex"
     })
     .state("usersShow", {
       url: "/users/:id",
-      templateUrl: "/js/templates/users/usersShow.html",
+      templateUrl: "/js/templates/users/show.html",
       controller: "UsersShowController as usersShow"
     });
 

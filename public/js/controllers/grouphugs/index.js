@@ -1,8 +1,9 @@
 angular
-  .module('GroupHugApp')
-  .controller('GroupHugsIndexController', GroupHugsIndexController);
+  .module("GroupHugApp")
+  .controller("GrouphugsIndexController", GrouphugsIndexController);
 
-GroupHugsIndexController.$inject = ["Grouphug"];
-function GroupHugsIndexController() {
-  // this.all = Grouphug.query();
+GrouphugsIndexController.$inject = ["Grouphug"];
+function GrouphugsIndexController(Grouphug) {
+  this.all = Grouphug.query();
 }
+
