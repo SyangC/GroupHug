@@ -6,6 +6,8 @@ var authController = require("../controllers/auth");
 var usersController = require("../controllers/users");
 var grouphugsController = require("../controllers/grouphugs");
 var experiencesController = require("../controllers/experiences");
+var reviewsController = require("../controllers/reviews");
+var tagsController = require("../controllers/tags");
 
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
@@ -41,6 +43,22 @@ router.route("/experiences/:id")
   .get(experiencesController.show)
   .put(experiencesController.update)
   .delete(experiencesController.delete);
+
+router.route('/reviews')
+  .get(reviewsController.index)
+  .post(reviewsController.create);
+router.route("/reviews/:id")
+  .get(reviewsController.show)
+  .put(reviewsController.update)
+  .delete(reviewsController.delete);
+
+router.route('/tags')
+  .get(tagsController.index)
+  .post(tagsController.create);
+router.route("/tags/:id")
+  .get(tagsController.show)
+  .put(tagsController.update)
+  .delete(tagsController.delete);
 
 router.get("/users", usersController.index)
 router.route("/users/:id")
