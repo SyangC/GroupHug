@@ -21,67 +21,67 @@ function Router($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state("home", {
       url: "/",
-      templateUrl: "/js/templates/home.html",
+      templateUrl: "/templates/home.html",
       controller: "MainController as main"
     })
     .state("login", {
       url: "/login",
-      templateUrl: "/js/templates/login.html",
+      templateUrl: "/templates/login.html",
       controller: "LoginController as login"
     })
     .state("register", {
       url: "/register",
-      templateUrl: "/js/templates/register.html",
+      templateUrl: "/templates/register.html",
       controller: "RegisterController as register"
     })
     .state("experiencesIndex", {
       url: "/experiences",
-      templateUrl: "/js/templates/experiences/index.html",
+      templateUrl: "/templates/experiences/index.html",
       controller: "ExperiencesIndexController as experiencesIndex"
     })
     .state("experiencesNew", {
       url: "/experiences/new",
-      templateUrl: "/js/templates/experiences/new.html",
+      templateUrl: "/templates/experiences/new.html",
       controller: "ExperiencesNewController as experiencesNew"
     })
     .state("experiencesShow", {
       url: "/experiences/:id",
-      templateUrl: "/js/templates/experiences/show.html",
+      templateUrl: "/templates/experiences/show.html",
       controller: "ExperiencesShowController as experiencesShow"
     })
     .state("experiencesEdit", {
       url: "/experiences/:id/edit",
-      templateUrl: "/js/templates/experiences/edit.html",
+      templateUrl: "/templates/experiences/edit.html",
       controller: "ExperiencesEditController as experiencesEdit"
     })
     .state("grouphugsIndex", {
       url: "/grouphugs",
-      templateUrl: "/js/templates/grouphugs/index.html",
+      templateUrl: "/templates/grouphugs/index.html",
       controller: "GrouphugsIndexController as grouphugsIndex"
     })
     .state("grouphugsNew", {
       url: "/grouphugs/new",
-      templateUrl: "/js/templates/grouphugs/new.html",
+      templateUrl: "/templates/grouphugs/new.html",
       controller: "GrouphugsNewController as grouphugsNew"
     })
     .state("grouphugsShow", {
       url: "/grouphugs/:id",
-      templateUrl: "/js/templates/grouphugs/show.html",
+      templateUrl: "/templates/grouphugs/show.html",
       controller: "GrouphugsShowController as grouphugsShow"
     })
     .state("grouphugsEdit", {
       url: "/grouphugs/:id/edit",
-      templateUrl: "/js/templates/grouphugs/edit.html",
+      templateUrl: "/templates/grouphugs/edit.html",
       controller: "GrouphugsEditController as grouphugsEdit"
     })
     .state("usersIndex", {
       url: "/users",
-      templateUrl: "/js/templates/users/index.html",
+      templateUrl: "/templates/users/index.html",
       controller: "UsersIndexController as usersIndex"
     })
     .state("usersShow", {
       url: "/users/:id",
-      templateUrl: "/js/templates/users/show.html",
+      templateUrl: "/templates/users/show.html",
       controller: "UsersShowController as usersShow"
     });
 
@@ -100,7 +100,7 @@ function LoginController($auth, $state, $rootScope) {
     $auth.authenticate(provider)
       .then(function() {
         $rootScope.$broadcast("loggedIn");
-        $state.go("chat");
+        $state.go("home");
       });
   }
 
@@ -109,7 +109,7 @@ function LoginController($auth, $state, $rootScope) {
       url: "/api/login"
     }).then(function(){
       $rootScope.$broadcast("loggedIn");
-      $state.go("chat");
+      $state.go("home");
     })
   }
 }
@@ -166,7 +166,7 @@ function RegisterController($auth, $state, $rootScope) {
     })
     .then(function(){
       $rootScope.$broadcast("loggedIn");
-      $state.go("chat");
+      $state.go("home");
     })
   }
 }

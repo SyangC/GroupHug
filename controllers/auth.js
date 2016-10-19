@@ -1,6 +1,6 @@
-var jwt = require('jsonwebtoken');
-var User = require('../models/user');
-var secret = require('../config/tokens').secret;
+var jwt = require("jsonwebtoken");
+var User = require("../models/user");
+var secret = require("../config/tokens").secret;
 
 function login(req, res) {
   User.findOne({ email: req.body.email }, function(err, user) {
