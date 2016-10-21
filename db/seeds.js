@@ -23,7 +23,7 @@ EmailTemplate.create({
   subject: '{{firstName }}, Welcome to GroupHug!',
   text: "This is the text version from GroupHug. Hi {{firstName}}, thank you for registering with us. This account was created at {{createdAt}}.",
   html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi {{firstName}}, thank you for registering with us.</h3><h3>This account was created at {{createdAt}}.</h3></body>",
-  delay: 60*5
+  delay: 60*2
 });
 
 User.create([{
