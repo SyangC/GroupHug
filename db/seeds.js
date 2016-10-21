@@ -4,6 +4,7 @@ var Tag = require('../models/tag');
 var Experience = require('../models/experience');
 var Review = require('../models/review');
 var User = require('../models/user');
+var EmailTemplate = require('../models/emailTemplate');
 var bluebird = require('bluebird');
 
 var databaseUri = require('../config/db')(process.env.NODE_ENV || "development");
@@ -15,6 +16,15 @@ Tag.collection.drop();
 Experience.collection.drop();
 User.collection.drop();
 Review.collection.drop();
+EmailTemplate.collection.drop();
+
+EmailTemplate.create({
+  name: "Registration",
+  subject: '{{firstName }}, Welcome to GroupHug!',
+  text: "This is the text version from GroupHug. Hi {{firstName}}, thank you for registering with us. This account was created at {{createdAt}}.",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi {{firstName}}, thank you for registering with us.</h3><h3>This account was created at {{createdAt}}.</h3></body>",
+  delay: 60*5
+});
 
 User.create([{
   username: "tesoasdfsn",

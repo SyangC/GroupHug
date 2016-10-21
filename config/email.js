@@ -1,5 +1,7 @@
 var Promise = require("bluebird");
+var schedule = require("node-schedule");
 var nodemailer = require("nodemailer");
+var EmailTemplate = require("../models/emailTemplate");
 var smtpConfig = {
   host: 'smtp.gmail.com',
   port: 465,
@@ -10,12 +12,14 @@ var smtpConfig = {
   }
 };
 
-var transporter = nodemailer.createTransport(smtpConfig);
+var registrationEmail = EmailTemplate.findOne({'name': 'Registration'});
 
-var registerTemplate = transporter.templateSender({
-  subject: '{{firstName }}, Welcome to GroupHug!',
-  text: "This is the text version from GroupHug. Hi {{firstName}}, thank you for registering with us.",
-  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi {{firstName}}, thank you for registering with us.</h3></body>"
+var registrationTransporter = nodemailer.createTransport(smtpConfig);
+
+var registerTemplate = registrationTransporter.templateSender({
+  subject: registrationEmail.subject,
+  text: registrationEmail.text,
+  html: registrationEmail.html
 }, { from: process.env.GMAIL_ID });
   function sendRegisterTemplate(user) { 
 
@@ -25,12 +29,15 @@ var registerTemplate = transporter.templateSender({
   if(firstName_in == undefined){firstName_in = ""};
   lastName_in = user.lastName;
   if(lastName_in  == undefined){lastName_in = ""};
+  createdAt_in = user.createdAt;
+  if(createdAt_in  == undefined){createdAt_in = ""};
 
   registerTemplate({
     to: email
   }, {
     firstName: firstName_in,
     lastName: lastName_in,
+    createdAt: createdAt_in
   }, function(err, info){
     if(err){
       console.log('Error', err);
@@ -45,7 +52,7 @@ module.exports = {
 
     return new Promise(function(resolve, reject) {
 
-      transporter.sendMail(mailOptions, function(err, info) {
+      registrationTransporter.sendMail(mailOptions, function(err, info) {
         if(err) return reject(err);
         return resolve(info);
       });

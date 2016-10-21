@@ -16,7 +16,8 @@ var userSchema = new mongoose.Schema({
   passwordHash: { type: String },
   credit: { type: Number, default: 0 },
   reviews: [{ type: mongoose.Schema.ObjectId, ref: "Review" }], 
-  grouphugs: [{ type: mongoose.Schema.ObjectId, ref: "Grouphug" }] 
+  grouphugs: [{ type: mongoose.Schema.ObjectId, ref: "Grouphug" }],
+  createdAt: { type: Date, default: new Date },
 });
 
 userSchema.pre("validate", function(next) {
