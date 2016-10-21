@@ -2,7 +2,7 @@ var jwt = require("jsonwebtoken");
 var User = require("../models/user");
 var secret = require("../config/tokens").secret;
 var email = require("../config/email");
-var email = require("../models/emailTemplate");
+var EmailTemplate = require("../models/emailTemplate");
 var schedule = require("node-schedule");
 
 function login(req, res) {

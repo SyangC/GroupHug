@@ -21,8 +21,8 @@ var registerTemplate = registrationTransporter.templateSender({
   text: registrationEmail.text,
   html: registrationEmail.html
 }, { from: process.env.GMAIL_ID });
-  function sendRegisterTemplate(user) { 
-
+  
+function sendRegisterTemplate(user) {
   email = user.email;
   // Error handling
   firstName_in = user.firstName;
