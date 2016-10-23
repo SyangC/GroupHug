@@ -31,6 +31,7 @@ router.route('/')
 router.route('/grouphugs')
   .get(grouphugsController.index)
   .post(grouphugsController.create);
+  
 router.route("/grouphugs/:id")
   .get(grouphugsController.show)
   .put(grouphugsController.update)

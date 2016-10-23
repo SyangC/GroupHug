@@ -1,11 +1,18 @@
 var express = require("express");
 var app = express();
+var path = require('path');
 var morgan = require("morgan");
 var mongoose = require("mongoose");
 var bluebird = require("bluebird");
 var cors = require("cors");
+var http = require('http');
 var bodyParser = require ("body-parser");
+var cookieParser = require('cookie-parser');
+
 var routes = require("./config/routes");
+
+// *** config file *** //
+var config = require('./_config');
 
 var environment = app.get("env");
 
@@ -23,6 +30,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(express.static("public"));
 
