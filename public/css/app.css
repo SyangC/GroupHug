@@ -1,0 +1,94 @@
+body {
+  background-color: white;
+  font-family: 'Raleway', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+}
+
+ul {
+  display: flex;
+}
+
+ul li {
+  flex-direction: row;
+  margin: 0.2em;
+}
+
+a:hover {
+  color: orange;
+}
+
+h1 {
+  font-size: 2.5em;
+  font-weight: 600;
+  margin: 0.5em;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 0.5em;
+}
+
+p {
+  margin-top: 0.8em;
+}
+
+hr {
+  width: 90%;
+  margin: 0.5em 0em;
+}
+
+.wrapper {
+  margin: 0 auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* New GroupHug Form */
+
+.new-grouphug-blurb {
+  text-align: left;
+}
+
+.new-grouphug-form-wrapper {
+  margin: 0 auto;
+}
+
+input {
+  margin-top: 0.5em;
+  width: 85%;
+  height: 2em;
+  font-size: 1em;
+}
+
+select {
+  margin-top: 0.5em;
+}
+
+input[type=radio] {
+  margin: 1em 2em;
+}
+
+input[type=submit] {
+  height: 1em;
+}
+
+table {
+  display: flex;
+  width: 100%;
+}
+
+table td {
+  text-align: center;
+  justify-content: space-between;
+}
+
+.table-title {
+  text-align: left;
+}

@@ -1,0 +1,27 @@
+<div id="wrapper">
+  <h2>Register</h2>
+
+  <form ng-submit="register.submit()">
+  
+    <div class="form-group">
+      <input type="text" name="firstName" class="form-control" ng-model="register.user.firstName" placeholder="First Name">
+    </div>
+    <div class="form-group">
+      <input type="text" name="lastName" class="form-control" ng-model="register.user.lastName" placeholder="Last Name">
+    </div>
+    <div class="form-group">
+      <input type="text" name="username" class="form-control" ng-model="register.user.username" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <input type="email" name="email" class="form-control" ng-model="register.user.email" placeholder="Email">
+    </div>
+    <div class="form-group">
+      <input type="password" name="password" class="form-control" ng-model="register.user.password" placeholder="Password">
+    </div>
+    <div class="form-group">
+      <input type="password" name="passwordConfirmation" class="form-control" ng-model="register.user.passwordConfirmation" placeholder="Password confirmation">
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-primary">
+  </form>
+</div>

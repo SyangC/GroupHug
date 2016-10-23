@@ -1,0 +1,276 @@
+<div class="wrapper">
+
+  <div class="new-grouphug-blurb">
+
+    <h1>Start a New GroupHug</h1>
+
+    <p>
+      Hey!
+    </p>
+
+    <p>
+      Welcome to GroupHug. We're going to help you look like a superhero and give your friend a show-stopping, memory-making, happiness-guaranteed, awesome experience. 
+    </p>
+
+    
+    <p>
+      Answer these questions and the GroupHug Gurus (that's us!) will have a think — and get back to you once we've created a Bespoke Experience Menu for your friend that we're proud of. That usually takes two days.
+    </p>
+
+    <p>
+      Please send some pictures of your friend (at least one!) to guru@grouphug.guru — we'll put this on their page so it's clear whose page it is. (If you have pictures of your friend and people in the group, even better.)
+    </p>
+
+    <p>
+      OK, let's get started . . . 
+    </p>
+
+  </div>
+
+  <br />
+
+  <hr />
+
+  <br />
+
+  <div id="new-grouphug-form-wrapper">
+
+    <form ng-submit="grouphugsNew.create()">
+
+
+    <!-- Do we need this field if we're referencing creator's user_id? -->
+    What's your name?
+
+    <br />
+
+      <div class="form-group">
+        <input type="text" name="gifter-name" class="form-control" ng-model="grouphugsNew.new.name" placeholder="Your Name">
+      </div>
+
+    <br />
+
+    Describe the occasion...
+
+    <br />
+
+    <div class="form-group">
+      <input type="text" name="description" class="form-control" ng-model="grouphugsNew.new.description" placeholder="Event description">
+    </div>
+
+    </br />
+
+    <!-- Do we need this field if we're referencing creator's user_id? -->
+<!--     What's your email?
+
+    <br />
+
+      <div class="form-group">
+        <input type="email" name="email" class="form-control" ng-model="grouphugsNew.new.description" placeholder="Your Email">
+      </div>
+
+    <br /> -->
+
+    <!-- What's your friend's name?
+
+    <br />
+
+      <div class="form-group">
+        <input type="text" name="giftee-first-name" class="form-control" placeholder="Your Friend's First Name">
+      </div>
+
+      <div class="form-group">
+        <input type="text" name="giftee-last-name" class="form-control" placeholder="Your Friend's Last Name">
+      </div>    
+
+      <div class="form-group">
+        <input type="text" name="giftee-nickname" class="form-control" placeholder="Your Friend's Nickname">
+      </div>
+
+      <br />
+
+      How old is your friend? <br />
+
+      <select name="category" ng-model="grouphugs.ages[0]" class="selectOne">
+        <option disabled selected>Please select</option>
+        <option ng-repeat="age in grouphugs.ages" ng-value="age.id" ng-value="age.id" ng-disabled="grouphugs.ages.contains(age.id)">{{age}}</option>
+      </select>
+
+      <br />
+
+      What's the occasion? <br />
+
+      <select name="category" ng-model="grouphugs.occasions[0]" class="selectOne">
+        <option disabled selected>Please select</option>
+        <option ng-repeat="age in grouphugs.occasions" ng-value="occasion.id" ng-value="occasion.id" ng-disabled="grouphugs.occasions.contains(occasion.id)">{{occasion}}</option>
+      </select>
+
+      <br />
+
+      When's the occasion… when are you going to give your friend the GroupHug? <br />
+
+      <input type="date" name="grouphug-date">
+
+      <br />
+
+      What's your relationship to the person you're giving a gift to? <br />
+
+      <select name="category" ng-model="grouphugs.relation[0]" class="selectOne">
+        <option disabled selected>Please select</option>
+        <option ng-repeat="relation in grouphugs.relationss" ng-value="relation.id" ng-value="relation.id" ng-disabled="grouphugs.relations.contains(relation.id)">{{relation}}</option>
+      </select>
+
+      <br />
+
+      <hr /> -->
+
+      <!-- Experience Weighting Box -->
+
+      <!-- <h2>What do you think they'd like to do?</h2>
+
+      <hr />
+
+      <table>
+
+      <tr>
+        <td></td>
+        <td>Never!</td>
+        <td>Now and Then</td>
+        <td>Sometimes</td>
+        <td>Often</td>
+        <td>Yes, yes, yes! Every time!</td>
+      </tr>
+
+        <tr>
+          <td class="table-title">Luxurious - They like the finer things in life</td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+        </tr>        
+
+        <tr>
+          <td class="table-title">Pampering — ahhhh, spa!</td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+        </tr>        
+
+        <tr>
+          <td class="table-title">Active — they love exercise</td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+        </tr>        
+
+        <tr>
+          <td class="table-title">Cultural — for them, escape means exercising the mind</td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+        </tr>        
+
+        <tr>
+          <td class="table-title">Creative — they like learning how to do things</td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+        </tr>        
+
+        <tr>
+          <td class="table-title">Social — being with others makes their day/night/weekend</td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+        </tr>        
+
+        <tr>
+          <td class="table-title">Foodie — food makes their eyes grow wider</td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+        </tr>        
+
+        <tr>
+          <td class="table-title">Healthy — wellbeing is key</td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+        </tr>        
+
+        <tr>
+          <td class="table-title">Exciting — adrenalin is all</td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+          <td><input type="radio" name="question-1-answers" id="question-1-answers-A" value="A" /></td>
+        </tr>
+
+      </table>
+ -->
+      <!-- Ideas - last form segment -->
+
+      <!-- <hr />
+
+      <h2>Any Ideas in Mind Already?</h2>
+
+      <br />
+
+      Anything you'd been thinking about?
+
+      <br />
+
+      <div class="form-group">
+        <input type="text" name="idea" class="form-control">
+      </div>
+
+      <br />
+
+      Anything they've mentioned that they especially enjoyed?
+
+      <br />
+
+      <div class="form-group">
+        <input type="text" name="idea" class="form-control">
+      </div>
+
+      <br />
+
+      Do they have any passions or hobbies or unfulfilled dreams we should know about?
+
+      <br />
+
+      <div class="form-group">
+        <input type="text" name="idea" class="form-control">
+      </div>
+
+      <br /> -->
+
+      <h2>What's your friend's email?</h2>
+      (Don't worry, we won't email them yet. This is for after you've given the Experience Gift Card so we can organise the experience!)
+
+      <div class="form-group">
+        <input type="email" name="friends-email" class="form-control" ng-model="grouphugsNew.new.gifteeEmailAddress" placeholder="Your Friend's Email">
+      </div>
+
+
+      <input type="submit" value="Submit" class="btn btn-primary">
+    </form>
+  </div>
+
+</div>

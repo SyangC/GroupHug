@@ -1,0 +1,23 @@
+{
+  "name": "grouphug",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Ben Blowers, Becky Bolton and Shu-yang Chia"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/SyangC/GroupHug",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-resource": "^1.5.8",
+    "angular-ui-router": "ui-router#^0.3.1",
+    "satellizer": "^0.15.5"
+  }
+}

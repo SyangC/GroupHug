@@ -1,7 +1,7 @@
 {
   "name": "grouphug",
   "version": "1.0.0",
-  "description": "Bex testing...",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,5 +15,40 @@
   "bugs": {
     "url": "https://github.com/SyangC/GroupHug/issues"
   },
-  "homepage": "https://github.com/SyangC/GroupHug#readme"
+  "homepage": "https://github.com/SyangC/GroupHug#readme",
+  "dependencies": {
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "mongoose": "^4.6.3",
+    "morgan": "^1.7.0",
+    "node-schedule": "^1.2.0",
+    "nodemailer": "^2.6.4",
+    "sass": "^0.5.0"
+  },
+  "devDependencies": {
+    "bcrypt": "^0.8.7",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "jsonwebtoken": "^7.1.9",
+    "main-bower-files": "^2.13.1",
+    "mocha": "^3.1.2",
+    "node-schedule": "^1.2.0",
+    "nodemailer": "^2.6.4",
+    "request-promise": "^4.1.1",
+    "run-sequence": "^1.2.2"
+  }
 }
