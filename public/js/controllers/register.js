@@ -5,13 +5,16 @@ angular
 RegisterController.$inject = ["$auth", "$state", "$rootScope"];
 function RegisterController($auth, $state, $rootScope) {
 
-  this.user = {};
+  self = this;
 
-  this.submit = function() {
-    $auth.signup(this.user, {
+  self.user = {};
+
+  self.submit = function() {
+    $auth.signup(self.user, {
       url: '/api/register'
     })
     .then(function(){
+      console.log(self.user);
       $rootScope.$broadcast("loggedIn");
       $state.go("home");
     })
