@@ -9,6 +9,8 @@ var http = require('http');
 var bodyParser = require ("body-parser");
 var cookieParser = require('cookie-parser');
 
+var webpack = require("webpack");
+
 var routes = require("./config/routes");
 
 // *** config file *** //
