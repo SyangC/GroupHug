@@ -14,7 +14,8 @@ module.exports = {
         exclude: '/node_modules/',
         loader: 'babel', 
         query: {
-          presets: ['es2015', 'angular']
+          presets: ['es2015', 'angular'],
+          stage: 0
         }
       },
       {
