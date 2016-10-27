@@ -1,22 +1,22 @@
+var webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
+var here = require('path-here'); // <- Add path-here
+
 
 module.exports = {
   target: 'node',
   externals: [nodeExternals()],
   entry: './app.js',
   output: {
-    filename: './bundle.js'
-  },
+    path: here('dist'), // <- changed to this
+    filename: 'bundle.js' // <- changed to this
+},
   module: {
     loaders: [
       {
         test: /\.js$/,
-        exclude: '/node_modules/',
-        loader: 'babel', 
-        query: {
-          presets: ['es2015', 'angular'],
-          stage: 0
-        }
+        exclude: '/(node_modules)/',
+        loader: 'babel'
       },
       {
         test: /\.scss$/,
