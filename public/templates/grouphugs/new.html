@@ -35,29 +35,42 @@
 
   <div id="new-grouphug-form-wrapper">
 
-    <form ng-submit="register.submit()">
+    <form ng-submit="grouphugsNew.create()">
 
+
+    <!-- Do we need this field if we're referencing creator's user_id? -->
     What's your name?
 
     <br />
 
       <div class="form-group">
-        <input type="text" name="gifter-name" class="form-control" placeholder="Your Name">
+        <input type="text" name="gifter-name" class="form-control" ng-model="grouphugsNew.new.name" placeholder="Your Name">
       </div>
 
     <br />
 
-    What's your email?
+    Describe the occasion...
+
+    <br />
+
+    <div class="form-group">
+      <input type="text" name="description" class="form-control" ng-model="grouphugsNew.new.description" placeholder="Event description">
+    </div>
+
+    </br />
+
+    <!-- Do we need this field if we're referencing creator's user_id? -->
+<!--     What's your email?
 
     <br />
 
       <div class="form-group">
-        <input type="email" name="email" class="form-control" placeholder="Your Email">
+        <input type="email" name="email" class="form-control" ng-model="grouphugsNew.new.description" placeholder="Your Email">
       </div>
 
-    <br />
+    <br /> -->
 
-    What's your friend's name?
+    <!-- What's your friend's name?
 
     <br />
 
@@ -108,11 +121,11 @@
 
       <br />
 
-      <hr />
+      <hr /> -->
 
       <!-- Experience Weighting Box -->
 
-      <h2>What do you think they'd like to do?</h2>
+      <!-- <h2>What do you think they'd like to do?</h2>
 
       <hr />
 
@@ -209,10 +222,10 @@
         </tr>
 
       </table>
-
+ -->
       <!-- Ideas - last form segment -->
 
-      <hr />
+      <!-- <hr />
 
       <h2>Any Ideas in Mind Already?</h2>
 
@@ -246,13 +259,13 @@
         <input type="text" name="idea" class="form-control">
       </div>
 
-      <br />
+      <br /> -->
 
       <h2>What's your friend's email?</h2>
       (Don't worry, we won't email them yet. This is for after you've given the Experience Gift Card so we can organise the experience!)
 
       <div class="form-group">
-        <input type="email" name="friends-email" class="form-control" placeholder="Your Friend's Email">
+        <input type="email" name="friends-email" class="form-control" ng-model="grouphugsNew.new.gifteeEmailAddress" placeholder="Your Friend's Email">
       </div>
 
 

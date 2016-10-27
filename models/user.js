@@ -13,7 +13,7 @@ var userSchema = new mongoose.Schema({
   twitterId: { type: String },
   pinterestId: { type: String },
   instagramId: { type: String },
-  passwordHash: { type: String },
+  passwordHash: { type: String, required: true },
   credit: { type: Number, default: 0 },
   reviews: [{ type: mongoose.Schema.ObjectId, ref: "Review" }], 
   grouphugs: [{ type: mongoose.Schema.ObjectId, ref: "Grouphug" }],
