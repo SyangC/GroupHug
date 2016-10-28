@@ -201,12 +201,6 @@ function User($resource) {
   });
 }
 
-
-
-
-
-
-
 angular
   .module("GroupHugApp")
   .controller("ExperiencesEditController", ExperiencesEditController);
