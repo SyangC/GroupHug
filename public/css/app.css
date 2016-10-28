@@ -7,17 +7,21 @@ body {
 }
 
 ul {
+  width: 90%;
+  margin: 0 auto;
   display: flex;
-  background-color: grey;
+  justify-content: space-between;
 }
 
 ul li {
   flex-direction: row;
   margin: 0.2em;
+  line-height: 2em;
 }
 
-a:hover {
-  color: orange;
+ul li a {
+  color: #232323;
+  font-weight: 600;
 }
 
 h1 {
@@ -30,6 +34,10 @@ h2 {
   font-size: 1.5em;
   font-weight: 600;
   margin: 0.5em;
+}
+
+h3 {
+  font-size: 1.5em;
 }
 
 p {
@@ -51,12 +59,30 @@ hr {
   align-items: center;
 }
 
+header {
+  background-color: #e7dacd;
+  min-height: 2em;
+  margin: 0;
+}
+
+header ul li a:hover {
+  color: #5c736d;
+}
+
+footer {
+  background-color: #232323;
+  color: white;
+  min-height: 3em;
+}
+
 /* Home Page */
 
 .home-img {
   background-image: url('../img/women-spa-bg.png');
   background-size: cover;
-  height: 75vh;
+  top: -1px;
+  margin: 0;
+  height: 100vh;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -69,20 +95,24 @@ hr {
   height: 100%;
   
   position: absolute;
-  background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.2));
+  background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.3));
   z-index: 0;
 }
 
 .centered {
+  display: flex;
+  flex-direction: column;
   color: white;
   z-index: 2;
   max-width: 100%;
-  justify-content: center;
+  text-align: center;
+  margin-bottom: 6em;
 }
 
 .main-title {
-  font-size: 8em;
-  letter-spacing: 0.1em;
+  font-size: 10em;
+  letter-spacing: 0.085em;
+  margin: 0;
 }
 
 .sub-title {
@@ -110,7 +140,7 @@ button {
 .twitter  { background: #00aced; }
 
 .parallax {
-  background-color: rgba(28,28,28,0.32);
+  background-color: #e7dacd;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -118,8 +148,12 @@ button {
 
 .col {
   width: 30%;
-  margin: 0.1em;
-  margin-bottom: 1em;
+  margin: 1.5em 0.5em;
+  /*margin-bottom: 1em;*/
+  text-align: justify;
+}
+
+.col h3{
   text-align: center;
 }
 
