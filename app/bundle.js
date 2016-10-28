@@ -57,15 +57,17 @@
 	var bodyParser = __webpack_require__(8);
 	var cookieParser = __webpack_require__(9);
 
-	var routes = __webpack_require__(10);
+	var webpack = __webpack_require__(10);
+
+	var routes = __webpack_require__(11);
 
 	// *** config file *** //
-	var config = __webpack_require__(33);
+	var config = __webpack_require__(34);
 
 	var environment = app.get("env");
 
 	var port = process.env.PORT || 3000;
-	var databaseUri = __webpack_require__(34)(environment);
+	var databaseUri = __webpack_require__(35)(environment);
 
 	mongoose.Promise = bluebird;
 	mongoose.connect(databaseUri);
@@ -146,23 +148,29 @@
 
 /***/ },
 /* 10 */
+/***/ function(module, exports) {
+
+	module.exports = require("webpack");
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var router = __webpack_require__(1).Router();
 
-	var facebookController = __webpack_require__(11);
-	var twitterController = __webpack_require__(17);
-	var authController = __webpack_require__(19);
-	var usersController = __webpack_require__(24);
-	var grouphugsController = __webpack_require__(25);
-	var experiencesController = __webpack_require__(27);
-	var reviewsController = __webpack_require__(29);
-	var tagsController = __webpack_require__(31);
+	var facebookController = __webpack_require__(12);
+	var twitterController = __webpack_require__(18);
+	var authController = __webpack_require__(20);
+	var usersController = __webpack_require__(25);
+	var grouphugsController = __webpack_require__(26);
+	var experiencesController = __webpack_require__(28);
+	var reviewsController = __webpack_require__(30);
+	var tagsController = __webpack_require__(32);
 
-	var jwt = __webpack_require__(15);
-	var secret = __webpack_require__(16).secret;
+	var jwt = __webpack_require__(16);
+	var secret = __webpack_require__(17).secret;
 
 	function secureRoute(req, res, next) {
 	  if (!req.headers.authorization) return res.status(401).json({ message: "Unauthorized" });
@@ -203,15 +211,15 @@
 	module.exports = router;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var User = __webpack_require__(12);
-	var request = __webpack_require__(14);
-	var jwt = __webpack_require__(15);
-	var secret = __webpack_require__(16).secret;
+	var User = __webpack_require__(13);
+	var request = __webpack_require__(15);
+	var jwt = __webpack_require__(16);
+	var secret = __webpack_require__(17).secret;
 
 	function login(req, res) {
 
@@ -268,13 +276,13 @@
 	};
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var mongoose = __webpack_require__(4);
-	var bcrypt = __webpack_require__(13);
+	var bcrypt = __webpack_require__(14);
 
 	var userSchema = new mongoose.Schema({
 	  username: { type: String, required: true, minlength: 6, maxlength: 100 }, // between 6 and 100
@@ -332,25 +340,25 @@
 	module.exports = mongoose.model("User", userSchema);
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = require("bcrypt");
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = require("request-promise");
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = require("jsonwebtoken");
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -360,16 +368,16 @@
 	};
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var User = __webpack_require__(12);
-	var request = __webpack_require__(14);
-	var jwt = __webpack_require__(15);
-	var secret = __webpack_require__(16).secret;
-	var qs = __webpack_require__(18);
+	var User = __webpack_require__(13);
+	var request = __webpack_require__(15);
+	var jwt = __webpack_require__(16);
+	var secret = __webpack_require__(17).secret;
+	var qs = __webpack_require__(19);
 
 	function login(req, res) {
 	  if (!req.body.oauth_token || !req.body.oauth_verifier) {
@@ -445,23 +453,23 @@
 	};
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = require("qs");
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var jwt = __webpack_require__(15);
-	var User = __webpack_require__(12);
-	var secret = __webpack_require__(16).secret;
-	var email = __webpack_require__(20);
-	var email = __webpack_require__(23);
-	var schedule = __webpack_require__(21);
+	var jwt = __webpack_require__(16);
+	var User = __webpack_require__(13);
+	var secret = __webpack_require__(17).secret;
+	var email = __webpack_require__(21);
+	var email = __webpack_require__(24);
+	var schedule = __webpack_require__(22);
 
 	function login(req, res) {
 	  User.findOne({ email: req.body.email }, function (err, user) {
@@ -506,15 +514,15 @@
 	};
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var Promise = __webpack_require__(5);
-	var schedule = __webpack_require__(21);
-	var nodemailer = __webpack_require__(22);
-	var EmailTemplate = __webpack_require__(23);
+	var schedule = __webpack_require__(22);
+	var nodemailer = __webpack_require__(23);
+	var EmailTemplate = __webpack_require__(24);
 	var smtpConfig = {
 	  host: 'smtp.gmail.com',
 	  port: 465,
@@ -581,19 +589,19 @@
 	};
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = require("node-schedule");
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = require("nodemailer");
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -611,12 +619,12 @@
 	module.exports = mongoose.model("EmailTemplate", emailTemplateSchema);
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var User = __webpack_require__(12);
+	var User = __webpack_require__(13);
 
 	function userIndex(req, res) {
 	  User.find().then(function (users) {
@@ -649,12 +657,12 @@
 	};
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Grouphug = __webpack_require__(26);
+	var Grouphug = __webpack_require__(27);
 
 	function grouphugIndex(req, res) {
 	  Grouphug.find().then(function (grouphugs) {
@@ -707,7 +715,7 @@
 	};
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -739,12 +747,12 @@
 	module.exports = mongoose.model("Grouphug", grouphugSchema);
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Experience = __webpack_require__(28);
+	var Experience = __webpack_require__(29);
 
 	function experienceIndex(req, res) {
 	  Experience.find().then(function (experiences) {
@@ -797,7 +805,7 @@
 	};
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -823,12 +831,12 @@
 	module.exports = mongoose.model("Experience", experienceSchema);
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Review = __webpack_require__(30);
+	var Review = __webpack_require__(31);
 
 	function reviewIndex(req, res) {
 	  Review.find().then(function (reviews) {
@@ -881,7 +889,7 @@
 	};
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -900,12 +908,12 @@
 	module.exports = mongoose.model("Review", reviewSchema);
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Tag = __webpack_require__(32);
+	var Tag = __webpack_require__(33);
 
 	function tagIndex(req, res) {
 	  Tag.find().then(function (tags) {
@@ -958,7 +966,7 @@
 	};
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -974,7 +982,7 @@
 	module.exports = mongoose.model("Tag", tagSchema);
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -989,7 +997,7 @@
 	module.exports = config;
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	"use strict";
