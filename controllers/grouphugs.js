@@ -20,7 +20,20 @@ function grouphugShow(req, res) {
     });
 }
 
+// function grouphugCreate(req, res) {
+//   Grouphug.create(req.body)
+//     .then(function(grouphug) {
+//       res.status(201).json(grouphug);
+//     })
+//     .catch(function(err) {
+//       res.status(500).json(err);
+//     });
+// }
+
 function grouphugCreate(req, res) {
+  req.body.pictures = Object.keys(req.files).map(function(key) {
+    return req.files[key].key;
+  });
   Grouphug.create(req.body)
     .then(function(grouphug) {
       res.status(201).json(grouphug);
@@ -30,8 +43,28 @@ function grouphugCreate(req, res) {
     });
 }
 
-function grouphugUpdate(req, res) {
-  Grouphug.findByIdAndUpdate(req.params.id, req.body, { new: true })
+// function grouphugUpdate(req, res) {
+//   Grouphug.findByIdAndUpdate(req.params.id, req.body, { new: true })
+//     .then(function(grouphug) {
+//       res.status(200).json(grouphug);
+//     })
+//     .catch(function(err) {
+//       res.status(500).json(err);
+//     });
+// }
+
+function grouphugUpdate(req, res) {  
+  Grouphug.findByIdAndUpdate(req.params.id, req.body)
+    .then(function(grouphug) {
+      for(key in req.body) grouphug[key] = req.body[key];
+      if(req.files) {
+        var newImages = Object.keys(req.files).map(function(key) {
+          return req.files[key].key;
+        });
+        grouphug.pictures = grouphug.pictures.concat(newImages);
+      }
+      return grouphug.save();
+    })
     .then(function(grouphug) {
       res.status(200).json(grouphug);
     })

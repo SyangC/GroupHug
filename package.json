@@ -22,6 +22,8 @@
     "angular-jwt": "^0.1.7",
     "angular-resource": "^1.5.8",
     "angular-ui-router": "^0.3.1",
+    "aws": "0.0.3-2",
+    "aws-sdk": "^2.6.13",
     "bcrypt": "^0.8.7",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
@@ -39,7 +41,8 @@
     "request-promise": "^4.1.1",
     "run-sequence": "^1.2.2",
     "sass": "^0.5.0",
-    "satellizer": "^0.15.5"
+    "satellizer": "^0.15.5",
+    "sdk": "^0.5.0"
   },
   "devDependencies": {
     "babel": "^6.5.2",

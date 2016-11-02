@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Grouphug = require('../models/grouphug');
+var Ecard = require('../models/ecard');
 var Tag = require('../models/tag');
 var Experience = require('../models/experience');
 var Review = require('../models/review');
@@ -17,6 +18,7 @@ Experience.collection.drop();
 User.collection.drop();
 Review.collection.drop();
 EmailTemplate.collection.drop();
+Ecard.collection.drop();
 
 EmailTemplate.create({
   name: "Registration",
@@ -160,7 +162,24 @@ User.create([{
           } else {
             console.log("err is:", err.errors);
           }
-          mongoose.connection.close();
+          // mongoose.connection.close();
+          Ecard.create([{
+            title: "Thanks you guys",
+            description: "had a great time!",
+            grouphug: grouphugs[0]._id    
+          }], function(err, ecards) {
+            if(!err) {
+              console.log("ecards created!");
+              console.log("ecards are: ", ecards);
+            } else {
+              console.log("err is:", err.errors);
+            }
+            grouphugs[0].ecard = ecards[0]._id;
+            grouphugs[0].save(function(err) {
+              console.log('grouphugs', grouphugs);
+              mongoose.connection.close();
+            });
+          })
         })
       })
     })

@@ -5,6 +5,7 @@ var twitterController = require("../controllers/twitterOauth");
 var authController = require("../controllers/auth");
 var usersController = require("../controllers/users");
 var grouphugsController = require("../controllers/grouphugs");
+var ecardsController = require("../controllers/ecards");
 var experiencesController = require("../controllers/experiences");
 var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
@@ -36,6 +37,15 @@ router.route("/grouphugs/:id")
   .get(grouphugsController.show)
   .put(grouphugsController.update)
   .delete(grouphugsController.delete);
+
+router.route('/ecards')
+  .get(ecardsController.index)
+  .post(ecardsController.create);
+
+router.route("/ecards/:id")
+  .get(ecardsController.show)
+  .put(ecardsController.update)
+  .delete(ecardsController.delete);
 
 router.route('/experiences')
   .get(experiencesController.index)
