@@ -1,1 +1,10 @@
-The experiences index
+The Experiences index
+
+<div ng-repeat="experience in experiencesIndex.all">
+  <div class="thumbnail">
+      <h3>{{ experience.name }}</h3>
+      <h3>{{ experience.description }}</h3>
+      <h3>{{ experience.price }}</h3>
+      <p ui-sref="experiencesShow({ id: experience._id })">Enter</p>
+  </div>
+</div>
