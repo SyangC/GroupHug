@@ -10,6 +10,8 @@ var experiencesController = require("../controllers/experiences");
 var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
 
+var stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
 
@@ -32,7 +34,7 @@ router.route('/')
 router.route('/grouphugs')
   .get(grouphugsController.index)
   .post(grouphugsController.create);
-  
+
 router.route("/grouphugs/:id")
   .get(grouphugsController.show)
   .put(grouphugsController.update)
@@ -46,6 +48,25 @@ router.route("/ecards/:id")
   .get(ecardsController.show)
   .put(ecardsController.update)
   .delete(ecardsController.delete);
+
+router.post('/charge', function(req, res,next) {
+  var stripeToken = req.body.stripeToken;
+  console.log(stripeToken)
+
+  stripe.charges.create({
+    card: stripeToken,
+    currency: "GBP",
+    amount: 500
+  },
+  function(err, charge) {
+    if (err) {
+      console.log(err);
+      res.send('error');
+    } else {
+      res.send('success');
+    }
+  });
+});
 
 router.route('/experiences')
   .get(experiencesController.index)
@@ -80,5 +101,24 @@ router.post("/oauth/facebook", facebookController.login);
 router.post("/oauth/twitter", twitterController.login);
 router.post("/login", authController.login);
 router.post("/register", authController.register);
+
+router.post('/charge', function(req, res,next) {
+  var stripeToken = req.body.stripeToken;
+  var amount = 5 * 100;
+
+  stripe.charges.create({
+    card: stripeToken,
+    currency: 'usd',
+    amount: amount
+  },
+  function(err, charge) {
+    if (err) {
+      console.log(err);
+      res.send('error');
+    } else {
+      res.send('success');
+    }
+  });
+});
 
 module.exports = router;

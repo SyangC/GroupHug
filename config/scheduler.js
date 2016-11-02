@@ -11,7 +11,5 @@ var j = schedule.scheduleJob(newDate, function(){
 
 
 module.exports = {
-  scheduleTask: function(delay, callback, ) {
-,
   sendRegisterTemplate: sendRegisterTemplate
 }

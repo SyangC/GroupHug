@@ -1,1 +1,9 @@
 The Grouphugs index
+
+<div ng-repeat="grouphug in grouphugsIndex.all">
+  <div class="thumbnail">
+      <h3>{{ grouphug.name }}</h3>
+      <h3>{{ grouphug.description }}</h3>
+      <p ui-sref="grouphugsShow({ id: grouphug._id })">Enter</p>
+  </div>
+</div>
