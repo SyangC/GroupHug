@@ -9,7 +9,7 @@ var experiencesController = require("../controllers/experiences");
 var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
 
-var stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
@@ -27,10 +27,10 @@ function secureRoute(req, res, next) {
   });
 }
 
-router.route('/')
+router.route("/")
   .get(grouphugsController.index);
 
-router.route('/grouphugs')
+router.route("/grouphugs")
   .get(grouphugsController.index)
   .post(grouphugsController.create);
 
@@ -39,26 +39,10 @@ router.route("/grouphugs/:id")
   .put(grouphugsController.update)
   .delete(grouphugsController.delete);
 
-router.post('/charge', function(req, res,next) {
-  var stripeToken = req.body.stripeToken;
-  console.log(stripeToken)
+// router.route("/charge")
+//   .post(stripeCharge);
 
-  stripe.charges.create({
-    card: stripeToken,
-    currency: "GBP",
-    amount: 500
-  },
-  function(err, charge) {
-    if (err) {
-      console.log(err);
-      res.send('error');
-    } else {
-      res.send('success');
-    }
-  });
-});
-
-router.route('/experiences')
+router.route("/experiences")
   .get(experiencesController.index)
   .post(experiencesController.create);
 router.route("/experiences/:id")
@@ -66,7 +50,7 @@ router.route("/experiences/:id")
   .put(experiencesController.update)
   .delete(experiencesController.delete);
 
-router.route('/reviews')
+router.route("/reviews")
   .get(reviewsController.index)
   .post(reviewsController.create);
 router.route("/reviews/:id")
@@ -74,7 +58,7 @@ router.route("/reviews/:id")
   .put(reviewsController.update)
   .delete(reviewsController.delete);
 
-router.route('/tags')
+router.route("/tags")
   .get(tagsController.index)
   .post(tagsController.create);
 router.route("/tags/:id")
@@ -91,24 +75,5 @@ router.post("/oauth/facebook", facebookController.login);
 router.post("/oauth/twitter", twitterController.login);
 router.post("/login", authController.login);
 router.post("/register", authController.register);
-
-router.post('/charge', function(req, res,next) {
-  var stripeToken = req.body.stripeToken;
-  var amount = 5 * 100;
-
-  stripe.charges.create({
-    card: stripeToken,
-    currency: 'usd',
-    amount: amount
-  },
-  function(err, charge) {
-    if (err) {
-      console.log(err);
-      res.send('error');
-    } else {
-      res.send('success');
-    }
-  });
-});
 
 module.exports = router;

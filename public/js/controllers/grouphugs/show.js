@@ -11,4 +11,24 @@ function GrouphugsShowController(Grouphug, $state) {
       $state.go("grouphugsIndex");
     })
   }
+
+  this.stripeCharge = function() {
+    console.log("Before Stripe Token is created")
+    var stripeToken = req.body.stripeToken;
+    console.log(stripeToken)
+
+    stripe.charges.create({
+      card: stripeToken,
+      currency: "usd",
+      amount: 500
+    },
+    function(err, charge) {
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        res.send("success");
+      }
+    });
+  }
 }

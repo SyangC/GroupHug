@@ -2,16 +2,16 @@ angular
   .module("GroupHugApp")
   .controller("MainController", MainController);
 
-MainController.$inject = ["$state", "$auth", "$rootScope", "User"];
-function MainController($state, $auth, $rootScope, User) {
+MainController.$inject = ["$state", "$auth", "$rootScope", "$http"];
+function MainController($state, $auth, $rootScope, $http) {
   var self = this;
 
   this.authenticate = function(provider) {
     $auth.authenticate(provider)
-         .then(function() {
-      $rootScope.$broadcast("loggedIn");
-      $state.go('events');
-    });
+      .then(function() {
+        $rootScope.$broadcast("loggedIn");
+        $state.go('events');
+      });
   }
 
   this.errorMessage = null;
@@ -35,4 +35,5 @@ function MainController($state, $auth, $rootScope, User) {
     self.errorMessage = null;
   });
 
+  $rootScope.$state = $state;
 }
