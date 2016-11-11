@@ -49,23 +49,13 @@
 
     <br />
 
-    Describe the occasion...
-
-    <br />
-
-    <div class="form-group">
-      <input type="text" name="description" class="form-control" ng-model="grouphugsNew.new.description" placeholder="Event description">
-    </div>
-
-    </br />
-
     <!-- Do we need this field if we're referencing creator's user_id? -->
     What's your email?
 
     <br />
 
       <div class="form-group">
-        <input type="email" name="email" class="form-control" ng-model="grouphugsNew.new.description" placeholder="Your Email">
+        <input type="email" name="email" class="form-control" ng-model="grouphugsNew.new.email" placeholder="Your Email">
       </div>
 
     <br />
@@ -92,16 +82,16 @@
 
       <select name="category" ng-model="grouphugs.ages[0]" class="selectOne">
         <option disabled selected>Please select</option>
-        <option ng-repeat="age in grouphugs.ages" ng-value="age.id" ng-value="age.id" ng-disabled="grouphugs.ages.contains(age.id)">{{age}}</option>
+        <option ng-repeat="age in grouphugsNew.ages" ng-value="age.id" ng-value="age.id" ng-disabled="grouphugsNew.ages.contains(age.id)">{{age}}</option>
       </select>
 
       <br />
 
       What's the occasion? <br />
 
-      <select name="category" ng-model="grouphugs.occasions[0]" class="selectOne">
+      <select name="category" ng-model="grouphugsNew.occasions[0]" class="selectOne">
         <option disabled selected>Please select</option>
-        <option ng-repeat="age in grouphugs.occasions" ng-value="occasion.id" ng-value="occasion.id" ng-disabled="grouphugs.occasions.contains(occasion.id)">{{occasion}}</option>
+        <option ng-repeat="age in grouphugsNew.occasions" ng-value="occasion.id" ng-value="occasion.id" ng-disabled="grouphugsNew.occasions.contains(occasion.id)">{{occasion}}</option>
       </select>
 
       <br />
@@ -114,7 +104,7 @@
 
       What's your relationship to the person you're giving a gift to? <br />
 
-      <select name="category" ng-model="grouphugs.relation[0]" class="selectOne">
+      <select name="category" ng-model="grouphugsNew.relation[0]" class="selectOne">
         <option disabled selected>Please select</option>
         <option ng-repeat="relation in grouphugs.relationss" ng-value="relation.id" ng-value="relation.id" ng-disabled="grouphugs.relations.contains(relation.id)">{{relation}}</option>
       </select>

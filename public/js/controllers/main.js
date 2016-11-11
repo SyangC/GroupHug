@@ -2,17 +2,25 @@ angular
   .module("GroupHugApp")
   .controller("MainController", MainController);
 
-MainController.$inject = ["$state", "$auth", "$rootScope", "$http"];
-function MainController($state, $auth, $rootScope, $http) {
+MainController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function MainController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
   var self = this;
+
+  this.allUsers = User.query();
+
+  this.allGrouphugs = Grouphug.query();
+
+  this.allExperiences = Experience.query();
 
   this.authenticate = function(provider) {
     $auth.authenticate(provider)
       .then(function() {
         $rootScope.$broadcast("loggedIn");
-        $state.go('events');
+        $state.go("events");
       });
   }
+
+  this.currentUser = $auth.getPayload();
 
   this.errorMessage = null;
 
@@ -36,4 +44,5 @@ function MainController($state, $auth, $rootScope, $http) {
   });
 
   $rootScope.$state = $state;
+
 }

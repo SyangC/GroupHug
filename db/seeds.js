@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Grouphug = require('../models/grouphug');
+var Ecard = require('../models/ecard');
 var Tag = require('../models/tag');
 var Experience = require('../models/experience');
 var Review = require('../models/review');
@@ -17,6 +18,7 @@ Experience.collection.drop();
 User.collection.drop();
 Review.collection.drop();
 EmailTemplate.collection.drop();
+Ecard.collection.drop();
 
 EmailTemplate.create({
   name: "Registration",
@@ -27,11 +29,11 @@ EmailTemplate.create({
 });
 
 User.create([{
-  username: "tesoasdfsn",
-  firstName: "tes",
-  lastName: "ysont",
+  username: "testing",
+  firstName: "testy",
+  lastName: "McTesterson-Face",
   DOB: new Date,
-  email: "testy@sont.com",
+  email: "test@test.com",
   password: "password",
   passwordConfirmation: "password",
 }, {
@@ -81,25 +83,25 @@ User.create([{
       name: "spa weekend",
       supplier: "bens beautification center",
       price: 1000,
-      tags: [tags[0]._id, tags[1]._id],
+      tags: [tags[0], tags[1]],
       description: "it's beautiful"
     }, {
       name: "baking",
       supplier: "bens baking center",
       price: 50,
-      tags: [tags[0]._id],
+      tags: [tags[0]],
       description: "it's baking"
     }, {
       name: "shu winetasting",
       supplier: "shus discount alcohol center",
       price: 2,
-      tags: [tags[0]._id, tags[1]._id],
+      tags: [tags[0], tags[1]],
       description: "it's cheap"
     }, {
       name: "wing walking",
       supplier: "bens dropout flight school",
       price: 500,
-      tags: [tags[1]._id],
+      tags: [tags[1]],
       description: "it's kinda safe"
     }], function(err, experiences) {
       if(!err) {
@@ -111,19 +113,19 @@ User.create([{
       Grouphug.create([{
         name: "mikes pampering weekend",
         description: "mike needs pampering",
-        creator: users[0]._id,
-        giftee: users[1]._id,
-        contributors: [ users[2]._id, users[3]._id],
+        creator: users[0],
+        giftee: users[1],
+        contributors: [ users[2], users[3]],
         experiences: [{
-          experienceId: experiences[0]._id,
+          experienceId: experiences[0],
           userWeightings: [{
-            user: users[0]._id,
+            user: users[0],
             weightValue: 5
           }, {
-            user: users[3]._id,
+            user: users[3],
             weightValue: 3
           }, {
-            user: users[2]._id,
+            user: users[2],
             weightValue: 4
           }]
         }],
@@ -160,7 +162,24 @@ User.create([{
           } else {
             console.log("err is:", err.errors);
           }
-          mongoose.connection.close();
+          // mongoose.connection.close();
+          Ecard.create([{
+            title: "Thanks you guys",
+            description: "had a great time!",
+            grouphug: grouphugs[0]._id    
+          }], function(err, ecards) {
+            if(!err) {
+              console.log("ecards created!");
+              console.log("ecards are: ", ecards);
+            } else {
+              console.log("err is:", err.errors);
+            }
+            grouphugs[0].ecard = ecards[0]._id;
+            grouphugs[0].save(function(err) {
+              console.log('grouphugs', grouphugs);
+              mongoose.connection.close();
+            });
+          })
         })
       })
     })

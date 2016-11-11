@@ -1,13 +1,48 @@
-grouphugs show page
+<h1>This is the GroupHug show</h1>
 
-<div class="container">
+<div class="col-md-8 col-md-offset-2">
+  <div class="thumbnail">
+    <img src="https://fillmurray.com/500/300">
+    <div class="caption">
+      <h1>{{ grouphugsShow.selected.name }}</h1>
+      <h2>{{ grouphugsShow.selected.description }}</h2>
 
+      <h3>Giftee:</h3>
+      <p>{{ grouphugsShow.selected.giftee }}</p>
+
+      <h3>Creator:</h3>
+      <p>{{ grouphugsShow.selected.creator }}</p>
+
+      <h3>Contributors:</h3>
+      <div ng-repeat="contributor in grouphugsShow.selected.contributors">
+        <p>{{ contributor }}</p>
+        <p ui-sref="usersShow({ id: contributor._id })">Enter</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<p><a ui-sref="adminUi">Back</a></p>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container"> -->
+<!-- 
   <h1>{{ grouphugsShow.selected.name }}</h1>
   <p>{{ grouphugsShow.selected.description }}</p>
 
-  <p id="form-errors"></p>
+  <p id="form-errors"></p> -->
 
-  <form ng-submit="grouphugsShow.stripeCharge()">
+<!--   <form ng-submit="grouphugsShow.stripeCharge()">
     <fieldset>
       <legend>Payment</legend>
       <div class="form-group">
@@ -70,6 +105,6 @@ grouphugs show page
         </div>
       </div>
     </fieldset>
-  </form>
+  </form> -->
 
 </div>

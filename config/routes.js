@@ -5,6 +5,7 @@ var twitterController = require("../controllers/twitterOauth");
 var authController = require("../controllers/auth");
 var usersController = require("../controllers/users");
 var grouphugsController = require("../controllers/grouphugs");
+var ecardsController = require("../controllers/ecards");
 var experiencesController = require("../controllers/experiences");
 var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
@@ -39,8 +40,33 @@ router.route("/grouphugs/:id")
   .put(grouphugsController.update)
   .delete(grouphugsController.delete);
 
-// router.route("/charge")
-//   .post(stripeCharge);
+router.route('/ecards')
+  .get(ecardsController.index)
+  .post(ecardsController.create);
+
+router.route("/ecards/:id")
+  .get(ecardsController.show)
+  .put(ecardsController.update)
+  .delete(ecardsController.delete);
+
+router.post('/charge', function(req, res,next) {
+  var stripeToken = req.body.stripeToken;
+  console.log(stripeToken)
+
+  stripe.charges.create({
+    card: stripeToken,
+    currency: "GBP",
+    amount: 500
+  },
+  function(err, charge) {
+    if (err) {
+      console.log(err);
+      res.send('error');
+    } else {
+      res.send('success');
+    }
+  });
+});
 
 router.route("/experiences")
   .get(experiencesController.index)

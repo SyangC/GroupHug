@@ -34,6 +34,11 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/register.html",
       controller: "RegisterController as register"
     })
+    .state("adminUi", {
+      url: "/adminUi",
+      templateUrl: "/templates/adminUi.html",
+      controller: "AdminUiController as admin"
+    })
     .state("experiencesIndex", {
       url: "/experiences",
       templateUrl: "/templates/experiences/index.html",
@@ -330,4 +335,21 @@ function UsersShowController(User, $state) {
   this.update = function() {
     this.selected.$update();
   }
+}
+angular
+  .module("GroupHugApp")
+  .controller("AdminUiController", AdminUiController);
+
+AdminUiController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
+  var self = this;
+
+  this.allUsers = User.query();
+
+  this.allGrouphugs = Grouphug.query();
+
+  this.allExperiences = Experience.query();
+
+  this.currentUser = $auth.getPayload();
+
 }
