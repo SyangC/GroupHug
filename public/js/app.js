@@ -1,7 +1,10 @@
 angular
-  .module("GroupHugApp", ["ngResource", "ui.router", "satellizer"])
+  .module("GroupHugApp", ["ngResource", "ui.router", "satellizer", "angularPayments"])
   .config(oAuthConfig)
   .config(Router)
+  .config(function() {
+    Stripe.setPublishableKey("pk_test_cQJL918XjF2uKwmmkgnSBeBr");
+  })
 
 oAuthConfig.$inject = ["$authProvider"];
 function oAuthConfig($authProvider) {
@@ -302,8 +305,8 @@ angular
   .module("GroupHugApp")
   .controller("GrouphugsShowController", GrouphugsShowController);
 
-GrouphugsShowController.$inject = ["Grouphug", "$state"];
-function GrouphugsShowController(Grouphug, $state) {
+GrouphugsShowController.$inject = ["Grouphug", "$state", "$scope"];
+function GrouphugsShowController(Grouphug, $state, $scope) {
   this.selected = Grouphug.get($state.params)
 
   this.delete = function() {
@@ -311,6 +314,14 @@ function GrouphugsShowController(Grouphug, $state) {
       $state.go("grouphugsIndex");
     })
   }
+
+  $scope.stripeCallback = function (code, result) {
+    if (result.error) {
+      window.alert('it failed! error: ' + result.error.message);
+    } else {
+      window.alert('success! token: ' + result.id);
+    }
+  };
 }
 angular
   .module("GroupHugApp")
@@ -352,4 +363,19 @@ function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope
 
   this.currentUser = $auth.getPayload();
 
+}
+
+angular
+  .module("GroupHugApp")
+  .controller("PaymentController", PaymentController);
+
+PaymentController.$inject = ["$rootscope"]
+function PaymentController($rootscope) {
+  this.stripeCallback = function (code, result) {
+    if (result.error) {
+      window.alert('it failed! error: ' + result.error.message);
+    } else {
+      window.alert('success! token: ' + result.id);
+    }
+  };
 }

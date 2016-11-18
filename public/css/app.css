@@ -137,6 +137,11 @@ button {
 }
 
 .facebook { background: #435f9c; }
+
+img.social-media {
+  height:50px;
+}
+
 .twitter  { background: #00aced; }
 
 .parallax {
@@ -198,4 +203,10 @@ table td {
 
 .table-title {
   text-align: left;
+}
+
+/* Stripe */
+
+.ng-invalid {
+  color: red;
 }

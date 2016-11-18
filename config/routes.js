@@ -28,6 +28,20 @@ function secureRoute(req, res, next) {
   });
 }
 
+// var token = request.body.stripeToken; // Using Express
+
+// // Create a charge: this will charge the user's card
+// var charge = stripe.charges.create({
+//   amount: 1000, // Amount in cents
+//   currency: "gbp",
+//   source: token,
+//   description: "Example charge"
+// }, function(err, charge) {
+//   if (err && err.type === 'StripeCardError') {
+//     // The card has been declined
+//   }
+// });
+
 router.route("/")
   .get(grouphugsController.index);
 
@@ -48,25 +62,6 @@ router.route("/ecards/:id")
   .get(ecardsController.show)
   .put(ecardsController.update)
   .delete(ecardsController.delete);
-
-router.post('/charge', function(req, res,next) {
-  var stripeToken = req.body.stripeToken;
-  console.log(stripeToken)
-
-  stripe.charges.create({
-    card: stripeToken,
-    currency: "GBP",
-    amount: 500
-  },
-  function(err, charge) {
-    if (err) {
-      console.log(err);
-      res.send('error');
-    } else {
-      res.send('success');
-    }
-  });
-});
 
 router.route("/experiences")
   .get(experiencesController.index)
