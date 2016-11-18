@@ -133,7 +133,7 @@ function MainController($state, $auth, $rootScope, User) {
     $auth.authenticate(provider)
          .then(function() {
       $rootScope.$broadcast("loggedIn");
-      $state.go('events');
+      $state.go('home');
     });
   }
 

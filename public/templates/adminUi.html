@@ -1,21 +1,40 @@
 <h1>GroupHugs:</h1>
 
+<!-- <table ng-repeat="grouphug in admin.allGrouphugs">
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Creator</th>
+    <th>Giftee</th>
+    <th>Contributor</th>
+    <th>Experiences</th>
+  </tr>
+  <tr>
+    <td>{{ grouphug.name }}</td>
+    <td>{{ grouphug.description }}</td>
+    <td>{{ grouphug.creator }}</td>
+    <td>{{ grouphug.giftee }}</td>
+    <td>{{ grouphug.contributors }}</td>
+    <td>{{ grouphug.experiences }}</td>
+    <td><a ui-sref="grouphugsShow({ id: grouphug._id })">Enter</a></td>
+  </tr>
+</table> -->
 <ul ng-repeat="grouphug in admin.allGrouphugs">
-    <li>{{ grouphug.name }}</li>
-    <li>{{ grouphug.description }}</li>
-    <li>{{ grouphug.creator }}</li>
-    <li>{{ grouphug.giftee }}</li>
-    <li>{{ grouphug.contributors }}</li>
-    <li>{{ grouphug.experiences }}</li>
-    <li><a ui-sref="grouphugsShow({ id: grouphug._id })">Enter</a></li>
+  <li>{{ grouphug.name }}</li>
+  <li>{{ grouphug.description }}</li>
+  <li>{{ grouphug.creator }}</li>
+  <li>{{ grouphug.giftee }}</li>
+  <li>{{ grouphug.contributors }}</li>
+  <li>{{ grouphug.experiences }}</li>
+  <li><a ui-sref="grouphugsShow({ id: grouphug._id })">Enter</a></li>
 </ul>
 
 <h1>Users:</h1>
 <ul ng-repeat="user in admin.allUsers">
-    <li>{{ user.username }}</li>
-    <li>{{ user.firstName }}</li>
-    <li>{{ user.lastName }}</li>
-    <li><a ui-sref="usersShow({ id: user._id })">Enter</a></li>
+  <li>{{ user.username }}</li>
+  <li>{{ user.firstName }}</li>
+  <li>{{ user.lastName }}</li>
+  <li><a ui-sref="usersShow({ id: user._id })">Enter</a></li>
 </ul>
 
 <h1>Experiences:</h1>

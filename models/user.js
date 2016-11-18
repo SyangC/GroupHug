@@ -3,8 +3,8 @@ var bcrypt = require("bcrypt");
 
 var userSchema = new mongoose.Schema({
   username: { type: String, required: true, minlength: 6, maxlength: 100 }, // between 6 and 100
-  firstName: { type: String, required: true, maxlength: 100 }, // limited length to 100
-  lastName: { type: String, required: true, maxlength: 100 }, // limited length to 100
+  firstName: { type: String, maxlength: 100 }, // limited length to 100
+  lastName: { type: String, maxlength: 100 }, // limited length to 100
   avatar: { type: String, default: "http://swingmaresme.com/wp-content/uploads/2015/03/avant.png" }, 
   DOB: { type: Date },
   email: { type: String, reqiured: true },
@@ -13,7 +13,7 @@ var userSchema = new mongoose.Schema({
   twitterId: { type: String },
   pinterestId: { type: String },
   instagramId: { type: String },
-  passwordHash: { type: String, required: true },
+  passwordHash: { type: String },
   credit: { type: Number, default: 0 },
   reviews: [{ type: mongoose.Schema.ObjectId, ref: "Review" }], 
   grouphugs: [{ type: mongoose.Schema.ObjectId, ref: "Grouphug" }],

@@ -16,7 +16,7 @@ function MainController(User, Grouphug, Experience, $state, $auth, $rootScope, $
     $auth.authenticate(provider)
       .then(function() {
         $rootScope.$broadcast("loggedIn");
-        $state.go("events");
+        $state.go("home");
       });
   }
 
