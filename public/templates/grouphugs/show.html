@@ -20,9 +20,15 @@
       </ul>
 
     </div>
+
+    <button ui-sref="grouphugsEdit({ id: grouphugsShow.selected._id })" class="btn">Edit</button>
+    <button ng-click="grouphugsShow.delete()" class="btn">Delete</button>
+
   </div>
   <p><a ui-sref="adminUi">Back</a></p>
 </div>
+
+<h1>Contributions</h1>
 
 <form stripe-form="stripeCallback">
   <!-- <input ng-model="name" placeholder="Card Holder Name"/> -->
