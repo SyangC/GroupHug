@@ -55,12 +55,10 @@
     <li><a ui-sref="adminUi" ng-if="main.currentUser">Admin UI</a></li>
 
     <li ng-if="main.currentUser"><a ui-sref="experiencesIndex">All Experiences</a></li>
-    <li ng-if="main.currentUser"><a ui-sref="experiencesEdit">Edit Experiences</a></li>
     <li ng-if="main.currentUser"><a ui-sref="experiencesNew">New Experiences</a></li>
 
     <li ng-if="main.currentUser"><a ui-sref="grouphugsIndex">All Grouphugs</a></li>
     <li ng-if="main.currentUser"><a ui-sref="grouphugsNew">New Grouphug</a></li>
-    <li ng-if="main.currentUser"><a ui-sref="grouphugsEdit">Edit Grouphug</a></li>
 
     <li><a ng-if="main.currentUser" ng-click="main.logout()">Log Out</a></li>
 
