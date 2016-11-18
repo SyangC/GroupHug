@@ -14,6 +14,7 @@ function GrouphugsNewController(Grouphug, $state) {
   this.relations = ["Friend", "Partner", "Parent", "Grandparent", "Subling", "Child"];
 
   this.create = function() {
+    console.log("the new grouphug controller runs");
     Grouphug.save(this.new, function() {
       $state.go("grouphugsIndex");
     })

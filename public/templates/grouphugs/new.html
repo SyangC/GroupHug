@@ -44,7 +44,7 @@
     <br />
 
       <div class="form-group">
-        <input type="text" name="gifter-name" class="form-control" ng-model="grouphugsNew.new.name" placeholder="Your Name">
+        <input type="text" name="name" class="form-control" ng-model="grouphugsNew.new.name" placeholder="Your Name">
       </div>
 
     <br />
@@ -258,6 +258,7 @@
         <input type="email" name="friends-email" class="form-control" ng-model="grouphugsNew.new.gifteeEmailAddress" placeholder="Your Friend's Email">
       </div>
 
+      <input type="file" file name="pictures" ng-model="grouphugsNew.new.pictures" multiple class="file-upload">
 
       <input type="submit" value="Submit" class="btn btn-primary">
     </form>

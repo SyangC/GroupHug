@@ -31,14 +31,19 @@ function grouphugShow(req, res) {
 // }
 
 function grouphugCreate(req, res) {
-  req.body.pictures = Object.keys(req.files).map(function(key) {
-    return req.files[key].key;
-  });
+  console.log("req before", req.body);
+  if(req.files !== undefined) {
+    req.body.pictures = Object.keys(req.files).map(function(key) {
+      return req.files[key].key;
+    });
+  }
+  console.log("req after", req.body);
   Grouphug.create(req.body)
     .then(function(grouphug) {
       res.status(201).json(grouphug);
     })
     .catch(function(err) {
+      console.log(err);
       res.status(500).json(err);
     });
 }

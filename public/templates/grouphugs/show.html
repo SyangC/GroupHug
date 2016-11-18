@@ -19,6 +19,11 @@
         <p ui-sref="usersShow({ id: contributor._id })">Enter</p>
       </div>
 
+      <div>
+        <p>testing pictures</p>
+        <img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">
+      </div>
+
     </div>
   </div>
 </div>

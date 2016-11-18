@@ -4,7 +4,9 @@ angular
 
 GrouphugsShowController.$inject = ["Grouphug", "$state"];
 function GrouphugsShowController(Grouphug, $state) {
-  this.selected = Grouphug.get($state.params)
+  this.selected = Grouphug.get($state.params, function(res) {
+    console.log("res", res);
+  })
 
   this.delete = function() {
     this.selected.$remove(function() {

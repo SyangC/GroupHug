@@ -92,6 +92,72 @@ function Router($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise("/");
 }
+
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
+
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
+        }
+      });
+    }
+  }
+}
+
+angular
+  .module('GroupHugApp')
+  .directive('date', date);
+
+function date() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+
+angular
+  .module('GroupHugApp')
+  .factory('formData', formData);
+
+function formData() {
+  console.log("gets to return");
+  return {
+    transform: function(data) {
+      console.log("it gets to the transform");
+      var formData = new FormData();
+      angular.forEach(data, function(value, key) {
+        if(!!value && value._id) value = value._id;
+        if(!key.match(/^\$/)) {
+        console.log("is value FileList", value instanceof FileList);
+          if(value instanceof FileList) {
+            for(i=0;i<value.length;i++) {
+              formData.append(key, value[i]);
+            }
+          } else {
+            formData.append(key, value);
+          }
+        }
+      });
+
+      return formData;
+    }
+  }
+}
+
 angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
@@ -185,6 +251,7 @@ function Experience($resource) {
     update: { method: "PUT" }
   });
 }
+
 angular
   .module("GroupHugApp")
   .factory("Grouphug", Grouphug);
@@ -192,9 +259,20 @@ angular
 Grouphug.$inject = ["$resource"]
 function Grouphug($resource) {
   return $resource('/api/grouphugs/:id', { id: '@_id' }, {
-    update: { method: "PUT" }
+    // update: { method: "PUT" }
+    update: {
+      method: "PUT",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    },
+    save: {
+      method: "POST",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    }
   });
 }
+
 angular
   .module("GroupHugApp")
   .factory("User", User);
@@ -292,8 +370,16 @@ function GrouphugsNewController(Grouphug, $state) {
 
   this.new = {};
 
+  this.ages = ["0-12", "13-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "81-90", "91+"];
+
+  this.occasions = ["Birthday", "Wedding", "Leaving", "Thank You", "Cheer Your Friend Up", "Retirement"];
+
+  this.relations = ["Friend", "Partner", "Parent", "Grandparent", "Subling", "Child"];
+
   this.create = function() {
-    Grouphug.save(this.new, function() {
+    console.log("grouphugs.new sent data", this.new);
+    Grouphug.save(this.new, function(res) {
+      console.log("response", res);
       $state.go("grouphugsIndex");
     })
   }
@@ -304,7 +390,9 @@ angular
 
 GrouphugsShowController.$inject = ["Grouphug", "$state"];
 function GrouphugsShowController(Grouphug, $state) {
-  this.selected = Grouphug.get($state.params)
+  this.selected = Grouphug.get($state.params, function(res) {
+    console.log("res", res);
+  })
 
   this.delete = function() {
     this.selected.$remove(function() {
