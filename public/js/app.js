@@ -1,7 +1,10 @@
 angular
-  .module("GroupHugApp", ["ngResource", "ui.router", "satellizer"])
+  .module("GroupHugApp", ["ngResource", "ui.router", "satellizer", "angularPayments"])
   .config(oAuthConfig)
   .config(Router)
+  .config(function() {
+    Stripe.setPublishableKey("pk_test_cQJL918XjF2uKwmmkgnSBeBr");
+  })
 
 oAuthConfig.$inject = ["$authProvider"];
 function oAuthConfig($authProvider) {
@@ -196,9 +199,11 @@ function MainController($state, $auth, $rootScope, User) {
     $auth.authenticate(provider)
          .then(function() {
       $rootScope.$broadcast("loggedIn");
-      $state.go('events');
+      $state.go('home');
     });
   }
+
+  this.currentUser = $auth.getPayload();
 
   this.errorMessage = null;
 
@@ -221,6 +226,8 @@ function MainController($state, $auth, $rootScope, User) {
     self.errorMessage = null;
   });
 
+  $rootScope.$state = $state;
+  
 }
 angular
   .module("GroupHugApp")
@@ -388,8 +395,8 @@ angular
   .module("GroupHugApp")
   .controller("GrouphugsShowController", GrouphugsShowController);
 
-GrouphugsShowController.$inject = ["Grouphug", "$state"];
-function GrouphugsShowController(Grouphug, $state) {
+GrouphugsShowController.$inject = ["Grouphug", "$state", "$scope"];
+function GrouphugsShowController(Grouphug, $state, $scope) {
   this.selected = Grouphug.get($state.params, function(res) {
     console.log("res", res);
   })
@@ -399,6 +406,14 @@ function GrouphugsShowController(Grouphug, $state) {
       $state.go("grouphugsIndex");
     })
   }
+
+  $scope.stripeCallback = function (code, result) {
+    if (result.error) {
+      window.alert('it failed! error: ' + result.error.message);
+    } else {
+      window.alert('success! token: ' + result.id);
+    }
+  };
 }
 angular
   .module("GroupHugApp")
@@ -440,4 +455,19 @@ function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope
 
   this.currentUser = $auth.getPayload();
 
+}
+
+angular
+  .module("GroupHugApp")
+  .controller("PaymentController", PaymentController);
+
+PaymentController.$inject = ["$rootscope"]
+function PaymentController($rootscope) {
+  this.stripeCallback = function (code, result) {
+    if (result.error) {
+      window.alert('it failed! error: ' + result.error.message);
+    } else {
+      window.alert('success! token: ' + result.id);
+    }
+  };
 }

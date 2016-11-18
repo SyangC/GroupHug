@@ -1,1 +1,23 @@
 experiences EDIT page
+
+<div id="new-experience-form-wrapper">
+
+  <form ng-submit="experiencesEdit.save()">
+
+    <div class="form-group">
+      <input type="text" name="experience-name" class="form-control" ng-model="experiencesEdit.selected.name" placeholder="Experience Name">
+    </div>
+    <div class="form-group">
+      <input type="text" name="supplier-name" class="form-control" ng-model="experiencesEdit.selected.supplier" placeholder="Supplier Name">
+    </div>
+    <div class="form-group">
+      <input type="text" name="price" class="form-control" ng-model="experiencesEdit.selected.price" placeholder="Price">
+    </div>
+    <div class="form-group">
+      <input type="text" name="description" class="form-control" ng-model="experiencesEdit.selected.description" placeholder="Description">
+    </div>
+
+    <button class="btn">Save</button>
+    <button type="button" ui-sref="experiencesShow({ id: experiencesEdit.selected._id })">Cancel</button>
+  </form>
+</div>
