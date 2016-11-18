@@ -137,6 +137,8 @@ function MainController($state, $auth, $rootScope, User) {
     });
   }
 
+  this.currentUser = $auth.getPayload();
+
   this.errorMessage = null;
 
   this.logout = function logout() {
@@ -158,6 +160,8 @@ function MainController($state, $auth, $rootScope, User) {
     self.errorMessage = null;
   });
 
+  $rootScope.$state = $state;
+  
 }
 angular
   .module("GroupHugApp")
