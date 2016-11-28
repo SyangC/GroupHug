@@ -15,6 +15,8 @@ var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
 
+var upload = require('./upload');
+
 function secureRoute(req, res, next) {
   if(!req.headers.authorization) return res.status(401).json({ message: "Unauthorized" });
 
@@ -47,11 +49,11 @@ router.route("/")
 
 router.route("/grouphugs")
   .get(grouphugsController.index)
-  .post(grouphugsController.create);
+  .post(upload.array('pictures'),grouphugsController.create);
 
 router.route("/grouphugs/:id")
   .get(grouphugsController.show)
-  .put(grouphugsController.update)
+  .put(upload.array('pictures'),grouphugsController.update)
   .delete(grouphugsController.delete);
 
 router.route('/ecards')

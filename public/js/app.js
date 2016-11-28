@@ -95,72 +95,6 @@ function Router($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise("/");
 }
-
-angular
-  .module('GroupHugApp')
-  .directive('file', file);
-
-function file() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      element.on('change', function(e) {
-        if(element.prop('multiple')) {
-          ngModel.$setViewValue(e.target.files);
-        } else {
-          ngModel.$setViewValue(e.target.files[0]);
-        }
-      });
-    }
-  }
-}
-
-angular
-  .module('GroupHugApp')
-  .directive('date', date);
-
-function date() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$formatters.push(function(value) {
-        return new Date(value);
-      });
-    }
-  }
-}
-
-angular
-  .module('GroupHugApp')
-  .factory('formData', formData);
-
-function formData() {
-  console.log("gets to return");
-  return {
-    transform: function(data) {
-      console.log("it gets to the transform");
-      var formData = new FormData();
-      angular.forEach(data, function(value, key) {
-        if(!!value && value._id) value = value._id;
-        if(!key.match(/^\$/)) {
-        console.log("is value FileList", value instanceof FileList);
-          if(value instanceof FileList) {
-            for(i=0;i<value.length;i++) {
-              formData.append(key, value[i]);
-            }
-          } else {
-            formData.append(key, value);
-          }
-        }
-      });
-
-      return formData;
-    }
-  }
-}
-
 angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
@@ -250,23 +184,11 @@ function RegisterController($auth, $state, $rootScope) {
 }
 angular
   .module("GroupHugApp")
-  .factory("Experience", Experience);
-
-Experience.$inject = ["$resource"]
-function Experience($resource) {
-  return $resource('/api/experiences/:id', { id: '@_id' }, {
-    update: { method: "PUT" }
-  });
-}
-
-angular
-  .module("GroupHugApp")
   .factory("Grouphug", Grouphug);
 
-Grouphug.$inject = ["$resource"]
-function Grouphug($resource) {
-  return $resource('/api/grouphugs/:id', { id: '@_id' }, {
-    // update: { method: "PUT" }
+Grouphug.$inject = ["$resource", "formData"];
+function Grouphug($resource, formData) {
+  return $resource('/api/grouphugs/:id', { id: '@_id' },  {
     update: {
       method: "PUT",
       headers: { 'Content-Type': undefined },
@@ -277,6 +199,16 @@ function Grouphug($resource) {
       headers: { 'Content-Type': undefined },
       transformRequest: formData.transform
     }
+  });
+}
+angular
+  .module("GroupHugApp")
+  .factory("Experience", Experience);
+
+Experience.$inject = ["$resource"]
+function Experience($resource) {
+  return $resource('/api/experiences/:id', { id: '@_id' }, {
+    update: { method: "PUT" }
   });
 }
 
@@ -290,7 +222,67 @@ function User($resource) {
     update: { method: "PUT" }
   });
 }
+angular
+  .module('GroupHugApp')
+  .directive('date', date);
 
+function date() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
+
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
+        }
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .factory('formData', formData);
+
+function formData() {
+  return {
+    transform: function(data) {
+      console.log("data entering formData transform",data);
+      var formData = new FormData();
+      angular.forEach(data, function(value, key) {
+        if(!!value && value._id) value = value._id;
+        if(!key.match(/^\$/)) {
+
+          if(value instanceof FileList) {
+            for(i=0;i<value.length;i++) {
+              formData.append(key, value[i]);
+            }
+          } else {
+            formData.append(key, value);
+          }
+        }
+      });
+      console.log("formData just before being sent off", formData);
+      return formData;
+    }
+  }
+}
 angular
   .module("GroupHugApp")
   .controller("ExperiencesEditController", ExperiencesEditController);
@@ -385,8 +377,8 @@ function GrouphugsNewController(Grouphug, $state) {
 
   this.create = function() {
     console.log("grouphugs.new sent data", this.new);
-    Grouphug.save(this.new, function(res) {
-      console.log("response", res);
+    Grouphug.save(this.new, function() {
+      // console.log("response", res);
       $state.go("grouphugsIndex");
     })
   }
