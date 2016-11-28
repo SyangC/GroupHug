@@ -5,6 +5,7 @@ angular
 function formData() {
   return {
     transform: function(data) {
+      console.log("data entering formData transform",data);
       var formData = new FormData();
       angular.forEach(data, function(value, key) {
         if(!!value && value._id) value = value._id;
@@ -19,7 +20,7 @@ function formData() {
           }
         }
       });
-
+      console.log("formData just before being sent off", formData);
       return formData;
     }
   }
