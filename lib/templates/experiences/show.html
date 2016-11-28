@@ -1,0 +1,31 @@
+<h1>This is the Experiences show</h1>
+
+<div class="col-md-8 col-md-offset-2">
+  <div class="thumbnail">
+    <img src="https://fillmurray.com/500/300">
+    <div class="caption">
+      <h1>{{ experiencesShow.selected.name }}</h1>
+      <h2>{{ experiencesShow.selected.description }}</h2>
+
+      <h3>Supplier:</h3>
+      <p>{{ experiencesShow.selected.supplier }}</p>
+
+      <h3>Price:</h3>
+      <p>{{ experiencesShow.selected.price }}</p>
+
+      <h3>Tags:</h3>
+      <div ng-repeat="tag in experiencesShow.selected.tags">
+        <div class="thumbnail">
+          <p>{{ tag }}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <button ui-sref="experiencesEdit({ id: experiencesShow.selected._id })" class="btn">Edit</button>
+    <button ng-click="experiencesShow.delete()" class="btn">Delete</button>
+
+  </div>
+</div>
+
+<p><a ui-sref="adminUi">Back</a></p>
