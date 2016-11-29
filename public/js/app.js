@@ -95,6 +95,24 @@ function Router($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise("/");
 }
+
+angular
+  .module("GroupHugApp")
+  .controller("AdminUiController", AdminUiController);
+
+AdminUiController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
+  var self = this;
+
+  this.allUsers = User.query();
+
+  this.allGrouphugs = Grouphug.query();
+
+  this.allExperiences = Experience.query();
+
+  this.currentUser = $auth.getPayload();
+
+}
 angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
@@ -125,16 +143,22 @@ angular
   .module("GroupHugApp")
   .controller("MainController", MainController);
 
-MainController.$inject = ["$state", "$auth", "$rootScope", "User"];
-function MainController($state, $auth, $rootScope, User) {
+MainController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function MainController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
   var self = this;
+
+  this.allUsers = User.query();
+
+  this.allGrouphugs = Grouphug.query();
+
+  this.allExperiences = Experience.query();
 
   this.authenticate = function(provider) {
     $auth.authenticate(provider)
-         .then(function() {
-      $rootScope.$broadcast("loggedIn");
-      $state.go('home');
-    });
+      .then(function() {
+        $rootScope.$broadcast("loggedIn");
+        $state.go("home");
+      });
   }
 
   this.currentUser = $auth.getPayload();
@@ -161,7 +185,7 @@ function MainController($state, $auth, $rootScope, User) {
   });
 
   $rootScope.$state = $state;
-  
+
 }
 angular
   .module("GroupHugApp")
@@ -170,13 +194,16 @@ angular
 RegisterController.$inject = ["$auth", "$state", "$rootScope"];
 function RegisterController($auth, $state, $rootScope) {
 
-  this.user = {};
+  self = this;
 
-  this.submit = function() {
-    $auth.signup(this.user, {
+  self.user = {};
+
+  self.submit = function() {
+    $auth.signup(self.user, {
       url: '/api/register'
     })
     .then(function(){
+      console.log(self.user);
       $rootScope.$broadcast("loggedIn");
       $state.go("home");
     })
@@ -184,11 +211,21 @@ function RegisterController($auth, $state, $rootScope) {
 }
 angular
   .module("GroupHugApp")
+  .factory("Experience", Experience);
+
+Experience.$inject = ["$resource"]
+function Experience($resource) {
+  return $resource('/api/experiences/:id', { id: '@_id' }, {
+    update: { method: "PUT" }
+  });
+}
+angular
+  .module("GroupHugApp")
   .factory("Grouphug", Grouphug);
 
-Grouphug.$inject = ["$resource", "formData"];
+Grouphug.$inject = ["$resource", "formData"]
 function Grouphug($resource, formData) {
-  return $resource('/api/grouphugs/:id', { id: '@_id' },  {
+  return $resource('/api/grouphugs/:id', { id: '@_id' }, {
     update: {
       method: "PUT",
       headers: { 'Content-Type': undefined },
@@ -201,17 +238,6 @@ function Grouphug($resource, formData) {
     }
   });
 }
-angular
-  .module("GroupHugApp")
-  .factory("Experience", Experience);
-
-Experience.$inject = ["$resource"]
-function Experience($resource) {
-  return $resource('/api/experiences/:id', { id: '@_id' }, {
-    update: { method: "PUT" }
-  });
-}
-
 angular
   .module("GroupHugApp")
   .factory("User", User);
@@ -263,7 +289,6 @@ angular
 function formData() {
   return {
     transform: function(data) {
-      console.log("data entering formData transform",data);
       var formData = new FormData();
       angular.forEach(data, function(value, key) {
         if(!!value && value._id) value = value._id;
@@ -278,7 +303,7 @@ function formData() {
           }
         }
       });
-      console.log("formData just before being sent off", formData);
+
       return formData;
     }
   }
@@ -376,9 +401,8 @@ function GrouphugsNewController(Grouphug, $state) {
   this.relations = ["Friend", "Partner", "Parent", "Grandparent", "Subling", "Child"];
 
   this.create = function() {
-    console.log("grouphugs.new sent data", this.new);
+    console.log("sends this.new:", this.new);
     Grouphug.save(this.new, function() {
-      // console.log("response", res);
       $state.go("grouphugsIndex");
     })
   }
@@ -430,36 +454,4 @@ function UsersShowController(User, $state) {
   this.update = function() {
     this.selected.$update();
   }
-}
-angular
-  .module("GroupHugApp")
-  .controller("AdminUiController", AdminUiController);
-
-AdminUiController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
-function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
-  var self = this;
-
-  this.allUsers = User.query();
-
-  this.allGrouphugs = Grouphug.query();
-
-  this.allExperiences = Experience.query();
-
-  this.currentUser = $auth.getPayload();
-
-}
-
-angular
-  .module("GroupHugApp")
-  .controller("PaymentController", PaymentController);
-
-PaymentController.$inject = ["$rootscope"]
-function PaymentController($rootscope) {
-  this.stripeCallback = function (code, result) {
-    if (result.error) {
-      window.alert('it failed! error: ' + result.error.message);
-    } else {
-      window.alert('success! token: ' + result.id);
-    }
-  };
 }
