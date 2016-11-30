@@ -12,6 +12,7 @@ function grouphugIndex(req, res) {
 
 function grouphugShow(req, res) {
   Grouphug.findById(req.params.id)
+    .populate('experiences.experienceId')
     .then(function(grouphug) {
       res.status(200).json(grouphug);
     })
