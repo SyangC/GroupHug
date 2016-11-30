@@ -42,6 +42,11 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/adminUi.html",
       controller: "AdminUiController as admin"
     })
+    .state("adminUiGrouphugShow", {
+      url: "/adminUi/grouphugs/:id",
+      templateUrl: "/templates/admin/show.html",
+      controller: "adminUiGrouphugShowController as grouphugsShow"
+    })
     .state("experiencesIndex", {
       url: "/experiences",
       templateUrl: "/templates/experiences/index.html",
@@ -96,23 +101,6 @@ function Router($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
 }
 
-angular
-  .module("GroupHugApp")
-  .controller("AdminUiController", AdminUiController);
-
-AdminUiController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
-function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
-  var self = this;
-
-  this.allUsers = User.query();
-
-  this.allGrouphugs = Grouphug.query();
-
-  this.allExperiences = Experience.query();
-
-  this.currentUser = $auth.getPayload();
-
-}
 angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
@@ -210,6 +198,40 @@ function RegisterController($auth, $state, $rootScope) {
   }
 }
 angular
+  .module('GroupHugApp')
+  .directive('date', date);
+
+function date() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
+
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
+        }
+      });
+    }
+  }
+}
+angular
   .module("GroupHugApp")
   .factory("Experience", Experience);
 
@@ -250,40 +272,6 @@ function User($resource) {
 }
 angular
   .module('GroupHugApp')
-  .directive('date', date);
-
-function date() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$formatters.push(function(value) {
-        return new Date(value);
-      });
-    }
-  }
-}
-angular
-  .module('GroupHugApp')
-  .directive('file', file);
-
-function file() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      element.on('change', function(e) {
-        if(element.prop('multiple')) {
-          ngModel.$setViewValue(e.target.files);
-        } else {
-          ngModel.$setViewValue(e.target.files[0]);
-        }
-      });
-    }
-  }
-}
-angular
-  .module('GroupHugApp')
   .factory('formData', formData);
 
 function formData() {
@@ -307,6 +295,40 @@ function formData() {
       return formData;
     }
   }
+}
+angular
+  .module("GroupHugApp")
+  .controller("adminUiGrouphugShowController", adminUiGrouphugShowController);
+
+  adminUiGrouphugShowController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function adminUiGrouphugShowController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
+  var self = this;
+
+  this.selected = Grouphug.get($state.params, function(res) {
+    console.log("res", res);
+  })
+
+  this.allExperiences = Experience.query();
+
+  this.currentUser = $auth.getPayload();
+
+}
+angular
+  .module("GroupHugApp")
+  .controller("AdminUiController", AdminUiController);
+
+AdminUiController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
+  var self = this;
+
+  this.allUsers = User.query();
+
+  this.allGrouphugs = Grouphug.query();
+
+  this.allExperiences = Experience.query();
+
+  this.currentUser = $auth.getPayload();
+
 }
 angular
   .module("GroupHugApp")
