@@ -53,3 +53,5 @@
 <div ng-if="form.cvc.$invalid">
   Error: invalid CVC!
 </div>
+<h1>Pictures</h1>
+<img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">

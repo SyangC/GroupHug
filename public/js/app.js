@@ -210,6 +210,40 @@ function RegisterController($auth, $state, $rootScope) {
   }
 }
 angular
+  .module('GroupHugApp')
+  .directive('date', date);
+
+function date() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
+
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
+        }
+      });
+    }
+  }
+}
+angular
   .module("GroupHugApp")
   .factory("Experience", Experience);
 
@@ -223,10 +257,19 @@ angular
   .module("GroupHugApp")
   .factory("Grouphug", Grouphug);
 
-Grouphug.$inject = ["$resource"]
-function Grouphug($resource) {
+Grouphug.$inject = ["$resource", "formData"]
+function Grouphug($resource, formData) {
   return $resource('/api/grouphugs/:id', { id: '@_id' }, {
-    update: { method: "PUT" }
+    update: {
+      method: "PUT",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    },
+    save: {
+      method: "POST",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    }
   });
 }
 angular
@@ -238,6 +281,32 @@ function User($resource) {
   return $resource('/api/users/:id', { id: '@_id' }, {
     update: { method: "PUT" }
   });
+}
+angular
+  .module('GroupHugApp')
+  .factory('formData', formData);
+
+function formData() {
+  return {
+    transform: function(data) {
+      var formData = new FormData();
+      angular.forEach(data, function(value, key) {
+        if(!!value && value._id) value = value._id;
+        if(!key.match(/^\$/)) {
+
+          if(value instanceof FileList) {
+            for(i=0;i<value.length;i++) {
+              formData.append(key, value[i]);
+            }
+          } else {
+            formData.append(key, value);
+          }
+        }
+      });
+
+      return formData;
+    }
+  }
 }
 angular
   .module("GroupHugApp")
@@ -280,6 +349,7 @@ function GrouphugsNewController(Grouphug, $state) {
   this.relations = ["Friend", "Partner", "Parent", "Grandparent", "Subling", "Child"];
 
   this.create = function() {
+    console.log("sends this.new:", this.new);
     Grouphug.save(this.new, function() {
       $state.go("grouphugsIndex");
     })
@@ -291,7 +361,9 @@ angular
 
 GrouphugsShowController.$inject = ["Grouphug", "$state", "$scope"];
 function GrouphugsShowController(Grouphug, $state, $scope) {
-  this.selected = Grouphug.get($state.params)
+  this.selected = Grouphug.get($state.params, function(res) {
+    console.log("res", res);
+  })
 
   this.delete = function() {
     this.selected.$remove(function() {
