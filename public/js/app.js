@@ -42,6 +42,11 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/adminUi.html",
       controller: "AdminUiController as admin"
     })
+    .state("adminUiGrouphugShow", {
+      url: "/adminUi/grouphugs/:id",
+      templateUrl: "/templates/admin/show.html",
+      controller: "adminUiGrouphugShowController as grouphugsShow"
+    })
     .state("experiencesIndex", {
       url: "/experiences",
       templateUrl: "/templates/experiences/index.html",
@@ -96,23 +101,6 @@ function Router($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
 }
 
-angular
-  .module("GroupHugApp")
-  .controller("AdminUiController", AdminUiController);
-
-AdminUiController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
-function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
-  var self = this;
-
-  this.allUsers = User.query();
-
-  this.allGrouphugs = Grouphug.query();
-
-  this.allExperiences = Experience.query();
-
-  this.currentUser = $auth.getPayload();
-
-}
 angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
@@ -298,15 +286,69 @@ function formData() {
             for(i=0;i<value.length;i++) {
               formData.append(key, value[i]);
             }
+          } else if(key === "experiences") {
+            formData.append(key, angular.toJson(value, false));
           } else {
             formData.append(key, value);
           }
         }
       });
-
       return formData;
     }
   }
+}
+angular
+  .module("GroupHugApp")
+  .controller("adminUiGrouphugShowController", adminUiGrouphugShowController);
+
+  adminUiGrouphugShowController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function adminUiGrouphugShowController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
+  var self = this;
+
+  this.selected = Grouphug.get($state.params, function(res) {
+    console.log("res", res);
+  })
+
+  this.addExperience = function(experience) {
+    this.selected.experiences.push({
+      experienceId: experience
+    })
+  }
+
+  this.removeExperience = function(experience) {
+    this.selected.experiences.splice(
+      this.selected.experiences.indexOf(experience), 1);
+  }
+
+  this.allExperiences = Experience.query(function(experiences) {
+      console.log(experiences);
+    });
+
+  this.currentUser = $auth.getPayload();
+
+  this.saveChanges = function() {
+    this.selected.$update(function() {
+      $state.reload();
+    })
+  }
+
+}
+angular
+  .module("GroupHugApp")
+  .controller("AdminUiController", AdminUiController);
+
+AdminUiController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
+  var self = this;
+
+  this.allUsers = User.query();
+
+  this.allGrouphugs = Grouphug.query();
+
+  this.allExperiences = Experience.query();
+
+  this.currentUser = $auth.getPayload();
+
 }
 angular
   .module("GroupHugApp")
