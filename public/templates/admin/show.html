@@ -25,6 +25,7 @@
 <h1>Pictures</h1>
 <img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">
 <h1>Experiences</h1>
+<button ng-click="grouphugsShow.saveChanges()" class="btn">Save changes</button>
 <div ng-repeat="experience in grouphugsShow.selected.experiences">
   <h3>{{experience.experienceId.name}}, {{experience.experienceId.description}}, £{{experience.experienceId.price}}</h3>
   <button ng-click="grouphugsShow.removeExperience(experience)" class="btn">Remove experience</button>

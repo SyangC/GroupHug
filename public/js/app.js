@@ -286,12 +286,13 @@ function formData() {
             for(i=0;i<value.length;i++) {
               formData.append(key, value[i]);
             }
+          } else if(key === "experiences") {
+            formData.append(key, angular.toJson(value, false));
           } else {
             formData.append(key, value);
           }
         }
       });
-
       return formData;
     }
   }
@@ -309,33 +310,27 @@ function adminUiGrouphugShowController(User, Grouphug, Experience, $state, $auth
   })
 
   this.addExperience = function(experience) {
-    console.log("experience is: ", experience);
-    console.log("self.selected.experiences before: ", self.selected.experiences);
     this.selected.experiences.push({
       experienceId: experience
     })
-    console.log("self.selected.experiences after: ", self.selected.experiences);
   }
-
-  // function isBigEnough(element) {
-  //   return element >= 15;
-  // }
-
-  // [12, 5, 8, 130, 44].findIndex(isBigEnough); // 3
-
-  // this.removeGenre = function(genre) {
-  //   this.selectedGenres.splice(
-  //     this.selectedGenres.indexOf(genre), 1);
-  // }
 
   this.removeExperience = function(experience) {
     this.selected.experiences.splice(
       this.selected.experiences.indexOf(experience), 1);
   }
 
-  this.allExperiences = Experience.query();
+  this.allExperiences = Experience.query(function(experiences) {
+      console.log(experiences);
+    });
 
   this.currentUser = $auth.getPayload();
+
+  this.saveChanges = function() {
+    this.selected.$update(function() {
+      $state.reload();
+    })
+  }
 
 }
 angular
