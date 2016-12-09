@@ -21,13 +21,14 @@
 </table> -->
 <ul ng-repeat="grouphug in admin.allGrouphugs">
   <li>{{ grouphug.name }}</li>
-  <li>{{ grouphug.description }}</li>
-  <li>{{ grouphug.creator }}</li>
-  <li>{{ grouphug.giftee }}</li>
-  <li>{{ grouphug.contributors }}</li>
+  <!-- <li>{{ grouphug.description }}</li> -->
+  <!-- <li>{{ grouphug.creator }}</li> -->
+  <!-- <li>{{ grouphug.giftee }}</li> -->
+  <!-- <li>{{ grouphug.contributors }}</li> -->
+  <li>Number of experiences: {{ grouphug.experiences.length }}</li>
   <li>{{ grouphug.experiences.experienceId }}</li>
-  <li><a ui-sref="experiencesIndex()">Show Experience</a></li>
-  <li><a ui-sref="adminUiGrouphugShow({ id: grouphug._id })">Add Experience</a></li>
+  <li>{{ grouphug.status }}</li>
+  <li><a ui-sref="adminUiGrouphugShow({ id: grouphug._id })">Edit Grouphug</a></li>
   <li><a ui-sref="grouphugsShow({ id: grouphug._id })">Enter</a></li>
 </ul>
 
