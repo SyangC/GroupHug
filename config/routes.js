@@ -30,19 +30,26 @@ function secureRoute(req, res, next) {
   });
 }
 
-// var token = request.body.stripeToken; // Using Express
+function stripeCharge(req, res, next) {
 
-// // Create a charge: this will charge the user's card
-// var charge = stripe.charges.create({
-//   amount: 1000, // Amount in cents
-//   currency: "gbp",
-//   source: token,
-//   description: "Example charge"
-// }, function(err, charge) {
-//   if (err && err.type === 'StripeCardError') {
-//     // The card has been declined
-//   }
-// });
+  console.log("req.body.id is:", req.body.id)
+  console.log("req.body.amount is:", req.body.amount)
+  // Get the credit card details submitted by the form
+  var token = req.body.id; // Using Express
+  var amount = req.body.amount
+
+  // Create a charge: this will charge the user's card
+  var charge = stripe.charges.create({
+    amount: amount,
+    currency: "gbp",
+    source: token,
+    description: "GroupHug Contribution"
+  }, function(err, charge) {
+    if (err && err.type === 'StripeCardError') {
+      // The card has been declined
+    }
+  });
+}
 
 router.route("/")
   .get(grouphugsController.index);
@@ -55,6 +62,9 @@ router.route("/grouphugs/:id")
   .get(grouphugsController.show)
   .put(upload.array('pictures'),grouphugsController.update)
   .delete(grouphugsController.delete);
+
+router.route("/charge")
+  .post(stripeCharge)
 
 router.route('/ecards')
   .get(ecardsController.index)

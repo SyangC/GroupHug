@@ -95,7 +95,8 @@ function Router($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise("/");
 }
-
+angular
+  .module("GroupHugApp")
 angular
   .module("GroupHugApp")
   .controller("AdminUiController", AdminUiController);
@@ -211,35 +212,27 @@ function RegisterController($auth, $state, $rootScope) {
 }
 angular
   .module('GroupHugApp')
-  .directive('date', date);
+  .factory('formData', formData);
 
-function date() {
+function formData() {
   return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$formatters.push(function(value) {
-        return new Date(value);
-      });
-    }
-  }
-}
-angular
-  .module('GroupHugApp')
-  .directive('file', file);
+    transform: function(data) {
+      var formData = new FormData();
+      angular.forEach(data, function(value, key) {
+        if(!!value && value._id) value = value._id;
+        if(!key.match(/^\$/)) {
 
-function file() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      element.on('change', function(e) {
-        if(element.prop('multiple')) {
-          ngModel.$setViewValue(e.target.files);
-        } else {
-          ngModel.$setViewValue(e.target.files[0]);
+          if(value instanceof FileList) {
+            for(i=0;i<value.length;i++) {
+              formData.append(key, value[i]);
+            }
+          } else {
+            formData.append(key, value);
+          }
         }
       });
+
+      return formData;
     }
   }
 }
@@ -284,28 +277,88 @@ function User($resource) {
 }
 angular
   .module('GroupHugApp')
-  .factory('formData', formData);
+  .directive('date', date);
 
-function formData() {
+function date() {
   return {
-    transform: function(data) {
-      var formData = new FormData();
-      angular.forEach(data, function(value, key) {
-        if(!!value && value._id) value = value._id;
-        if(!key.match(/^\$/)) {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
 
-          if(value instanceof FileList) {
-            for(i=0;i<value.length;i++) {
-              formData.append(key, value[i]);
-            }
-          } else {
-            formData.append(key, value);
-          }
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
         }
       });
-
-      return formData;
     }
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesEditController", ExperiencesEditController);
+
+ExperiencesEditController.$inject = ["Experience", "$state"];
+function ExperiencesEditController(Experience, $state) {
+
+  this.selected = Experience.get($state.params);
+
+  this.save = function() {
+    this.selected.$update(function() {
+      $state.go("experiencesShow", $state.params)
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesIndexController", ExperiencesIndexController);
+
+ExperiencesIndexController.$inject = ["Experience"];
+function ExperiencesIndexController(Experience) {
+  this.all = Experience.query();
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesNewController", ExperiencesNewController);
+
+ExperiencesNewController.$inject = ["Experience", "$state"]
+function ExperiencesNewController(Experience, $state) {
+
+  this.new = {};
+
+  this.create = function() {
+    Experience.save(this.new, function() {
+      $state.go("experiencesIndex");
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesShowController", ExperiencesShowController);
+
+ExperiencesShowController.$inject = ["Experience", "$state"];
+function ExperiencesShowController(Experience, $state) {
+  this.selected = Experience.get($state.params)
+
+  this.delete = function() {
+    this.selected.$remove(function() {
+      $state.go("experiencesIndex");
+    })
   }
 }
 angular
@@ -359,8 +412,11 @@ angular
   .module("GroupHugApp")
   .controller("GrouphugsShowController", GrouphugsShowController);
 
-GrouphugsShowController.$inject = ["Grouphug", "$state", "$scope"];
-function GrouphugsShowController(Grouphug, $state, $scope) {
+GrouphugsShowController.$inject = ["Grouphug", "$state", "$http"];
+function GrouphugsShowController(Grouphug, $state, $http) {
+
+  var self = this
+
   this.selected = Grouphug.get($state.params, function(res) {
     console.log("res", res);
   })
@@ -371,64 +427,39 @@ function GrouphugsShowController(Grouphug, $state, $scope) {
     })
   }
 
-  $scope.stripeCallback = function (code, result) {
-    if (result.error) {
-      window.alert('it failed! error: ' + result.error.message);
-    } else {
-      window.alert('success! token: ' + result.id);
-    }
-  };
-}
-angular
-  .module("GroupHugApp")
-  .controller("ExperiencesEditController", ExperiencesEditController);
+  this.contributionAmount
 
-ExperiencesEditController.$inject = ["Experience", "$state"];
-function ExperiencesEditController(Experience, $state) {
+  this.checkout = function() {
+    self.contributionAmount = document.getElementById("userInput").value * 100
+    var handler = StripeCheckout.configure({
+      key: "pk_test_cQJL918XjF2uKwmmkgnSBeBr",
+      image: "https://stripe.com/img/documentation/checkout/marketplace.png",
+      locale: "auto",
+      token: function(token) {
 
-  this.selected = Experience.get($state.params);
+        token.amount = self.contributionAmount
 
-  this.save = function() {
-    this.selected.$update(function() {
-      $state.go("experiencesShow", $state.params)
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ExperiencesIndexController", ExperiencesIndexController);
+        $http.post("/api/charge", token)
+          .success(function (token, status, headers) {
+          })
+          .error(function (token, status, header) {
 
-ExperiencesIndexController.$inject = ["Experience"];
-function ExperiencesIndexController(Experience) {
-  this.all = Experience.query();
-}
-angular
-  .module("GroupHugApp")
-  .controller("ExperiencesNewController", ExperiencesNewController);
+          });
+      }
+    });
 
-ExperiencesNewController.$inject = ["Experience", "$state"]
-function ExperiencesNewController(Experience, $state) {
-
-  this.new = {};
-
-  this.create = function() {
-    Experience.save(this.new, function() {
-      $state.go("experiencesIndex");
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ExperiencesShowController", ExperiencesShowController);
-
-ExperiencesShowController.$inject = ["Experience", "$state"];
-function ExperiencesShowController(Experience, $state) {
-  this.selected = Experience.get($state.params)
-
-  this.delete = function() {
-    this.selected.$remove(function() {
-      $state.go("experiencesIndex");
-    })
+    handler.open({
+      name: "GroupHug",
+      description: "Please enter your payment details below",
+      zipCode: true,
+      currency: "gbp",
+      amount: self.contributionAmount,
+      billingAddress: true
+    });
+    
+    window.addEventListener("popstate", function() {
+      handler.close();
+    });
   }
 }
 angular
