@@ -12,7 +12,7 @@ var grouphugSchema = new mongoose.Schema({
   gifteeNickname: { type: String },
   gifteeEmailAddress: { type: String },
   // contributors: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
-  // contributorEmailAdresses: [{ type: String }],
+  contributorEmailAddresses: [],
   // contributionTotal: { type: Number, default: 0 },
   experiences: [{
     experienceId: { type: mongoose.Schema.ObjectId, ref: "Experience" },
@@ -74,6 +74,9 @@ grouphugSchema.pre('remove', function(next) {
 });
 
 grouphugSchema.set('toJSON', { getters: true });
+
+
+
 
 module.exports = mongoose.model("Grouphug", grouphugSchema);
 
