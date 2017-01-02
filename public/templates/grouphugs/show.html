@@ -13,6 +13,34 @@
       <h3>Creator:</h3>
       <p>{{ grouphugsShow.selected.creator }}</p>
 
+      <div ng-repeat="experience in grouphugsShow.selected.experiences">
+        <h3>Name: {{experience.experienceId.name}}, Description: {{experience.experienceId.description}}, Price: £{{experience.experienceId.price}}</h3>
+
+        <form name="userWeighting" ng-if="grouphugsShow.canVote(experience, main.currentUser._id)">
+          <label>
+            <input type="radio" ng-model="experience.newWeighting" value="1">
+            1
+          </label><br/>
+          <label>
+            <input type="radio" ng-model="experience.newWeighting" value="2">
+            2
+          </label><br/>
+          <label>
+            <input type="radio" ng-model="experience.newWeighting" value="3">
+            3
+          </label><br />
+          <label>
+            <input type="radio" ng-model="experience.newWeighting" value="4">
+            4
+          </label><br/>
+                    <label>
+            <input type="radio" ng-model="experience.newWeighting" value="5">
+            5
+          </label>
+         </form>
+         <h4>Average Rating: {{grouphugsShow.averageWeight(experience)}}</h4>
+      </div>
+      <button ng-click="grouphugsShow.saveWeightings()" class="btn">Save ratings</button>
       <h3>Contributors:</h3>
       <ul ng-repeat="contributor in grouphugsShow.selected.contributors">
         <li>{{ contributor }}</li>
