@@ -12,6 +12,7 @@ function grouphugIndex(req, res) {
 
 function grouphugShow(req, res) {
   Grouphug.findById(req.params.id)
+    .populate('experiences.experienceId')
     .then(function(grouphug) {
       res.status(200).json(grouphug);
     })
@@ -42,11 +43,31 @@ function grouphugCreate(req, res) {
 }
 
 function grouphugUpdate(req, res) {
-  Grouphug.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  console.log("req.body", req.body);
+  console.log("req.body.experiences", req.body.experiences);
+  console.log("req.files", req.files);
+  Grouphug.findById(req.params.id)
+    .then(function(grouphug) {
+      for(key in req.body) {
+        if(key === "experiences") {
+          grouphug[key] = JSON.parse(req.body[key]);
+        } else {
+          grouphug[key] = req.body[key];
+        }
+      }
+      if(req.files) {
+        var newImages = Object.keys(req.files).map(function(key) {
+          return req.files[key].key;
+        });
+        grouphug.pictures = grouphug.pictures.concat(newImages);
+      }
+      return grouphug.save();
+    })
     .then(function(grouphug) {
       res.status(200).json(grouphug);
     })
     .catch(function(err) {
+      console.log("err is: ", err);
       res.status(500).json(err);
     });
 }
