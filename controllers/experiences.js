@@ -20,22 +20,72 @@ function experienceShow(req, res) {
     });
 }
 
+// function experienceCreate(req, res) {
+//   Experience.create(req.body)
+//     .then(function(experience) {
+//       res.status(201).json(experience);
+//     })
+//     .catch(function(err) {
+//       res.status(500).json(err);
+//     });
+// }
+
 function experienceCreate(req, res) {
+  console.log("req.files before", req.files);
+  console.log("req.body before", req.body);
+  if(req.files !== undefined) {
+    req.body.pictures = Object.keys(req.files).map(function(key) {
+      return req.files[key].key;
+    });
+  }
+  console.log("req.files after", req.files);
+  console.log("req.body after", req.body);
+
   Experience.create(req.body)
     .then(function(experience) {
       res.status(201).json(experience);
     })
     .catch(function(err) {
+      console.log(err);
       res.status(500).json(err);
     });
 }
 
+// function experienceUpdate(req, res) {
+//   Experience.findByIdAndUpdate(req.params.id, req.body, { new: true })
+//     .then(function(experience) {
+//       res.status(200).json(experience);
+//     })
+//     .catch(function(err) {
+//       res.status(500).json(err);
+//     });
+// }
+
 function experienceUpdate(req, res) {
-  Experience.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    .then(function(experience) {
-      res.status(200).json(experience);
+  console.log("req.body", req.body);
+  console.log("req.files", req.files);
+  Grouphug.findById(req.params.id)
+    .then(function(grouphug) {
+      for(key in req.body) {
+        if(key === "experiences") {
+          grouphug[key] = JSON.parse(req.body[key]);
+        } else {
+          grouphug[key] = req.body[key];
+        }
+      }
+      if(req.files) {
+        var newImages = Object.keys(req.files).map(function(key) {
+          return req.files[key].key;
+        });
+        grouphug.pictures = grouphug.pictures.concat(newImages);
+      }
+      return grouphug.save();
+    })
+    .then(function(grouphug) {
+      res.status(200).json(grouphug);
     })
     .catch(function(err) {
+      console.log("err is: ", err);
       res.status(500).json(err);
     });
 }

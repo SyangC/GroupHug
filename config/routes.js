@@ -77,10 +77,10 @@ router.route("/ecards/:id")
 
 router.route("/experiences")
   .get(experiencesController.index)
-  .post(experiencesController.create);
+  .post(upload.array('pictures'),experiencesController.create);
 router.route("/experiences/:id")
   .get(experiencesController.show)
-  .put(experiencesController.update)
+  .put(upload.array('pictures'),experiencesController.update)
   .delete(experiencesController.delete);
 
 router.route("/reviews")
