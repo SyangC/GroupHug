@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var bcrypt = require("bcrypt");
 
 var userSchema = new mongoose.Schema({
+  isActivated: {type: Boolean, default: true},
   username: { type: String, required: true, minlength: 6, maxlength: 100 }, // between 6 and 100
   firstName: { type: String, maxlength: 100 }, // limited length to 100
   lastName: { type: String, maxlength: 100 }, // limited length to 100
@@ -23,6 +24,7 @@ var userSchema = new mongoose.Schema({
 userSchema.pre("validate", function(next) {
   if(!this._password && !this.githubId && !this.facebookId && !this.twitterId && !this.pinterestId && !this.instagramId) {
     this.invalidate('password', 'A password is required');
+    console.log("password validation failed");
   }
   next();
 });

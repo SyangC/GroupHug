@@ -352,58 +352,6 @@ function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope
 }
 angular
   .module("GroupHugApp")
-  .controller("ExperiencesEditController", ExperiencesEditController);
-
-ExperiencesEditController.$inject = ["Experience", "$state"];
-function ExperiencesEditController(Experience, $state) {
-
-  this.selected = Experience.get($state.params);
-
-  this.save = function() {
-    this.selected.$update(function() {
-      $state.go("experiencesShow", $state.params)
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ExperiencesIndexController", ExperiencesIndexController);
-
-ExperiencesIndexController.$inject = ["Experience"];
-function ExperiencesIndexController(Experience) {
-  this.all = Experience.query();
-}
-angular
-  .module("GroupHugApp")
-  .controller("ExperiencesNewController", ExperiencesNewController);
-
-ExperiencesNewController.$inject = ["Experience", "$state"]
-function ExperiencesNewController(Experience, $state) {
-
-  this.new = {};
-
-  this.create = function() {
-    Experience.save(this.new, function() {
-      $state.go("experiencesIndex");
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ExperiencesShowController", ExperiencesShowController);
-
-ExperiencesShowController.$inject = ["Experience", "$state"];
-function ExperiencesShowController(Experience, $state) {
-  this.selected = Experience.get($state.params)
-
-  this.delete = function() {
-    this.selected.$remove(function() {
-      $state.go("experiencesIndex");
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
   .controller("GrouphugsEditController", GrouphugsEditController);
 
 GrouphugsEditController.$inject = ["Grouphug", "$state"];
@@ -472,6 +420,15 @@ function GrouphugsShowController(User, Grouphug, $state, $scope) {
 
   this.allUsers = User.query();
 
+  this.allUserEmails = function(){
+    var tempUserEmails =[];
+    for (i=0; i < this.allUsers.length; i++){
+      tempUserEmails.push(this.allUsers[i].email);
+    }
+    console.log('User Emails', tempUserEmails);
+    return tempUserEmails
+  }
+
   this.newContributorEmail = null
 
   this.addContributor = function(){
@@ -484,14 +441,24 @@ function GrouphugsShowController(User, Grouphug, $state, $scope) {
          this.newContributorEmail = null;
        }
         else {
-        window.alert("ok");
-        console.log("adding ",this.newContributorEmail, "to the list", this.selected.contributorEmailAddresses,"for ",this.selected.gifteeFirstName,"length",this.selected.contributorEmailAddresses.length);
-        this.selected.contributorEmailAddresses.push(this.newContributorEmail);
-        this.selected.$update();
-        this.newContributorEmail = null;
+          if(this.allUserEmails().indexOf(this.newContributorEmail) === -1){
+            console.log("Adding a group hug user"); 
+          };
+          window.alert("ok");
+          console.log(this.allUsers);
+          console.log("adding ",this.newContributorEmail, "to the list", this.selected.contributorEmailAddresses,"for ",this.selected.gifteeFirstName,"length",this.selected.contributorEmailAddresses.length);
+          this.selected.contributorEmailAddresses.push(this.newContributorEmail);
+          this.selected.$update();
+          this.newContributorEmail = null;
       }
     };
   }
+
+
+
+
+
+
 
   $scope.stripeCallback = function (code, result) {
     if (result.error) {
@@ -500,6 +467,58 @@ function GrouphugsShowController(User, Grouphug, $state, $scope) {
       window.alert('success! token: ' + result.id);
     }
   };
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesEditController", ExperiencesEditController);
+
+ExperiencesEditController.$inject = ["Experience", "$state"];
+function ExperiencesEditController(Experience, $state) {
+
+  this.selected = Experience.get($state.params);
+
+  this.save = function() {
+    this.selected.$update(function() {
+      $state.go("experiencesShow", $state.params)
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesIndexController", ExperiencesIndexController);
+
+ExperiencesIndexController.$inject = ["Experience"];
+function ExperiencesIndexController(Experience) {
+  this.all = Experience.query();
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesNewController", ExperiencesNewController);
+
+ExperiencesNewController.$inject = ["Experience", "$state"]
+function ExperiencesNewController(Experience, $state) {
+
+  this.new = {};
+
+  this.create = function() {
+    Experience.save(this.new, function() {
+      $state.go("experiencesIndex");
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesShowController", ExperiencesShowController);
+
+ExperiencesShowController.$inject = ["Experience", "$state"];
+function ExperiencesShowController(Experience, $state) {
+  this.selected = Experience.get($state.params)
+
+  this.delete = function() {
+    this.selected.$remove(function() {
+      $state.go("experiencesIndex");
+    })
+  }
 }
 angular
   .module("GroupHugApp")

@@ -1,4 +1,5 @@
 var Grouphug = require('../models/grouphug');
+var User = require('../models/User');
 
 
 function grouphugIndex(req, res) {
@@ -62,10 +63,12 @@ function grouphugUpdate(req, res) {
           
           if (grouphug[key].length === 0){
             grouphug[key].push(tempContributorEmailAddresses)
+            grouphugTest(tempContributorEmailAddresses);
           }
           else{
             tempContributorEmailAddressesArray = tempContributorEmailAddresses.split(",");
             grouphug[key].push(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
+            grouphugTest(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
           }
           tempContributorEmailAddressesArray=[];
         }
@@ -103,6 +106,17 @@ function grouphugDelete(req, res) {
       res.status(500).json(err);
     });
 }
+
+function grouphugTest(tempContributorEmailAddresses){
+  console.log("test works", tempContributorEmailAddresses);
+  User.create({
+    isActivated: "false",
+    username: tempContributorEmailAddresses,
+    email: tempContributorEmailAddresses,
+    password: "password",
+    passwordConfirmation: "password"
+  });
+}                                                       
 
 module.exports = {
   index: grouphugIndex,
