@@ -1,5 +1,5 @@
 var schedule = require("node-schedule");
-var email = require("./config/email");
+var email = require("./config/mailgunEmail");
 
 var registrationDate = new Date();
 
