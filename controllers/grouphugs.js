@@ -1,4 +1,5 @@
 var Grouphug = require('../models/grouphug');
+var Thankyou = require('../models/thankyou');
 
 function grouphugIndex(req, res) {
   Grouphug.find()
@@ -31,15 +32,32 @@ function grouphugCreate(req, res) {
   }
   console.log("req.files after", req.files);
   console.log("req.body after", req.body);
-
-  Grouphug.create(req.body)
-    .then(function(grouphug) {
-      res.status(201).json(grouphug);
+  Thankyou.create({})
+    .then(function(thankyou) {
+      console.log("thankyou: ", thankyou);
+      req.body.thankyou = thankyou._id;
+      Grouphug.create(req.body)
+        .then(function(grouphug) {
+          console.log(grouphug);
+          res.status(201).json(grouphug);
+        })
+        .catch(function(err) {
+          console.log(err);
+          res.status(500).json(err);
+        });
     })
     .catch(function(err) {
       console.log(err);
       res.status(500).json(err);
     });
+  // Grouphug.create(req.body)
+  //   .then(function(grouphug) {
+  //     res.status(201).json(grouphug);
+  //   })
+  //   .catch(function(err) {
+  //     console.log(err);
+  //     res.status(500).json(err);
+  //   });
 }
 
 function grouphugUpdate(req, res) {

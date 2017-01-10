@@ -64,25 +64,21 @@ function experienceCreate(req, res) {
 function experienceUpdate(req, res) {
   console.log("req.body", req.body);
   console.log("req.files", req.files);
-  Grouphug.findById(req.params.id)
-    .then(function(grouphug) {
+  Experience.findById(req.params.id)
+    .then(function(experience) {
       for(key in req.body) {
-        if(key === "experiences") {
-          grouphug[key] = JSON.parse(req.body[key]);
-        } else {
-          grouphug[key] = req.body[key];
-        }
+        experience[key] = req.body[key];
       }
       if(req.files) {
         var newImages = Object.keys(req.files).map(function(key) {
           return req.files[key].key;
         });
-        grouphug.pictures = grouphug.pictures.concat(newImages);
+        experience.pictures = experience.pictures.concat(newImages);
       }
-      return grouphug.save();
+      return experience.save();
     })
-    .then(function(grouphug) {
-      res.status(200).json(grouphug);
+    .then(function(experience) {
+      res.status(200).json(experience);
     })
     .catch(function(err) {
       console.log("err is: ", err);

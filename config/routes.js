@@ -7,6 +7,7 @@ var usersController = require("../controllers/users");
 var grouphugsController = require("../controllers/grouphugs");
 var ecardsController = require("../controllers/ecards");
 var experiencesController = require("../controllers/experiences");
+var thankyousController = require("../controllers/thankyous");
 var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
 
@@ -82,6 +83,14 @@ router.route("/experiences/:id")
   .get(experiencesController.show)
   .put(upload.array('pictures'),experiencesController.update)
   .delete(experiencesController.delete);
+
+router.route("/thankyous")
+  .get(thankyousController.index);
+  // .post(upload.array('pictures'),thankyousController.create);
+router.route("/thankyous/:id")
+  .get(thankyousController.show)
+  .put(upload.array('pictures'),thankyousController.update)
+  .delete(thankyousController.delete);
 
 router.route("/reviews")
   .get(reviewsController.index)
