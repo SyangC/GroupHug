@@ -67,21 +67,6 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/experiences/edit.html",
       controller: "ExperiencesEditController as experiencesEdit"
     })
-    .state("thankyousIndex", {
-      url: "/thankyous",
-      templateUrl: "/templates/thankyous/index.html",
-      controller: "ThankyousIndexController as thankyousIndex"
-    })
-    .state("thankyousShow", {
-      url: "/thankyous/:id",
-      templateUrl: "/templates/thankyous/show.html",
-      controller: "ThankyousShowController as thankyousShow"
-    })
-    .state("thankyousEdit", {
-      url: "/thankyous/:id/edit",
-      templateUrl: "/templates/thankyous/edit.html",
-      controller: "ThankyousEditController as thankyousEdit"
-    })
     .state("grouphugsIndex", {
       url: "/grouphugs",
       templateUrl: "/templates/grouphugs/index.html",
@@ -284,36 +269,6 @@ angular
 Grouphug.$inject = ["$resource", "formData"]
 function Grouphug($resource, formData) {
   return $resource('/api/grouphugs/:id', { id: '@_id' }, {
-    update: {
-      method: "PUT",
-      headers: { 'Content-Type': undefined },
-      transformRequest: formData.transform
-    },
-    save: {
-      method: "POST",
-      headers: { 'Content-Type': undefined },
-      transformRequest: formData.transform
-    }
-  });
-}
-// angular
-//   .module("GroupHugApp")
-//   .factory("Experience", Experience);
-
-// Experience.$inject = ["$resource"]
-// function Experience($resource) {
-//   return $resource('/api/experiences/:id', { id: '@_id' }, {
-//     update: { method: "PUT" }
-//   });
-// }
-
-angular
-  .module("GroupHugApp")
-  .factory("Thankyou", Thankyou);
-
-Thankyou.$inject = ["$resource", "formData"]
-function Thankyou($resource, formData) {
-  return $resource('/api/thankyous/:id', { id: '@_id' }, {
     update: {
       method: "PUT",
       headers: { 'Content-Type': undefined },
@@ -530,6 +485,9 @@ function GrouphugsNewController(Grouphug, $state) {
 
   this.relations = ["Friend", "Partner", "Parent", "Grandparent", "Subling", "Child"];
 
+  this.contributorEmailAddresses = [];
+
+
   this.create = function() {
     console.log("sends this.new:", this.new);
     Grouphug.save(this.new, function() {
@@ -541,8 +499,11 @@ angular
   .module("GroupHugApp")
   .controller("GrouphugsShowController", GrouphugsShowController);
 
-GrouphugsShowController.$inject = ["Grouphug", "$state", "$scope", "$auth", "$http"];
-function GrouphugsShowController(Grouphug, $state, $scope, $auth, $http) {
+
+
+
+GrouphugsShowController.$inject = ["User", "Grouphug", "$state", "$scope", "$auth", "$http"];
+function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
 
   var self = this
 
@@ -556,7 +517,43 @@ function GrouphugsShowController(Grouphug, $state, $scope, $auth, $http) {
     })
   }
 
-  this.contributionAmount;
+  this.allUsers = User.query();
+
+  this.allUserEmails = function(){
+    var tempUserEmails =[];
+    for (i=0; i < this.allUsers.length; i++){
+      tempUserEmails.push(this.allUsers[i].email);
+    }
+    console.log('User Emails', tempUserEmails);
+    return tempUserEmails
+  }
+
+  this.newContributorEmail = null
+
+  this.addContributor = function(){
+    console.log(this.selected.gifteeFirstName);
+    console.log(this.selected.contributorEmailAddresses);
+    
+    if(this.newContributorEmail){
+      if(this.selected.contributorEmailAddresses.indexOf(this.newContributorEmail) > -1 ){
+         window.alert("already exists can't be added");
+         this.newContributorEmail = null;
+       }
+        else {
+          if(this.allUserEmails().indexOf(this.newContributorEmail) === -1){
+            console.log("Adding a group hug user"); 
+          };
+          window.alert("ok");
+          console.log(this.allUsers);
+          console.log("adding ",this.newContributorEmail, "to the list", this.selected.contributorEmailAddresses,"for ",this.selected.gifteeFirstName,"length",this.selected.contributorEmailAddresses.length);
+          this.selected.contributorEmailAddresses.push(this.newContributorEmail);
+          this.selected.$update();
+          this.newContributorEmail = null;
+      }
+    };
+  }
+
+  this.contributionAmount
 
   this.checkout = function() {
     self.contributionAmount = document.getElementById("userInput").value * 100
@@ -630,6 +627,7 @@ function GrouphugsShowController(Grouphug, $state, $scope, $auth, $http) {
     }
   }
 
+
   $scope.stripeCallback = function (code, result) {
     if (result.error) {
       window.alert('it failed! error: ' + result.error.message);
@@ -637,43 +635,6 @@ function GrouphugsShowController(Grouphug, $state, $scope, $auth, $http) {
       window.alert('success! token: ' + result.id);
     }
   };
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousEditController", ThankyousEditController);
-
-ThankyousEditController.$inject = ["Thankyou", "$state"];
-function ThankyousEditController(Thankyou, $state) {
-
-  this.selected = Thankyou.get($state.params);
-
-  this.save = function() {
-    this.selected.$update(function() {
-      $state.go("thankyousShow", $state.params)
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousIndexController", ThankyousIndexController);
-
-ThankyousIndexController.$inject = ["Thankyou"];
-function ThankyousIndexController(Thankyou) {
-  this.all = Thankyou.query();
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousShowController", ThankyousShowController);
-
-ThankyousShowController.$inject = ["Thankyou", "$state"];
-function ThankyousShowController(Thankyou, $state) {
-  this.selected = Thankyou.get($state.params)
-
-  this.delete = function() {
-    this.selected.$remove(function() {
-      $state.go("thankyousIndex");
-    })
-  }
 }
 angular
   .module("GroupHugApp")

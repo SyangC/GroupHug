@@ -13,7 +13,7 @@ function login(req, res) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    var payload = { _id: user._id, username: user.username };
+    var payload = { _id: user._id, username: user.username, isActivated: user.isActivated };
     var token = jwt.sign(payload, secret, { expiresIn: 60*60*24 });
 
     return res.status(200).json({
