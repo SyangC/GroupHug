@@ -1,0 +1,23 @@
+
+
+<h1>This is the User Edit</h1>
+
+<div class="col-md-8 col-md-offset-2">
+  <div class="thumbnail">
+    <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcToWXet6ifvpSHOfr1To_xUJ1FfMxzMvo_BnkGwqxwODBitGjv7Sg">
+    <div class="caption" ng-controller="UsersEditController as usersEdit">
+      <h2>Username{{ usersEdit.selected.username }}</h2>
+      <h2>First Name{{ usersEdit.selected.firstName }}</h2>
+      <h2>Last Name{{ usersEdit.selected.lastName }}</h2>
+      <h2>DOB{{ usersEdit.selected.DOB }}</h2>
+      <h2>Email Address{{ usersEdit.user.email }}</h2>
+
+      <p>Total GroupHugs as Giftee: {{ usersEdit.selected.something }}</p>
+      <p>Total GroupHugs as Creator: {{ usersEdit.selected.somethingElse }}</p>
+      <p>Total GroupHugs as Contributor: {{ usersEdit.selected.anotherThing }}</p>
+
+    </div>
+  </div>
+</div>
+
+<p><a ui-sref="adminUi">Back</a></p>

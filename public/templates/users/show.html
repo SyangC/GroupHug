@@ -5,12 +5,12 @@ the users show page
 <div class="col-md-8 col-md-offset-2">
   <div class="thumbnail">
     <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcToWXet6ifvpSHOfr1To_xUJ1FfMxzMvo_BnkGwqxwODBitGjv7Sg">
-    <div class="caption">
-      <h2>Username{{ usersShow.selected.username }}</h2>
-      <h2>First Name{{ usersShow.selected.firstName }}</h2>
-      <h2>Last Name{{ usersShow.selected.lastName }}</h2>
-      <h2>DOB{{ usersShow.selected.DOB }}</h2>
-      <h2>Email Address{{ usersShow.selected.email }}</h2>
+    <div class="caption" ng-controller="UsersShowController as usersShow">
+      <h2>Username {{ usersShow.selected.username }}</h2>
+      <h2>First Name {{ usersShow.selected.firstName }}</h2>
+      <h2>Last Name {{ usersShow.selected.lastName }}</h2>
+      <h2>DOB {{ usersShow.selected.DOB }}</h2>
+      <h2>Email Address {{ usersShow.selected.email }}</h2>
 
       <p>Total GroupHugs as Giftee: {{ usersShow.selected.something }}</p>
       <p>Total GroupHugs as Creator: {{ usersShow.selected.somethingElse }}</p>

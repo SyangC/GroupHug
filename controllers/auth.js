@@ -13,7 +13,7 @@ function login(req, res) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    var payload = { _id: user._id, username: user.username, isActivated: user.isActivated };
+    var payload = { _id: user._id, username: user.username, isActivated: user.isActivated, email: user.email };
     var token = jwt.sign(payload, secret, { expiresIn: 60*60*24 });
 
     return res.status(200).json({
@@ -34,7 +34,7 @@ function register(req, res) {
     EmailTemplate.findOne({'name': 'Registration'})
       .then(function(registrationEmail) {
         var newDate = date.setSeconds(date.getSeconds() + registrationEmail.delay);
-        // email.sendRegisterTemplate(user);
+        email.sendRegisterTemplate(user);
         var j = schedule.scheduleJob(newDate, function(){
           email.sendRegisterTemplate(user);
           console.log('This works? Hopefully');
