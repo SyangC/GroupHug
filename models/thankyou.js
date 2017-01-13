@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var s3 = require('../config/s3');
 
 var thankyouSchema = new mongoose.Schema({
   title: { type: String },
