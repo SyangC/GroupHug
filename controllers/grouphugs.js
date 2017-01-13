@@ -1,5 +1,6 @@
 var Grouphug = require('../models/grouphug');
 var Thankyou = require('../models/thankyou');
+var User = require('../models/User');
 
 function grouphugIndex(req, res) {
   Grouphug.find()
@@ -64,12 +65,32 @@ function grouphugUpdate(req, res) {
   console.log("req.body", req.body);
   console.log("req.body.experiences", req.body.experiences);
   console.log("req.files", req.files);
+
   Grouphug.findById(req.params.id)
+    
     .then(function(grouphug) {
+      
       for(key in req.body) {
         if(key === "experiences") {
           grouphug[key] = JSON.parse(req.body[key]);
-        } else {
+        } 
+        else if (key === "contributorEmailAddresses"){
+          
+          var tempContributorEmailAddresses = (req.body[key]);
+          
+          if (grouphug[key].length === 0){
+            grouphug[key].push(tempContributorEmailAddresses)
+            grouphugTest(tempContributorEmailAddresses);
+          }
+          else{
+            tempContributorEmailAddressesArray = tempContributorEmailAddresses.split(",");
+            grouphug[key].push(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
+            grouphugTest(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
+          }
+          tempContributorEmailAddressesArray=[];
+        }
+
+        else {
           grouphug[key] = req.body[key];
         }
       }
@@ -102,6 +123,17 @@ function grouphugDelete(req, res) {
       res.status(500).json(err);
     });
 }
+
+function grouphugTest(tempContributorEmailAddresses){
+  console.log("test works", tempContributorEmailAddresses);
+  User.create({
+    isActivated: "false",
+    username: tempContributorEmailAddresses,
+    email: tempContributorEmailAddresses,
+    password: "password",
+    passwordConfirmation: "password"
+  });
+}                                                       
 
 module.exports = {
   index: grouphugIndex,
