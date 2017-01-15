@@ -63,12 +63,12 @@ function grouphugUpdate(req, res) {
           
           if (grouphug[key].length === 0){
             grouphug[key].push(tempContributorEmailAddresses)
-            grouphugTest(tempContributorEmailAddresses);
+            createTempUser(tempContributorEmailAddresses);
           }
           else{
             tempContributorEmailAddressesArray = tempContributorEmailAddresses.split(",");
             grouphug[key].push(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
-            grouphugTest(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
+            createTempUser(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
           }
           tempContributorEmailAddressesArray=[];
         }
@@ -107,7 +107,7 @@ function grouphugDelete(req, res) {
     });
 }
 
-function grouphugTest(tempContributorEmailAddresses){
+function createTempUser(tempContributorEmailAddresses){
   console.log("test works", tempContributorEmailAddresses);
   var randomstring = Math.random().toString(36).slice(-15);
   console.log(randomstring);
