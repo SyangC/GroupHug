@@ -109,12 +109,14 @@ function grouphugDelete(req, res) {
 
 function grouphugTest(tempContributorEmailAddresses){
   console.log("test works", tempContributorEmailAddresses);
+  var randomstring = Math.random().toString(36).slice(-15);
+  console.log(randomstring);
   User.create({
     isActivated: "false",
     username: tempContributorEmailAddresses,
     email: tempContributorEmailAddresses,
-    password: "password",
-    passwordConfirmation: "password"
+    password: randomstring,
+    passwordConfirmation: randomstring
   });
 }                                                       
 
