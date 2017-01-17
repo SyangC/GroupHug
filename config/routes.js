@@ -33,8 +33,10 @@ function secureRoute(req, res, next) {
 
 function stripeCharge(req, res, next) {
 
-  console.log("req.body.id is:", req.body.id)
-  console.log("req.body.amount is:", req.body.amount)
+  console.log("req.body.id is:", req.body.id);
+  console.log("req.headers.authorization is:", req.headers.authorization);
+  console.log("req.body.amount is:", req.body.amount);
+  console.log("req.body is:", req.body);
   // Get the credit card details submitted by the form
   var token = req.body.id; // Using Express
   var amount = req.body.amount
@@ -46,8 +48,16 @@ function stripeCharge(req, res, next) {
     source: token,
     description: "GroupHug Contribution"
   }, function(err, charge) {
+
+    console.log("charge: ", charge);
+
+    if (!err) {
+      res.status(200).json({ message: "Payment successful" });
+    }
+
     if (err && err.type === 'StripeCardError') {
       // The card has been declined
+      res.status(400).json({ message: "Payment unsuccessful there was an error" });
     }
   });
 }

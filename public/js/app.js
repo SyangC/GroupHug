@@ -562,9 +562,7 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
     })
   }
 
-<<<<<<< HEAD
   this.contributionAmount;
-=======
   this.allUsers = User.query();
 
   this.allUserEmails = function(){
@@ -601,9 +599,6 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
     };
   }
 
-  this.contributionAmount
->>>>>>> development
-
   this.checkout = function() {
     self.contributionAmount = document.getElementById("userInput").value * 100
     var handler = StripeCheckout.configure({
@@ -616,8 +611,16 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
 
         $http.post("/api/charge", token)
           .success(function (token, status, headers) {
+            console.log("success: ");
+            console.log("token: ", token);
+            console.log("status: ", status);
+            console.log("headers: ", headers);
           })
           .error(function (token, status, header) {
+            console.log("failure: ");
+            console.log("token: ", token);
+            console.log("status: ", status);
+            console.log("headers: ", headers);
 
           });
       }
