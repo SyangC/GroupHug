@@ -50,7 +50,7 @@
 
     <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="grouphugsIndex">All Grouphugs</a></li>
     <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="grouphugsNew">New Grouphug</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == false"><a ui-sref="usersShow">Complete Your Registration</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == false"><a ui-sref="usersEdit({ id: main.currentUser._id})">Complete Your Registration</a></li>
 
     <li ng-if="main.currentUser"><a ng-click="main.logout()">Log Out</a></li>
 

@@ -102,7 +102,10 @@ router.route("/tags/:id")
 router.get("/users", usersController.index)
 router.route("/users/:id")
   .get(usersController.show)
-  .put(usersController.update)
+  .put(usersController.update);
+  
+
+
 
 router.post("/oauth/facebook", facebookController.login);
 router.post("/oauth/twitter", twitterController.login);

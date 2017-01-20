@@ -20,6 +20,18 @@ function userShow(req, res) {
     });
 }
 
+function userEdit(req, res) {
+  User.findById(req.params.id)
+    .then(function(user) {
+      res.status(200).json(user);
+    })
+    .catch(function(err) {
+      res.status(500).json(err);
+    });
+}
+
+
+
 function userUpdate(req, res) {
   User.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then(function(user) {
@@ -33,5 +45,7 @@ function userUpdate(req, res) {
 module.exports = {
   index: userIndex,
   show: userShow,
-  update: userUpdate
+  edit: userEdit,
+  update: userUpdate,
+
 }
