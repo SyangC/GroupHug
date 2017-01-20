@@ -96,6 +96,11 @@ function Router($stateProvider, $urlRouterProvider) {
       url: "/users/:id",
       templateUrl: "/templates/users/show.html",
       controller: "UsersShowController as usersShow"
+    })
+    .state("usersEdit", {
+      url: "/edit/:id",
+      templateUrl: "/templates/users/edit.html",
+      controller: "UsersEditController as usersEdit"
     });
 
     $urlRouterProvider.otherwise("/");
@@ -640,21 +645,18 @@ angular
   .module("GroupHugApp")
   .controller("UsersEditController", UsersEditController);
 
-UsersEditController.$inject = ["User", "$state"];
-function UsersEditController(User, $state) {
+UsersEditController.$inject = ["User", "$state", "$auth"];
+function UsersEditController(User, $state, $auth) {
   var self = this;
 
   this.selected = User.get($state.params);
   console.log("current user", this.selected);
 
-  this.selected.$update(function(){
-    console.log("updating", this.selected);
-    $state.go('usersShow', $state.params);
-  });
-
-  // this.update = function() {
-  //   this.selected.$update();
-  // }
+  this.save = function() {
+    this.selected.$update(function() {
+      $state.go("usersShow", $state.params)
+    })
+  }
 }
 angular
   .module("GroupHugApp")

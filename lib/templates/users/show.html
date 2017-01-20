@@ -15,7 +15,7 @@ the users show page
       <p>Total GroupHugs as Giftee: {{ usersShow.selected.something }}</p>
       <p>Total GroupHugs as Creator: {{ usersShow.selected.somethingElse }}</p>
       <p>Total GroupHugs as Contributor: {{ usersShow.selected.anotherThing }}</p>
-
+      <button ui-sref="usersEdit({ id: usersShow.selected._id})" class="btn btn-primary">Edit</button>
     </div>
   </div>
 </div>

@@ -103,6 +103,11 @@ router.get("/users", usersController.index)
 router.route("/users/:id")
   .get(usersController.show)
   .put(usersController.update);
+
+router.route("/edit/:id")
+  .get(usersController.show)
+  .put(usersController.update);
+
   
 
 
