@@ -602,12 +602,13 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
   this.checkout = function() {
     self.contributionAmount = document.getElementById("userInput").value * 100
     var handler = StripeCheckout.configure({
-      key: "pk_test_cQJL918XjF2uKwmmkgnSBeBr",
+      key: "pk_test_mQx8P71vIjqsCWldzLVXW2j0",
       image: "https://stripe.com/img/documentation/checkout/marketplace.png",
       locale: "auto",
       token: function(token) {
 
-        token.amount = self.contributionAmount
+        token.amount = self.contributionAmount;
+        token.grouphugId = $state.params.id;
 
         $http.post("/api/charge", token)
           .success(function (token, status, headers) {
