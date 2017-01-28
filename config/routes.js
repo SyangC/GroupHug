@@ -12,7 +12,7 @@ var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
 var chargeHandler = require("../controllers/chargeHandler");
 
-var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+// var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
@@ -63,7 +63,7 @@ function secureRoute(req, res, next) {
 //   });
 // }
 
-router.route("/")
+router.route("")
   .get(grouphugsController.index);
 
 router.route("/grouphugs")
