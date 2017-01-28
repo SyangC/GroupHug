@@ -29,35 +29,35 @@ EmailTemplate.create({
 });
 
 User.create([{
-  username: "testing",
-  firstName: "testy",
-  lastName: "McTesterson-Face",
+  username: "jsmith",
+  firstName: "jack",
+  lastName: "smith",
   DOB: new Date,
-  email: "test@test.com",
+  email: "jack@smith.com",
   password: "password",
   passwordConfirmation: "password",
 }, {
-  username: "something",
-  firstName: "some",
-  lastName: "thing",
+  username: "jleslie",
+  firstName: "julia",
+  lastName: "leslie",
   DOB: new Date,
-  email: "some@thing.com",
+  email: "julia@leslie.com",
   password: "password",
   passwordConfirmation: "password",
 }, {
-  username: "newname",
-  firstName: "new",
-  lastName: "name",
+  username: "hdowner",
+  firstName: "harry",
+  lastName: "downer",
   DOB: new Date,
-  email: "new@name.com",
+  email: "harry@downer.com",
   password: "password",
   passwordConfirmation: "password",
 }, {
-  username: "borednow",
-  firstName: "bored",
-  lastName: "now",
+  username: "ggrant",
+  firstName: "george",
+  lastName: "grant",
   DOB: new Date,
-  email: "bored@now.com",
+  email: "george@grant.com",
   password: "password",
   passwordConfirmation: "password",
 }], function(err, users) {
@@ -99,7 +99,7 @@ User.create([{
       description: "it's cheap"
     }, {
       name: "wing walking",
-      supplier: "bens dropout flight school",
+      supplier: "flight stunts",
       price: 500,
       tags: [tags[1]],
       description: "it's kinda safe"
@@ -149,8 +149,8 @@ User.create([{
           experience: experiences[0]._id,
           added: new Date        
         }, {
-          title: "crap",
-          content: "not as cheap as advertised",
+          title: "good",
+          content: "had a lot of fun!",
           rating: 1,
           user: users[3]._id,
           experience: experiences[2]._id,
