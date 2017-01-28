@@ -1,6 +1,6 @@
 var Grouphug = require('../models/grouphug');
 var Thankyou = require('../models/thankyou');
-var User = require('../models/User');
+var User = require('../models/user');
 
 function grouphugIndex(req, res) {
   Grouphug.find()
