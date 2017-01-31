@@ -33,8 +33,9 @@ function userEdit(req, res) {
 
 
 function userUpdate(req, res) {
-  User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  user = User.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then(function(user) {
+      console.log(user)
       res.status(200).json(user);
     })
     .catch(function(err) {
@@ -42,10 +43,14 @@ function userUpdate(req, res) {
     });
 }
 
+
+
+
 module.exports = {
   index: userIndex,
   show: userShow,
   edit: userEdit,
   update: userUpdate,
+
 
 }
