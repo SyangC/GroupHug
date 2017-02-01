@@ -26,7 +26,7 @@ function sendRegisterTemplate(user) {
   if(createdAt_in  == undefined){createdAt_in = ""};
 
   nodemailerMailgun.sendMail({
-    from: "mail.shutest.me",
+    from: "julian.wyatt@julesjam.com",
     to: user.email,
     cc:,
     bcc:,
