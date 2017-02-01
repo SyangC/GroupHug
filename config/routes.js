@@ -12,8 +12,6 @@ var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
 var chargeHandler = require("../controllers/chargeHandler");
 
-// var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
 
@@ -31,37 +29,6 @@ function secureRoute(req, res, next) {
     next();
   });
 }
-
-// function stripeCharge(req, res, next) {
-//   console.log("req.body.id is:", req.body.id);
-//   console.log("req.headers.authorization is:", req.headers.authorization);
-//   console.log("req.body.amount is:", req.body.amount);
-//   console.log("req.body.id is:", req.body.id);
-//   console.log("req.body is:", req.body);
-//   // Get the credit card details submitted by the form
-//   var stripeToken = req.body.id; // Using Express
-//   var amount = req.body.amount
-
-//   // Create a charge: this will charge the user's card
-//   var charge = stripe.charges.create({
-//     amount: amount,
-//     currency: "gbp",
-//     source: stripeToken,
-//     description: "GroupHug Contribution"
-//   }, function(err, charge) {
-
-//     console.log("charge: ", charge);
-
-//     if (!err) {
-//       return res.status(200).json({ message: "Payment successful" });
-//     }
-
-//     if (err && err.type === 'StripeCardError') {
-//       // The card has been declined
-//       return res.status(400).json({ message: "Payment unsuccessful, there was an error" });
-//     }
-//   });
-// }
 
 router.route("")
   .get(grouphugsController.index);
