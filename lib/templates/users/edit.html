@@ -10,40 +10,50 @@
     <form name="userForm" ng-submit="usersEdit.save(userForm.$valid)" novalidate>
       <div class="form-group" ng-class="{ 'has-error' : userForm.firstName.$invalid && !userForm.firstName.$pristine }">
         <label>First Name</label>
-        <input type="text" name="firstName" class="form-control" ng-model="usersEdit.selected.firstName" required>
-        <p ng-show="userForm.firstName.$invalid && !userForm.firstName.$pristine" class="help-block">You name is required.</p>
+        <input type="text" name="firstName" class="form-control" ng-model="usersEdit.selected.firstName" placeholder="Enter your first name" required>
+        <p ng-show="userForm.firstName.$invalid && !userForm.firstName.$pristine" class="help-block">You first name is required.</p>
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-error' : userForm.lastName.$invalid && !userForm.lastName.$pristine }">
+        <label>Last Name</label>
+        <input type="text" name="lastName" class="form-control" ng-model="usersEdit.selected.lastName" placeholder="Enter your last name" required>
+        <p ng-show="userForm.lastName.$invalid && !userForm.lastName.$pristine" class="help-block">You surname is required.</p>
       </div>
          
       <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
         <label>Username</label>
-        <input type="text" name="username" class="form-control" ng-model="usersEdit.selected.username" ng-minlength="3" ng-maxlength="8">
+        <input type="text" name="username" class="form-control" ng-model="usersEdit.selected.username" ng-minlength="3" ng-maxlength="20" placeholder ="choose a username 3 - 20 characters this can be an email address">
         <p ng-show="userForm.username.$error.minlength" class="help-block">Username is too short.</p>
         <p ng-show="userForm.username.$error.maxlength" class="help-block">Username is too long.</p>
       </div>
           
       <div class="form-group" ng-class="{'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
         <label>Email</label>
-        <input type="email" name="email" class="form-control" ng-model="usersEdit.selected.email">
+        <input type="email" name="email" class="form-control" ng-model="usersEdit.selected.email" placeholder="Enter the email address for Grouphug to use">
         <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
       </div>
+
+      <div class="form-group" ng-class="{'has-error' : userForm.contactNumber.$invalid && !userForm.contactNumber.$pristine }">
+        <label>Contact Number</label>
+        <input type="text" name="contactNumber" class="form-control" ng-model="usersEdit.selected.contactNumber" ng-minlength="10" ng-maxlength="12"placeholder="Enter the contact number mobile or landline">
+        <p ng-show="userForm.contactNumber.$invalid && !userForm.contactNumber.$pristine" class="help-block">Enter a valid contact number 10 to 12 digits.</p>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error' : userForm.password.$invalid && !userForm.password.$pristine }">
+        <label>Password</label>
+        <input type="password" name="password" class="form-control" ng-model="usersEdit.selected.password" placeholder="Change your password here (you may use a previous one)" required ng-minlength="8" ng-maxlength="12">
+        <p ng-show="userForm.password.$invalid && !userForm.password.$pristine" class="help-block">Enter a valid password 8 to 12 characters.</p>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error' : userForm.passwordConfirmation.$invalid && !userForm.passwordConfirmation.$pristine }">
+        <label>Confirm Password</label>
+        <input type="password" name="passwordConfirmation" class="form-control" ng-model="usersEdit.selected.passwordConfirmation" placeholder="Confirm your new password"  equal ="{{userEdit.selected.password}}">
+        <p ng-show="userForm.passwordConfirmation.$error.equal && !userForm.passwordConfirmation.$pristine" class="help-block">Passwords must match</p>
+      </div>
             
-      <button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid">Submit</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid">Save</button>
     </form>
   </div>
  
-      <!-- <div class="form-group" ng-class="{ 'has-error' : userEditForm.username.$invalid && !userEditForm.username.$pristine }">
-        <input type ="text" name = "username" class="form-control" ng-model="usersEdit.selected.username">
-      </div> -->
-
-    <!--     <h2>First Name{{ usersEdit.selected.firstName }}</h2>
-        <h2>Last Name{{ usersEdit.selected.lastName }}</h2>
-        <h2>DOB{{ usersEdit.selected.DOB }}</h2>
-        <h2>Email Address{{ usersEdit.user.email }}</h2>
-
-        <p>Total GroupHugs as Giftee: {{ usersEdit.selected.something }}</p>
-        <p>Total GroupHugs as Creator: {{ usersEdit.selected.somethingElse }}</p>
-        <p>Total GroupHugs as Contributor: {{ usersEdit.selected.anotherThing }}</p> -->
-     <!--    <input type="submit" value="Submit" class="btn btn-primary"> -->
-  
 
 <p><a ui-sref="home">Back</a></p>

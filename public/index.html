@@ -45,7 +45,7 @@
     <li ng-if="!main.currentUser"><a ui-sref="register">Register</a></li>
     <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="adminUi">Admin UI</a></li>
 
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="usersShow">Edit My Details</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="usersEdit({ id: main.currentUser._id})">Edit My Details</a></li>
 
     <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="experiencesIndex">All Experiences</a></li>
     <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="experiencesNew">New Experiences</a></li>

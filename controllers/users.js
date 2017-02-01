@@ -33,7 +33,16 @@ function userEdit(req, res) {
 
 
 function userUpdate(req, res) {
-  user = User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  console.log("req.body", req.body)
+  /* -- this method does not update password -- 
+  user = User.findByIdAndUpdate(req.params.id, req.body, { new: true })*/
+  user = User.findById(req.params.id)
+    .then(function(user){
+      console.log('user before',user);
+      for(key in req.body) user[key] = req.body[key];
+      console.log('user after',user);
+      return user.save();
+    })
     .then(function(user) {
       console.log(user)
       res.status(200).json(user);

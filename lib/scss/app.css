@@ -205,6 +205,14 @@ table td {
   text-align: left;
 }
 
+/* User show page*/
+
+.showlabel {
+  font-size: 40px;
+  color: blue;
+  
+ }
+
 /* Stripe */
 
 .ng-invalid {
