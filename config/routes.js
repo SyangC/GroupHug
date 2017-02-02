@@ -7,10 +7,10 @@ var usersController = require("../controllers/users");
 var grouphugsController = require("../controllers/grouphugs");
 var ecardsController = require("../controllers/ecards");
 var experiencesController = require("../controllers/experiences");
+var thankyousController = require("../controllers/thankyous");
 var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
-
-var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+var chargeHandler = require("../controllers/chargeHandler");
 
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
@@ -30,28 +30,7 @@ function secureRoute(req, res, next) {
   });
 }
 
-function stripeCharge(req, res, next) {
-
-  console.log("req.body.id is:", req.body.id)
-  console.log("req.body.amount is:", req.body.amount)
-  // Get the credit card details submitted by the form
-  var token = req.body.id; // Using Express
-  var amount = req.body.amount
-
-  // Create a charge: this will charge the user's card
-  var charge = stripe.charges.create({
-    amount: amount,
-    currency: "gbp",
-    source: token,
-    description: "GroupHug Contribution"
-  }, function(err, charge) {
-    if (err && err.type === 'StripeCardError') {
-      // The card has been declined
-    }
-  });
-}
-
-router.route("/")
+router.route("")
   .get(grouphugsController.index);
 
 router.route("/grouphugs")
@@ -64,7 +43,7 @@ router.route("/grouphugs/:id")
   .delete(grouphugsController.delete);
 
 router.route("/charge")
-  .post(stripeCharge)
+  .post(chargeHandler.stripeCharge)
 
 router.route('/ecards')
   .get(ecardsController.index)
@@ -82,6 +61,14 @@ router.route("/experiences/:id")
   .get(experiencesController.show)
   .put(upload.array('pictures'),experiencesController.update)
   .delete(experiencesController.delete);
+
+router.route("/thankyous")
+  .get(thankyousController.index);
+  // .post(upload.array('pictures'),thankyousController.create);
+router.route("/thankyous/:id")
+  .get(thankyousController.show)
+  .put(upload.array('pictures'),thankyousController.update)
+  .delete(thankyousController.delete);
 
 router.route("/reviews")
   .get(reviewsController.index)

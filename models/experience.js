@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var s3 = require('../config/s3');
 
 var experienceSchema = new mongoose.Schema({
   name: { type: String, required: true, maxlength: 100 }, // limited length to 100

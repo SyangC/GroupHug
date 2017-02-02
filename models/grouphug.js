@@ -26,7 +26,9 @@ var grouphugSchema = new mongoose.Schema({
   //   content: { type: String },
   //   added: { type: Date }
   // }]
-  ecard: { type: mongoose.Schema.ObjectId, ref: "Ecard" }
+  ecard: { type: mongoose.Schema.ObjectId, ref: "Ecard" },
+  thankyou: { type: mongoose.Schema.ObjectId, ref: "Thankyou" },
+  contributions: [{ type: mongoose.Schema.ObjectId, ref: "Contribution" }]
 });
 
 

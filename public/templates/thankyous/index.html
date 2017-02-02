@@ -1,0 +1,10 @@
+The Thankyou index
+
+<div ng-repeat="thankyou in thankyousIndex.all">
+  <div class="thumbnail">
+      <h3>{{ thankyou.name }}</h3>
+      <h3>{{ thankyou.description }}</h3>
+      <h3>{{ thankyou.price }}</h3>
+      <p ui-sref="thankyousShow({ id: thankyou._id })">Enter</p>
+  </div>
+</div>

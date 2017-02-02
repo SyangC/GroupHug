@@ -67,6 +67,21 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/experiences/edit.html",
       controller: "ExperiencesEditController as experiencesEdit"
     })
+    .state("thankyousIndex", {
+      url: "/thankyous",
+      templateUrl: "/templates/thankyous/index.html",
+      controller: "ThankyousIndexController as thankyousIndex"
+    })
+    .state("thankyousShow", {
+      url: "/thankyous/:id",
+      templateUrl: "/templates/thankyous/show.html",
+      controller: "ThankyousShowController as thankyousShow"
+    })
+    .state("thankyousEdit", {
+      url: "/thankyous/:id/edit",
+      templateUrl: "/templates/thankyous/edit.html",
+      controller: "ThankyousEditController as thankyousEdit"
+    })
     .state("grouphugsIndex", {
       url: "/grouphugs",
       templateUrl: "/templates/grouphugs/index.html",
@@ -281,6 +296,36 @@ angular
 Grouphug.$inject = ["$resource", "formData"]
 function Grouphug($resource, formData) {
   return $resource('/api/grouphugs/:id', { id: '@_id' }, {
+    update: {
+      method: "PUT",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    },
+    save: {
+      method: "POST",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    }
+  });
+}
+// angular
+//   .module("GroupHugApp")
+//   .factory("Experience", Experience);
+
+// Experience.$inject = ["$resource"]
+// function Experience($resource) {
+//   return $resource('/api/experiences/:id', { id: '@_id' }, {
+//     update: { method: "PUT" }
+//   });
+// }
+
+angular
+  .module("GroupHugApp")
+  .factory("Thankyou", Thankyou);
+
+Thankyou.$inject = ["$resource", "formData"]
+function Thankyou($resource, formData) {
+  return $resource('/api/thankyous/:id', { id: '@_id' }, {
     update: {
       method: "PUT",
       headers: { 'Content-Type': undefined },
@@ -529,6 +574,7 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
     })
   }
 
+  this.contributionAmount;
   this.allUsers = User.query();
 
   this.allUserEmails = function(){
@@ -565,22 +611,29 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
     };
   }
 
-  this.contributionAmount
-
   this.checkout = function() {
     self.contributionAmount = document.getElementById("userInput").value * 100
     var handler = StripeCheckout.configure({
-      key: "pk_test_cQJL918XjF2uKwmmkgnSBeBr",
+      key: "pk_test_mQx8P71vIjqsCWldzLVXW2j0",
       image: "https://stripe.com/img/documentation/checkout/marketplace.png",
       locale: "auto",
       token: function(token) {
 
-        token.amount = self.contributionAmount
+        token.amount = self.contributionAmount;
+        token.grouphugId = $state.params.id;
 
         $http.post("/api/charge", token)
           .success(function (token, status, headers) {
+            console.log("success: ");
+            console.log("token: ", token);
+            console.log("status: ", status);
+            console.log("headers: ", headers);
           })
           .error(function (token, status, header) {
+            console.log("failure: ");
+            console.log("token: ", token);
+            console.log("status: ", status);
+            console.log("headers: ", headers);
 
           });
       }
@@ -647,6 +700,43 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
       window.alert('success! token: ' + result.id);
     }
   };
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousEditController", ThankyousEditController);
+
+ThankyousEditController.$inject = ["Thankyou", "$state"];
+function ThankyousEditController(Thankyou, $state) {
+
+  this.selected = Thankyou.get($state.params);
+
+  this.save = function() {
+    this.selected.$update(function() {
+      $state.go("thankyousShow", $state.params)
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousIndexController", ThankyousIndexController);
+
+ThankyousIndexController.$inject = ["Thankyou"];
+function ThankyousIndexController(Thankyou) {
+  this.all = Thankyou.query();
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousShowController", ThankyousShowController);
+
+ThankyousShowController.$inject = ["Thankyou", "$state"];
+function ThankyousShowController(Thankyou, $state) {
+  this.selected = Thankyou.get($state.params)
+
+  this.delete = function() {
+    this.selected.$remove(function() {
+      $state.go("thankyousIndex");
+    })
+  }
 }
 angular
   .module("GroupHugApp")
