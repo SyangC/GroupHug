@@ -91,7 +91,13 @@ function grouphugUpdate(req, res) {
         }
 
         else {
+          console.log("Ok to line 94",key,"value", req.body[key]);
+          if(key === "contributions" && req.body[key]===""){
+            grouphug[key] =[];
+          }
+          else{
           grouphug[key] = req.body[key];
+          }
         }
       }
       if(req.files) {
