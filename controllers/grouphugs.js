@@ -1,6 +1,10 @@
 var Grouphug = require('../models/grouphug');
 var Thankyou = require('../models/thankyou');
 var User = require('../models/user');
+var email = require("../config/email");
+var EmailTemplate = require("../models/emailTemplate");
+var schedule = require("node-schedule");
+
 
 function grouphugIndex(req, res) {
   Grouphug.find()
@@ -141,6 +145,23 @@ function createTempUser(tempContributorEmailAddresses){
     password: randomstring,
     passwordConfirmation: randomstring
   });
+  user = ({email: tempContributorEmailAddresses});
+  var date = new Date();
+
+  
+    EmailTemplate.findOne({'name': 'ContributorAdd'})
+      .then(function(contributorAddEmail) {
+        var newDate = date.setSeconds(date.getSeconds() + contributorAdddEmail.delay);
+        email.sendContributorTemplate(user);
+        var j = schedule.scheduleJob(newDate, function(){
+          email.sendContributorTemplate(user);
+          console.log('This works? Hopefully');
+        });    
+     })
+    .catch(function(){
+      console.log("ooh that wen wrong;");
+    })
+    
 }                                                       
 
 module.exports = {

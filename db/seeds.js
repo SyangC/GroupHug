@@ -20,21 +20,25 @@ Review.collection.drop();
 EmailTemplate.collection.drop();
 Ecard.collection.drop();
 
-EmailTemplate.create({
+EmailTemplate.create([{
   name: "Registration",
   subject: '{{firstName }}, Welcome to GroupHug!',
   text: "This is the text version from GroupHug. Hi {{firstName}}, thank you for registering with us. This account was created at {{createdAt}}.",
   html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi {{firstName}}, thank you for registering with us.</h3><h3>This account was created at {{createdAt}}.</h3></body>",
   delay: 60*2
-});
-
-EmailTemplate.create({
+}, {
   name: "ContributorAdd",
   subject: '{{email}}, Welcome to GroupHug!',
   text: "Hello {{email}}, Your friend whose name will appear here has invited you to contribute to the person whose name will appear here's Group Hug{{createdAt}}. What is a group hug I here you ask why not log in now at localhost:3000",
-  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi {{email}}, thank you for registering with us.</h3><h3>This account was created at {{createdAt}}.</h3></body>",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi {{email}}, Your friend whose name will appear here has invited you to contribute to the person whose name will appear here's Group Hug.</h3><h3>This account was created at {{createdAt}}.</h3><h3>What is a group hug I here you ask why not log in now at localhost:3000</h3></body>",
   delay: 60*2
-});
+}],function(err, EmailTemplate) {
+    if(!err) {
+      console.log("EmailTemplate Created");
+      console.log("EmailTemplates are: ", EmailTemplate);
+    } else {
+      console.log("err is:", err.errors);
+    }
 
 User.create([{
   username: "jsmith",
@@ -192,4 +196,5 @@ User.create([{
       })
     })
   })
+})
 })

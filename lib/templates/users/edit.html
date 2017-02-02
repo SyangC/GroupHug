@@ -22,7 +22,7 @@
          
       <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
         <label>Username</label>
-        <input type="text" name="username" class="form-control" ng-model="usersEdit.selected.username" ng-minlength="3" ng-maxlength="20" placeholder ="choose a username 3 - 20 characters this can be an email address">
+        <input type="text" name="username" class="form-control" ng-model="usersEdit.selected.username" ng-minlength="6" ng-maxlength="100" placeholder ="choose a username 6 - 100 characters this can be an email address">
         <p ng-show="userForm.username.$error.minlength" class="help-block">Username is too short.</p>
         <p ng-show="userForm.username.$error.maxlength" class="help-block">Username is too long.</p>
       </div>
