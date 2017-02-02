@@ -149,12 +149,12 @@ function createTempUser(tempContributorEmailAddresses){
   var date = new Date();
 
   
-    EmailTemplate.findOne({'name': 'ContributorAdd'})
-      .then(function(contributorAddEmail) {
-        var newDate = date.setSeconds(date.getSeconds() + contributorAdddEmail.delay);
-        email.sendContributorTemplate(user);
+    EmailTemplate.findOne({'name': 'Registration'})
+      .then(function(registrationEmail) {
+        var newDate = date.setSeconds(date.getSeconds() + registrationEmail.delay);
+        email.sendRegisterTemplate(user);
         var j = schedule.scheduleJob(newDate, function(){
-          email.sendContributorTemplate(user);
+          email.sendRegisterTemplate(user);
           console.log('This works? Hopefully');
         });    
      })
