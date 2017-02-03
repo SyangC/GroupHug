@@ -30,26 +30,41 @@
         <h3>Name: {{experience.experienceId.name}}, Description: {{experience.experienceId.description}}, Price: £{{experience.experienceId.price}}</h3>
 
         <form name="userWeighting" ng-if="grouphugsShow.canVote(experience, main.currentUser._id)">
-          <label>
-            <input type="radio" ng-model="experience.newWeighting" value="1">
+          <table>
+            <tr>
+              <td>Not Great</td>
+              <td>Possibly</td>
+              <td>Ok</td>
+              <td>That would work</td>
+              <td>Perfect</td>
+            </tr>
+            <tr>
+              <td><input type="radio" ng-model="experience.newWeighting" value="1" ></td>
+              <td><input type="radio" ng-model="experience.newWeighting" value="2" ></td>
+              <td><input type="radio" ng-model="experience.newWeighting" value="3" ></td>
+              <td><input type="radio" ng-model="experience.newWeighting" value="4" ></td>
+              <td><input type="radio" ng-model="experience.newWeighting" value="5" ></td>
+              
+            </tr>
+          </table> 
+            <!-- <input type="radio" ng-model="experience.newWeighting" value="1">
             1
-          </label><br/>
-          <label>
+         
             <input type="radio" ng-model="experience.newWeighting" value="2">
             2
-          </label><br/>
+         
           <label>
             <input type="radio" ng-model="experience.newWeighting" value="3">
             3
-          </label><br />
+          </label>
           <label>
             <input type="radio" ng-model="experience.newWeighting" value="4">
             4
-          </label><br/>
-                    <label>
+          </label>
+          <label>
             <input type="radio" ng-model="experience.newWeighting" value="5">
             5
-          </label>
+          </label> -->
          </form>
          <h4>Average Rating: {{grouphugsShow.averageWeight(experience)}}</h4>
       </div>
@@ -70,13 +85,13 @@
   <p><a ui-sref="adminUi">Back</a></p>
 </div>
 
-<h1>Contributions</h1>
+<h2>Contributions will be displayed here</h2>
 
-<h1>Their code</h1>
+
 
 <form id="form" onsubmit="return false;">
-  <input type="text" name="amount" id="userInput">
-  <input type="submit" id="customButton" ng-click="grouphugsShow.checkout()">
+  <input type="text" name="amount" placeholder="Enter your contribution here £0.00" id="userInput">
+  <input type="submit" id="customButton"   ng-click="grouphugsShow.checkout()">
 </form>
 
 <!-- <input type="text" name="amount"> -->

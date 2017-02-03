@@ -594,14 +594,14 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
     
     if(this.newContributorEmail){
       if(this.selected.contributorEmailAddresses.indexOf(this.newContributorEmail) > -1 ){
-         window.alert("already exists can't be added");
+         console.log("user already exists can't be added");
          this.newContributorEmail = null;
        }
         else {
           if(this.allUserEmails().indexOf(this.newContributorEmail) === -1){
             console.log("Adding a group hug user"); 
           };
-          window.alert("ok");
+          console.log("user is ok to add");
           console.log(this.allUsers);
           console.log("adding ",this.newContributorEmail, "to the list", this.selected.contributorEmailAddresses,"for ",this.selected.gifteeFirstName,"length",this.selected.contributorEmailAddresses.length);
           this.selected.contributorEmailAddresses.push(this.newContributorEmail);
@@ -703,43 +703,6 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
 }
 angular
   .module("GroupHugApp")
-  .controller("ThankyousEditController", ThankyousEditController);
-
-ThankyousEditController.$inject = ["Thankyou", "$state"];
-function ThankyousEditController(Thankyou, $state) {
-
-  this.selected = Thankyou.get($state.params);
-
-  this.save = function() {
-    this.selected.$update(function() {
-      $state.go("thankyousShow", $state.params)
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousIndexController", ThankyousIndexController);
-
-ThankyousIndexController.$inject = ["Thankyou"];
-function ThankyousIndexController(Thankyou) {
-  this.all = Thankyou.query();
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousShowController", ThankyousShowController);
-
-ThankyousShowController.$inject = ["Thankyou", "$state"];
-function ThankyousShowController(Thankyou, $state) {
-  this.selected = Thankyou.get($state.params)
-
-  this.delete = function() {
-    this.selected.$remove(function() {
-      $state.go("thankyousIndex");
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
   .controller("UsersEditController", UsersEditController);
 
 UsersEditController.$inject = ["User", "$state", "$auth"];
@@ -789,5 +752,42 @@ function UsersShowController(User, $state, $auth) {
 
   this.update = function() {
     this.selected.$update();
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousEditController", ThankyousEditController);
+
+ThankyousEditController.$inject = ["Thankyou", "$state"];
+function ThankyousEditController(Thankyou, $state) {
+
+  this.selected = Thankyou.get($state.params);
+
+  this.save = function() {
+    this.selected.$update(function() {
+      $state.go("thankyousShow", $state.params)
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousIndexController", ThankyousIndexController);
+
+ThankyousIndexController.$inject = ["Thankyou"];
+function ThankyousIndexController(Thankyou) {
+  this.all = Thankyou.query();
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousShowController", ThankyousShowController);
+
+ThankyousShowController.$inject = ["Thankyou", "$state"];
+function ThankyousShowController(Thankyou, $state) {
+  this.selected = Thankyou.get($state.params)
+
+  this.delete = function() {
+    this.selected.$remove(function() {
+      $state.go("thankyousIndex");
+    })
   }
 }

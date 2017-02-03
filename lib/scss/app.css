@@ -75,6 +75,10 @@ footer {
   min-height: 3em;
 }
 
+td {
+  text-align: : center;
+}
+
 /* Home Page */
 
 .home-img {

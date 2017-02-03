@@ -78,8 +78,8 @@ function grouphugUpdate(req, res) {
         if(key === "experiences") {
           grouphug[key] = JSON.parse(req.body[key]);
         } 
-        else if (key === "contributorEmailAddresses"){
-          
+        else if (key === "contributorEmailAddresses" && req.body[key].length > grouphug[key].length){
+          // Check ths evelaution to see if a new contributor has been added as we should only push in if new one added to avoid triggering emails every time a GH save or stop emails auto firing as per new work flow??
           var tempContributorEmailAddresses = (req.body[key]);
           
           if (grouphug[key].length === 0){
