@@ -20,7 +20,7 @@ function grouphugShow(req, res) {
   Grouphug.findById(req.params.id)
     .populate ('creator')
     .populate('giftee')
-    .populate('experiences')
+    .populate('experiences.experienceId')
     .then(function(grouphug) {
       res.status(200).json(grouphug);
     })

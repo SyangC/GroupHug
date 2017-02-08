@@ -8,7 +8,7 @@
       <h2>{{ grouphugsShow.selected.description }}</h2>
 
       <h3>Giftee:</h3>
-      <p>{{ grouphugsShow.selected.giftee.firstName}}</p>
+      <p>{{ grouphugsShow.selected.gifteeFirstName}} {{ grouphugsShow.selected.gifteeFirstName}}</p>
 
       <h3>Creator:</h3>
       <p>{{ grouphugsShow.selected.creator.firstName }} {{grouphugsShow.selected.creator.lastName}}</p>
@@ -27,7 +27,7 @@
       </ul>
 
       <div ng-repeat="experience in grouphugsShow.selected.experiences">
-        <h3>Name: {{experience.experienceId.name}}, Description: {{experience.experienceId.description}}, Price: £{{experience.experienceId.price}}</h3>
+  <h3>{{experience.experienceId.name}}<br>Description:{{experience.experienceId.description}} Price: £{{experience.experienceId.price}}  Average Weight {{grouphugsShow.selected.averageWeight(experience)}} </h3>
 
         <form name="userWeighting" ng-if="grouphugsShow.canVote(experience, main.currentUser._id)">
           <table>

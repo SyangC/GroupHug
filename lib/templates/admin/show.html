@@ -8,12 +8,15 @@
       <p>{{ grouphugsShow.selected.gifteeFirstName }} {{grouphugsShow.selected.gifteeLastName}}</p>
 
       <h3>Creator:</h3>
-      <p>{{ grouphugsShow.selected.creator }}</p>
+      <p>{{ grouphugsShow.selected.creator.firstName }} {{grouphugsShow.selected.creator.lastName}}</p>
 
       <h3>Contributors:</h3>
-      <ul ng-repeat="contributor in grouphugsShow.selected.contributors">
+     <!--  <ul ng-repeat="contributor in grouphugsShow.selected.contributors">
         <li>{{ contributor }}</li>
         <li ui-sref="usersShow({ id: contributor._id })">Enter</li>
+      </ul> -->
+      <ul ng-repeat="contributorEmail in grouphugsShow.selected.contributorEmailAddresses">
+        <li >{{ contributorEmail }}</li>
       </ul>
 
     </div>
@@ -34,7 +37,7 @@
 </select>
 
 <div ng-repeat="experience in grouphugsShow.selected.experiences">
-  <h3>Name: {{experience.experienceId.name}}, Description: {{experience.experienceId.description}}, Price: £{{experience.experienceId.price}}, Average Weight {{grouphugsShow.averageWeight(experience)}}</h3>
+  <h3>{{experience.experienceId.name}}<br>Description:{{experience.experienceId.description}} Price: £{{experience.experienceId.price}}  <!-- Average Weight {{grouphugsShow.averageWeight(experience)}} --> </h3>
   <button ng-click="grouphugsShow.removeExperience(experience)" class="btn">Remove experience</button>
 </div>
 
