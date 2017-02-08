@@ -88,14 +88,14 @@ function grouphugUpdate(req, res) {
           
           if (grouphug[key].length === 0){
             grouphug[key].push(tempContributorEmailAddresses)
-            createTempUser(tempContributorEmailAddresses);
+            createTempUser(tempContributorEmailAddresses, grouphug);
           }
           else{
             tempContributorEmailAddressesArray = tempContributorEmailAddresses.split(",");
               if(tempContributorEmailAddressesArray.length > grouphug[key].length ){
               console.log("tempcont length",tempContributorEmailAddressesArray.length," ",tempContributorEmailAddressesArray," grouphug length",grouphug[key].length," ",grouphug[key])
               grouphug[key].push(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
-              createTempUser(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
+              createTempUser(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1], grouphug);
             };
           }
           tempContributorEmailAddressesArray=[];
@@ -141,7 +141,7 @@ function grouphugDelete(req, res) {
     });
 }
 
-function createTempUser(tempContributorEmailAddresses){
+function createTempUser(tempContributorEmailAddresses, grouphug){
   console.log("test works", tempContributorEmailAddresses);
   var randomstring = Math.random().toString(36).slice(-15);
   console.log(randomstring);
@@ -154,8 +154,16 @@ function createTempUser(tempContributorEmailAddresses){
   });
   user = ({email: tempContributorEmailAddresses});
   var date = new Date();
-  mailgun.mailgunSend();
-
+  var data = {
+    from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
+    to: tempContributorEmailAddresses,
+    subject: 'You have been invited to join a group hug for '+grouphug.gifteeFirstName+' '+grouphug.gifteeLastName,
+    text: 'You are invited you to take part in a group hug for '+grouphug.gifteeFirstName+' '+grouphug.gifteeLastName +' To take part you will need to sign into group hug using '+tempContributorEmailAddresses+" as your username and "+randomstring +" as you temporray password. Please go to localhost:3000 to login. Many thanks the Lovely people at Group Hug" /*,
+    html:"<b style='color:green'>Message:</b>"+'Jules is testing again'*/
+  };
+  console.log("mailgun send creator contains",grouphug.name);
+  mailgun.mailgunSend(data);
+/*
     EmailTemplate.findOne({'name': 'Registration'})
       .then(function(registrationEmail) {
         var newDate = date.setSeconds(date.getSeconds() + registrationEmail.delay);
@@ -167,7 +175,7 @@ function createTempUser(tempContributorEmailAddresses){
      })
     .catch(function(){
       console.log("ooh that wen wrong;");
-    })
+    })*/
     
 }                                                       
 
