@@ -75,6 +75,15 @@ footer {
   min-height: 3em;
 }
 
+td, th {
+  text-align: center;
+
+}
+
+.rating-select{
+  width:20px;
+}
+
 /* Home Page */
 
 .home-img {

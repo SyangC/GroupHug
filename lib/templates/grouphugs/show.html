@@ -8,10 +8,10 @@
       <h2>{{ grouphugsShow.selected.description }}</h2>
 
       <h3>Giftee:</h3>
-      <p>{{ grouphugsShow.selected.gifteeFirstName }} {{grouphugsShow.selected.gifteeLastName}}</p>
+      <p>{{ grouphugsShow.selected.giftee.firstName}}</p>
 
       <h3>Creator:</h3>
-      <p>{{ grouphugsShow.selected.creator }}</p>
+      <p>{{ grouphugsShow.selected.creator.firstName }} {{grouphugsShow.selected.creator.lastName}}</p>
 
 
       
@@ -39,32 +39,14 @@
               <td>Perfect</td>
             </tr>
             <tr>
-              <td><input type="radio" ng-model="experience.newWeighting" value="1" ></td>
-              <td><input type="radio" ng-model="experience.newWeighting" value="2" ></td>
-              <td><input type="radio" ng-model="experience.newWeighting" value="3" ></td>
-              <td><input type="radio" ng-model="experience.newWeighting" value="4" ></td>
-              <td><input type="radio" ng-model="experience.newWeighting" value="5" ></td>
+              <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="1" ></td>
+              <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="2" ></td>
+              <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="3" ></td>
+              <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="4" ></td>
+              <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="5" ></td>
               
             </tr>
           </table> 
-            <!-- <input type="radio" ng-model="experience.newWeighting" value="1">
-            1
-         
-            <input type="radio" ng-model="experience.newWeighting" value="2">
-            2
-         
-          <label>
-            <input type="radio" ng-model="experience.newWeighting" value="3">
-            3
-          </label>
-          <label>
-            <input type="radio" ng-model="experience.newWeighting" value="4">
-            4
-          </label>
-          <label>
-            <input type="radio" ng-model="experience.newWeighting" value="5">
-            5
-          </label> -->
          </form>
          <h4>Average Rating: {{grouphugsShow.averageWeight(experience)}}</h4>
       </div>

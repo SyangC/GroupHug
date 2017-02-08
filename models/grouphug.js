@@ -5,7 +5,7 @@ var grouphugSchema = new mongoose.Schema({
   name: { type: String, required: true, maxlength: 100 }, // limited length to 100
   // description: { type: String, required: true },
   pictures: [{ type: String, required: true }],
-  // creator: { type: mongoose.Schema.ObjectId, ref: "User", required: true },
+  creator: { type: mongoose.Schema.ObjectId, ref: "User", required: true },
   giftee: { type: mongoose.Schema.ObjectId, ref: "User" },
   gifteeFirstName: { type: String },
   gifteeLastName: { type: String },

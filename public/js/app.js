@@ -276,7 +276,7 @@ angular
 
 Experience.$inject = ["$resource", "formData"]
 function Experience($resource, formData) {
-  return $resource('/api/grouphugs/:id', { id: '@_id' }, {
+  return $resource('/api/experiences/:id', { id: '@_id' }, {
     update: {
       method: "PUT",
       headers: { 'Content-Type': undefined },
@@ -406,6 +406,7 @@ function adminUiGrouphugShowController(User, Grouphug, Experience, $state, $auth
     this.selected.experiences.push({
       experienceId: experience
     })
+    console.log("Adding experience", this.selected.experiences);
   }
 
   this.removeExperience = function(experience) {
@@ -469,9 +470,10 @@ angular
   .module("GroupHugApp")
   .controller("ExperiencesIndexController", ExperiencesIndexController);
 
-ExperiencesIndexController.$inject = ["Experience"];
+ExperiencesIndexController.$inject = ["Experience", "$state"];
 function ExperiencesIndexController(Experience) {
   this.all = Experience.query();
+  console.log("experiences All", this.all);
 }
 angular
   .module("GroupHugApp")
@@ -531,10 +533,14 @@ angular
   .module("GroupHugApp")
   .controller("GrouphugsNewController", GrouphugsNewController);
 
-GrouphugsNewController.$inject = ["Grouphug", "$state"]
-function GrouphugsNewController(Grouphug, $state) {
+GrouphugsNewController.$inject = ["Grouphug", "$state", "$auth"]
+function GrouphugsNewController(Grouphug, $state, $auth) {
 
   this.new = {};
+
+  this.currentUser = $auth.getPayload();
+
+
 
   this.ages = ["0-12", "13-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "81-90", "91+"];
 
@@ -546,6 +552,7 @@ function GrouphugsNewController(Grouphug, $state) {
 
 
   this.create = function() {
+    this.new.creator = this.currentUser._id
     console.log("sends this.new:", this.new);
     Grouphug.save(this.new, function() {
       $state.go("grouphugsIndex");
