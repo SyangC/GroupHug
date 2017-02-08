@@ -2,6 +2,7 @@ var Grouphug = require('../models/grouphug');
 var Thankyou = require('../models/thankyou');
 var User = require('../models/user');
 var email = require("../config/email");
+var mailgun = require('../config/mailgun');
 var EmailTemplate = require("../models/emailTemplate");
 var schedule = require("node-schedule");
 
@@ -153,8 +154,8 @@ function createTempUser(tempContributorEmailAddresses){
   });
   user = ({email: tempContributorEmailAddresses});
   var date = new Date();
+  mailgun.mailgunSend();
 
-  
     EmailTemplate.findOne({'name': 'Registration'})
       .then(function(registrationEmail) {
         var newDate = date.setSeconds(date.getSeconds() + registrationEmail.delay);

@@ -8,7 +8,7 @@
       <h2>{{ grouphugsShow.selected.description }}</h2>
 
       <h3>Giftee:</h3>
-      <p>{{ grouphugsShow.selected.gifteeFirstName}} {{ grouphugsShow.selected.gifteeFirstName}}</p>
+      <p>{{ grouphugsShow.selected.gifteeFirstName}} {{ grouphugsShow.selected.gifteeLastName}}</p>
 
       <h3>Creator:</h3>
       <p>{{ grouphugsShow.selected.creator.firstName }} {{grouphugsShow.selected.creator.lastName}}</p>
@@ -27,7 +27,7 @@
       </ul>
 
       <div ng-repeat="experience in grouphugsShow.selected.experiences">
-  <h3>{{experience.experienceId.name}}<br>Description:{{experience.experienceId.description}} Price: £{{experience.experienceId.price}}  Average Weight {{grouphugsShow.selected.averageWeight(experience)}} </h3>
+        <h3>{{experience.experienceId.name}}<br>Description:{{experience.experienceId.description}} Price: £{{experience.experienceId.price}}  Average Weight {{grouphugsShow.selected.averageWeight(experience)}} </h3>
 
         <form name="userWeighting" ng-if="grouphugsShow.canVote(experience, main.currentUser._id)">
           <table>
@@ -50,21 +50,22 @@
          </form>
          <h4>Average Rating: {{grouphugsShow.averageWeight(experience)}}</h4>
       </div>
-      <button ng-click="grouphugsShow.saveWeightings()" class="btn">Save ratings</button>
-      <h3>Contributors:</h3>
+      <button ng-click="grouphugsShow.saveWeightings()" class="btn" >Save ratings</button>
+
+     <!--  <h3>Contributors:</h3>
       <ul ng-repeat="contributor in grouphugsShow.selected.contributors">
         <li>{{ contributor }}</li>
         <li ui-sref="usersShow({ id: contributor._id })">Enter</li>
 
-      </ul>
+      </ul> -->
 
     </div>
 
-    <button ui-sref="grouphugsEdit({ id: grouphugsShow.selected._id })" class="btn">Edit</button>
-    <button ng-click="grouphugsShow.delete()" class="btn">Delete</button>
-
+   
+    <!-- <button ng-click="grouphugsShow.delete()" class="btn">Delete</button>
+ -->
   </div>
-  <p><a ui-sref="adminUi">Back</a></p>
+  
 </div>
 
 <h2>Contributions will be displayed here</h2>
@@ -78,6 +79,6 @@
 
 <!-- <input type="text" name="amount"> -->
 <!-- <button id="customButton" class="btn">Purchase</button> -->
-
+<button ui-sref="grouphugsEdit({ id: grouphugsShow.selected._id })" class="btn">Edit the group hug details </button><a ui-sref="adminUi"> Back</a>
 <h1>Pictures</h1>
 <img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">

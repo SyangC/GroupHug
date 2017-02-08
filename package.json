@@ -36,6 +36,7 @@
     "json-loader": "^0.5.4",
     "jsonwebtoken": "^7.1.9",
     "main-bower-files": "^2.13.1",
+    "mailgun-js":"latest",
     "mongoose": "^4.6.3",
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
