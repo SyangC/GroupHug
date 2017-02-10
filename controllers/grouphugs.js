@@ -5,6 +5,8 @@ var email = require("../config/email");
 var mailgun = require('../config/mailgun');
 var EmailTemplate = require("../models/emailTemplate");
 var schedule = require("node-schedule");
+var messageArray = [];
+
 
 
 function grouphugIndex(req, res) {
@@ -102,7 +104,6 @@ function grouphugUpdate(req, res) {
         }
 
         else {
-          console.log("Ok to line 94",key,"value", req.body[key]);
           if(key === "contributions" && req.body[key]===""){
             grouphug[key] =[];
           }
@@ -154,28 +155,66 @@ function createTempUser(tempContributorEmailAddresses, grouphug){
   });
   user = ({email: tempContributorEmailAddresses});
   var date = new Date();
-  var data = {
+/*  var data = {
     from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
     to: tempContributorEmailAddresses,
     subject: 'You have been invited to join a group hug for '+grouphug.gifteeFirstName+' '+grouphug.gifteeLastName,
     text: 'You are invited you to take part in a group hug for '+grouphug.gifteeFirstName+' '+grouphug.gifteeLastName +' To take part you will need to sign into group hug using '+tempContributorEmailAddresses+" as your username and "+randomstring +" as you temporray password. Please go to localhost:3000 to login. Many thanks the Lovely people at Group Hug" /*,
-    html:"<b style='color:green'>Message:</b>"+'Jules is testing again'*/
-  };
-  console.log("mailgun send creator contains",grouphug.name);
-  mailgun.mailgunSend(data);
-/*
-    EmailTemplate.findOne({'name': 'Registration'})
-      .then(function(registrationEmail) {
-        var newDate = date.setSeconds(date.getSeconds() + registrationEmail.delay);
-        email.sendRegisterTemplate(user);
-        var j = schedule.scheduleJob(newDate, function(){
-          email.sendRegisterTemplate(user);
-          console.log('This works? Hopefully');
-        });    
+    html:"<b style='color:green'>Message:</b>"+'Jules is testing again'
+  };*/
+  
+
+    EmailTemplate.findOne({'name': 'ContributorAdd'})
+      
+      /*.then(function(registrationEmail){
+        console.log("trying to parse", messageArray);
+        
+        messageArray = mailgun.mailgunParse(registrationEmail);
+        
+        console.log("new message array", messageArray);
+        return messageArray
+      })
+      */
+      .then(function(registrationEmail, messageArray) {
+
+        messageArray = mailgun.mailgunParse(registrationEmail);
+        var messageText = ""
+
+        for (var i = 0, len = messageArray.length; i < len; i++) {
+          var messageSegment = messageArray [i];
+          switch (messageSegment) {
+            case "email":
+             
+             console.log("switching email");
+             messageText = messageText + " "+tempContributorEmailAddresses;
+              break;
+            case "firstName":
+              console.log("firstName");
+              messageText = messageText + " "+"a first name";
+              break;
+
+            default:
+               messageText = messageText+ messageSegment
+               console.log("messageText bulder", messageText)
+          }
+          console.log("Loooooooping",messageSegment);
+        };
+
+        var data = {
+          from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
+          to: tempContributorEmailAddresses,
+          subject: "Further to previous mail",
+          text: messageText
+        };
+
+  
+        mailgun.mailgunSend(data); 
+        console.log('This works? Hopefully', data);
+           
      })
-    .catch(function(){
-      console.log("ooh that wen wrong;");
-    })*/
+    .catch(function(err){
+      console.log("ooh that wen wrong;", err);
+      })
     
 }                                                       
 
