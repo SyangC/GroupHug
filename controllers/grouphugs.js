@@ -192,7 +192,10 @@ function createTempUser(tempContributorEmailAddresses, grouphug){
               console.log("firstName");
               messageText = messageText + " "+"a first name";
               break;
-
+            case "password":
+              console.log("switching password");
+              messageText = messageText + " "+randomstring;
+              break;
             default:
                messageText = messageText+ messageSegment
                console.log("messageText bulder", messageText)
@@ -203,7 +206,7 @@ function createTempUser(tempContributorEmailAddresses, grouphug){
         var data = {
           from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
           to: tempContributorEmailAddresses,
-          subject: "Further to previous mail",
+          subject: "You have been invited to join group hug",
           text: messageText
         };
 
