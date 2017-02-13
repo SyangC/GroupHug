@@ -15,6 +15,7 @@ var grouphugSchema = new mongoose.Schema({
   contributorEmailAddresses: [],
   // contributionTotal: { type: Number, default: 0 },
   status: { type: String, default: "inactive" },
+  madelive: { type: Boolean, default: false},
   experiences: [{
     experienceId: { type: mongoose.Schema.ObjectId, ref: "Experience" },
     userWeightings: [{ user: { type: mongoose.Schema.ObjectId, ref: "User" },

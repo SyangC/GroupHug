@@ -9,7 +9,7 @@ var userSchema = new mongoose.Schema({
   avatar: { type: String, default: "http://swingmaresme.com/wp-content/uploads/2015/03/avant.png" }, 
   DOB: { type: Date },
   contactNumber: {type: String, maxlength: 12},
-  email: { type: String, reqiured: true },
+  email: { type: String, reqiured: true, unique: true },
   githubId: { type: String },
   facebookId: { type: String },
   twitterId: { type: String },

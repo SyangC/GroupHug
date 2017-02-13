@@ -29,8 +29,14 @@ EmailTemplate.create([{
 }, {
   name: "ContributorAdd",
   subject: '|email|Welcome to GroupHug!',
-  text: "Hello |email|, Your friend whose name will appear here has invited you to contribute to the person whose name will appear here's Group Hug.  To participate you will need to log on at grouphug.co.uk user your |email| as your username and this |password|. Thanks the lovely pepole at GrougHug",
-  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi {{email}}, Your friend whose name will appear here has invited you to contribute to the person whose name will appear here's Group Hug.</h3><h3>This account was created at {{createdAt}}.</h3><h3>What is a group hug I here you ask why not log in now at localhost:3000</h3></body>",
+  text: "Hello |email|, |creatorFirstName| |creatorLastName| has invited you to contribute to the person whose name will appear here's Group Hug.  To participate you will need to log on at grouphug.co.uk user your |email| as your username and this |password|. Thanks the lovely pepole at GrougHug",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi |email|, |creatorFirstName| |creatorLastName| has invited you to contribute to |gifteeFirstName| |gifteeLastName|'s Group Hug.</h3><h3>This account was created at |createdAt|.</h3><h3>What is a group hug I here you ask why not log in now at localhost:3000 using your email |email| as your username and |password| as your password. Please be sure to set a new password when registering.|newParagraph| GH TEAM</h3></body>",
+  delay: 60*2
+}, {
+  name: "GHActivate",
+  subject: 'Your Group Hug, |GHName|, has been activated',
+  text: "Hello |creatorFirstName|, the lovely people at GroupHug headquarters have done all the fiddly bits behind the scenes so your wonderful GroupHug is ready to go! Simply log on to GroupHug now got 'My Group Hugs' and find |GHName| once you have checked everything just click the 'GO LIVE' button to invite all your friends to participate and wait for our next exciting email to arrive. GH TEAM",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hello |creatorFirstName|, the lovely people at GroupHug headquarters have done all the fiddly bits behind the scenes so your wonderful GroupHug is ready to go! Simply log on to GroupHug now got 'My Group Hugs' and find |GHName| once you have checked everything just click the 'GO LIVE' button to invite all your friends to participate and wait for our next exciting email to arrive.|newParagraph| GH TEAM</h3></body>",
   delay: 60*2
 }],function(err, EmailTemplate) {
     if(!err) {

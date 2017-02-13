@@ -6,6 +6,8 @@ var mailgun = require('../config/mailgun');
 var EmailTemplate = require("../models/emailTemplate");
 var schedule = require("node-schedule");
 var messageArray = [];
+var groupHugCreatorFirstName = "";
+var groupHugCreatorLastName = "";
 
 
 
@@ -102,6 +104,11 @@ function grouphugUpdate(req, res) {
           }
           tempContributorEmailAddressesArray=[];
         }
+        else if (key === "status" && req.body[key]==="active" && grouphug[key]!="active"){
+          sendGroupHugActivationEmail(grouphug);
+          grouphug[key] = req.body[key];
+
+        }
 
         else {
           if(key === "contributions" && req.body[key]===""){
@@ -143,6 +150,7 @@ function grouphugDelete(req, res) {
 }
 
 function createTempUser(tempContributorEmailAddresses, grouphug){
+  console.log("create temp user group hug", grouphug);
   console.log("test works", tempContributorEmailAddresses);
   var randomstring = Math.random().toString(36).slice(-15);
   console.log(randomstring);
@@ -153,29 +161,31 @@ function createTempUser(tempContributorEmailAddresses, grouphug){
     password: randomstring,
     passwordConfirmation: randomstring
   });
-  user = ({email: tempContributorEmailAddresses});
-  var date = new Date();
-/*  var data = {
-    from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
-    to: tempContributorEmailAddresses,
-    subject: 'You have been invited to join a group hug for '+grouphug.gifteeFirstName+' '+grouphug.gifteeLastName,
-    text: 'You are invited you to take part in a group hug for '+grouphug.gifteeFirstName+' '+grouphug.gifteeLastName +' To take part you will need to sign into group hug using '+tempContributorEmailAddresses+" as your username and "+randomstring +" as you temporray password. Please go to localhost:3000 to login. Many thanks the Lovely people at Group Hug" /*,
-    html:"<b style='color:green'>Message:</b>"+'Jules is testing again'
-  };*/
-  
+  creatorLookUp(grouphug);
+  sendTempUserEmail(randomstring, tempContributorEmailAddresses, grouphug);
+    
+}  
 
-    EmailTemplate.findOne({'name': 'ContributorAdd'})
-      
-      /*.then(function(registrationEmail){
-        console.log("trying to parse", messageArray);
-        
-        messageArray = mailgun.mailgunParse(registrationEmail);
-        
-        console.log("new message array", messageArray);
-        return messageArray
+function creatorLookUp(grouphug){
+  User.findOne({'_id' : grouphug.creator})
+    .then(function(user, err){
+      if(err){console.log("error------>",err)};
+      console.log("^^^^Creator look up found^^^^", user)
+      groupHugCreatorFirstName = user.firstName;
+      groupHugCreatorLastName = user.lastName;
+    })
+    .catch(function(err){
+      console.log("Creator look up failed because", err);
       })
-      */
+
+};
+
+function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphug){
+  var date = new Date();
+    EmailTemplate.findOne({'name': 'ContributorAdd'})
       .then(function(registrationEmail, messageArray) {
+
+       /*add user look up uing GH id*/
 
         messageArray = mailgun.mailgunParse(registrationEmail);
         var messageText = ""
@@ -188,17 +198,33 @@ function createTempUser(tempContributorEmailAddresses, grouphug){
              console.log("switching email");
              messageText = messageText + " "+tempContributorEmailAddresses;
               break;
-            case "firstName":
-              console.log("firstName");
-              messageText = messageText + " "+"a first name";
+            case "creatorFirstName":
+              console.log("groupHugCreatorFirstName");
+              messageText = messageText + " "+groupHugCreatorFirstName;
+              break;
+            case "creatorLastName":
+              console.log("groupHugCreatorLastName");
+              messageText = messageText + " "+groupHugCreatorLastName;
+              break;
+            case "gifteeFirstName":
+              console.log("gifteeFirstName");
+              messageText = messageText + " "+grouphug.gifteeFirstName;
+              break;
+            case "gifteeLastName":
+              console.log("gifteeLastName");
+              messageText = messageText + " "+grouphug.gifteeLastName;
               break;
             case "password":
               console.log("switching password");
               messageText = messageText + " "+randomstring;
               break;
+            case "newParagraph":
+              console.log("adding line break");
+              messageText = messageText "<BR>";
+              break;
             default:
                messageText = messageText+ messageSegment
-               console.log("messageText bulder", messageText)
+               console.log("messageText builder", messageText)
           }
           console.log("Loooooooping",messageSegment);
         };
@@ -207,19 +233,22 @@ function createTempUser(tempContributorEmailAddresses, grouphug){
           from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
           to: tempContributorEmailAddresses,
           subject: "You have been invited to join group hug",
-          text: messageText
+          html: messageText
         };
 
-  
         mailgun.mailgunSend(data); 
-        console.log('This works? Hopefully', data);
+        console.log('Tem User Email being sent', data);
            
      })
     .catch(function(err){
-      console.log("ooh that wen wrong;", err);
+      console.log("Temp user Email did not send", err);
       })
-    
-}                                                       
+}
+
+
+function sendGroupHugActivationEmail (grouphug){
+  console.log("-----------------activation details------------------",grouphug);
+}                                                    
 
 module.exports = {
   index: grouphugIndex,

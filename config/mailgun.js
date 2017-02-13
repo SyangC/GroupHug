@@ -7,7 +7,7 @@ var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 var templateArray = ["4","5"];
  
 function mailgunParse(template){
-  templateArray = template.text.split("|");
+  templateArray = template.html.split("|");
   console.log("this is template array from mailgun",templateArray);
   return templateArray;
 };
