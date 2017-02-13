@@ -6,8 +6,8 @@ var mailgun = require('../config/mailgun');
 var EmailTemplate = require("../models/emailTemplate");
 var schedule = require("node-schedule");
 var messageArray = [];
-var groupHugCreatorFirstName = "";
-var groupHugCreatorLastName = "";
+var groupHugCreator ={}
+
 
 
 
@@ -171,8 +171,9 @@ function creatorLookUp(grouphug){
     .then(function(user, err){
       if(err){console.log("error------>",err)};
       console.log("^^^^Creator look up found^^^^", user)
-      groupHugCreatorFirstName = user.firstName;
-      groupHugCreatorLastName = user.lastName;
+      groupHugCreator.firstName = user.firstName;
+      groupHugCreator.lastName = user.lastName;
+      groupHugCreator.email = user.email;
     })
     .catch(function(err){
       console.log("Creator look up failed because", err);
@@ -200,11 +201,11 @@ function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphu
               break;
             case "creatorFirstName":
               console.log("groupHugCreatorFirstName");
-              messageText = messageText + " "+groupHugCreatorFirstName;
+              messageText = messageText + " "+groupHugCreator.firstName;
               break;
             case "creatorLastName":
               console.log("groupHugCreatorLastName");
-              messageText = messageText + " "+groupHugCreatorLastName;
+              messageText = messageText + " "+groupHugCreator.lastName;
               break;
             case "gifteeFirstName":
               console.log("gifteeFirstName");
@@ -220,7 +221,7 @@ function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphu
               break;
             case "newParagraph":
               console.log("adding line break");
-              messageText = messageText "<BR>";
+              messageText = messageText + "<BR>";
               break;
             default:
                messageText = messageText+ messageSegment
@@ -247,6 +248,69 @@ function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphu
 
 
 function sendGroupHugActivationEmail (grouphug){
+  creatorLookUp(grouphug);
+  var date = new Date();
+    EmailTemplate.findOne({'name': 'GHActivate'})
+      .then(function(registrationEmail, messageArray) {
+
+       /*add user look up uing GH id*/
+
+        messageArray = mailgun.mailgunParse(registrationEmail);
+        var messageText = ""
+
+        for (var i = 0, len = messageArray.length; i < len; i++) {
+          var messageSegment = messageArray [i];
+          switch (messageSegment) {
+            case "GHName":
+             console.log("GHName");
+             messageText = messageText + " "+grouphug.name;
+              break;
+            case "creatorFirstName":
+              console.log("groupHugCreatorFirstName");
+              messageText = messageText + " "+groupHugCreator.firstName;
+              break;
+            case "creatorLastName":
+              console.log("groupHugCreatorLastName");
+              messageText = messageText + " "+groupHugCreator.lastName;
+              break;
+            case "gifteeFirstName":
+              console.log("gifteeFirstName");
+              messageText = messageText + " "+grouphug.gifteeFirstName;
+              break;
+            case "gifteeLastName":
+              console.log("gifteeLastName");
+              messageText = messageText + " "+grouphug.gifteeLastName;
+              break;
+            case "password":
+              console.log("switching password");
+              messageText = messageText + " "+randomstring;
+              break;
+            case "newParagraph":
+              console.log("adding line break");
+              messageText = messageText +"<BR>";
+              break;
+            default:
+               messageText = messageText+ messageSegment
+               console.log("messageText builder", messageText)
+          }
+          console.log("Loooooooping",messageSegment);
+        };
+
+        var data = {
+          from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
+          to: groupHugCreator.email,
+          subject: "Your Group Hug "+grouphug.name+" has been activated",
+          html: messageText
+        };
+
+        mailgun.mailgunSend(data); 
+        console.log('Activation email being sent', data);
+           
+     })
+    .catch(function(err){
+      console.log("Activiation Email did not send", err);
+      })
+
   console.log("-----------------activation details------------------",grouphug);
 }                                                    
 

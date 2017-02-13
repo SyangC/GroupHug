@@ -36,7 +36,7 @@ EmailTemplate.create([{
   name: "GHActivate",
   subject: 'Your Group Hug, |GHName|, has been activated',
   text: "Hello |creatorFirstName|, the lovely people at GroupHug headquarters have done all the fiddly bits behind the scenes so your wonderful GroupHug is ready to go! Simply log on to GroupHug now got 'My Group Hugs' and find |GHName| once you have checked everything just click the 'GO LIVE' button to invite all your friends to participate and wait for our next exciting email to arrive. GH TEAM",
-  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hello |creatorFirstName|, the lovely people at GroupHug headquarters have done all the fiddly bits behind the scenes so your wonderful GroupHug is ready to go! Simply log on to GroupHug now got 'My Group Hugs' and find |GHName| once you have checked everything just click the 'GO LIVE' button to invite all your friends to participate and wait for our next exciting email to arrive.|newParagraph| GH TEAM</h3></body>",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hello |creatorFirstName|, the lovely people at GroupHug headquarters have done all the fiddly bits behind the scenes so your wonderful GroupHug for |gifteeFirstName| |gifteeLastName| is ready to go! Simply log on to GroupHug now go to 'My Group Hugs' and find |GHName| once you have checked everything just click the 'GO LIVE' button to invite all your friends to participate and wait for our next exciting email to arrive.|newParagraph| GH TEAM</h3></body>",
   delay: 60*2
 }],function(err, EmailTemplate) {
     if(!err) {

@@ -2,7 +2,9 @@ var Grouphug = require('../models/grouphug');
 var Contribution = require('../models/contribution');
 var jwt = require("jsonwebtoken");
 var secret = require("../config/tokens").secret;
-var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+var stripe_Api_Key = process.env.STRIPE_SECRET_KEY;
+console.log("deletettttetetettete this ",stripe_Api_Key);
+var stripe = require("stripe")(stripe_Api_Key);
 
 function stripeCharge(req, res) {
   console.log("req.body.amount is:", req.body.amount);
@@ -39,15 +41,20 @@ function stripeCharge(req, res) {
         stripeToken: stripeToken,
         grouphug: grouphugId,
         amount: amount
-      }).then(function(contribution) {
+      })
+      .then(function(contribution) {
         console.log("contribution: ", contribution);
-      }).catch(function(err) {
+      })
+      .catch(function(err) {
         console.log("err: ", err);
       }) 
 
       console.log("After contribution creation.");
       // The payment has been succesful
       return res.status(200).json({ message: "Payment successful" });
+    }
+    else{
+      console.log("oooh payment went a bit wrong",err);
     }
 
     if (err && err.type === 'StripeCardError') {
