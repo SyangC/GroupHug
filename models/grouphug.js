@@ -13,7 +13,7 @@ var grouphugSchema = new mongoose.Schema({
   gifteeEmailAddress: { type: String },
   // contributors: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
   contributorEmailAddresses: [],
-  // contributionTotal: { type: Number, default: 0 },
+  contributionTotal: { type: Number, default: 0 },
   status: { type: String, default: "inactive" },
   madelive: { type: Boolean, default: false},
   experiences: [{

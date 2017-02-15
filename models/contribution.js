@@ -22,6 +22,19 @@ contributionSchema.pre('save', function(next) {
     });
 });
 
+contributionSchema.post('save', function(doc){
+  console.log("saved document", doc);
+  var doc = this;
+  this.model('Grouphug')
+    .findById(this.grouphug)
+    .then(function(grouphug){
+      if(!!grouphug) {
+        grouphug.contributionTotal = grouphug.contributionTotal + doc.amount;
+        return grouphug.save();
+      }
+    })
+})
+
 // contributionSchema.pre('remove', function(next) {
   
 //   var doc = this;

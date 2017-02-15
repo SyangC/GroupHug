@@ -3,7 +3,6 @@ var Contribution = require('../models/contribution');
 var jwt = require("jsonwebtoken");
 var secret = require("../config/tokens").secret;
 var stripe_Api_Key = process.env.STRIPE_SECRET_KEY;
-console.log("deletettttetetettete this ",stripe_Api_Key);
 var stripe = require("stripe")(stripe_Api_Key);
 
 function stripeCharge(req, res) {
@@ -14,6 +13,7 @@ function stripeCharge(req, res) {
   var stripeToken = req.body.id; // Using Express
   var amount = req.body.amount;
   var grouphugId = req.body.grouphugId;
+ 
 
 
   // Create a charge: this will charge the user's card
@@ -43,7 +43,7 @@ function stripeCharge(req, res) {
         amount: amount
       })
       .then(function(contribution) {
-        console.log("contribution: ", contribution);
+        console.log("contribution: ", contribution, contribution._id);
       })
       .catch(function(err) {
         console.log("err: ", err);
@@ -63,6 +63,8 @@ function stripeCharge(req, res) {
     }
   });
 }
+
+
 
 module.exports = {
   stripeCharge: stripeCharge

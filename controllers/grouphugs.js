@@ -166,6 +166,8 @@ function createTempUser(tempContributorEmailAddresses, grouphug){
     
 }  
 
+
+//make creatorLookUp a directive to use mutlipletimes?
 function creatorLookUp(grouphug){
   User.findOne({'_id' : grouphug.creator})
     .then(function(user, err){
