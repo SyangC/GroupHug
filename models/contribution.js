@@ -51,7 +51,7 @@ contributionSchema.post('save', function(doc){
 //     });
 // });
 
-// contributionSchema.set('toJSON', { getters: true });
+//contributionSchema.set('toJSON', { getters: true });
 
 module.exports = mongoose.model("Contribution", contributionSchema);
 

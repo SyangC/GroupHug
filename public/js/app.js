@@ -415,10 +415,11 @@ function adminUiGrouphugShowController(User, Grouphug, Experience, $state, $auth
   }
 
   this.toggleActivateGrouphug = function() {
-    console.log("it gets here");
+    console.log("trying to make GH Active...");
     if(this.selected.status === "inactive") {
       this.selected.status = "active";
     } else {
+      console.log("making GH inactive")
       this.selected.status = "inactive";
     }
   }
@@ -619,8 +620,8 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
   }
 
   this.checkout = function() {
-    /*contributionAmount = document.getElementById("contributionAmount").value * 100;*/
-    self.chargeAmount = parseFloat(this.contributionAmount)*100;
+    self.chargeAmount = (parseFloat(this.contributionAmount))*100;
+   
     this.contributionAmount = "";
     var handler = StripeCheckout.configure({
       key: "pk_test_eeEvZQY5GGkEmboxgG7RsiWa",

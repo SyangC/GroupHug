@@ -51,6 +51,7 @@ function stripeCharge(req, res) {
 
       console.log("After contribution creation.");
       // The payment has been succesful
+      
       return res.status(200).json({ message: "Payment successful" });
     }
     else{
@@ -59,7 +60,7 @@ function stripeCharge(req, res) {
 
     if (err && err.type === 'StripeCardError') {
       // The card has been declined
-      return res.status(400).json({ message: "Payment unsuccessful there was an error" });
+      return res.status(400).json({ message: "Payment unsuccessful there was an error please contact Group Hug Admin" });
     }
   });
 }

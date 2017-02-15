@@ -14,7 +14,7 @@
       <p>{{ grouphugsShow.selected.creator.firstName }} {{grouphugsShow.selected.creator.lastName}}</p>
 
 
-      
+      <p ng-if="grouphugsShow.selected.status != 'active'">This Grouphug has not yet been made active by the lovely people at group hug headquarters so you cannot yet make contributions as the team are still trawling through their big book of experiences. You can start adding names of people who you would like to invite to make contributions they will not be notified until the Grouhus becomes active and you press the big PUBLISH button"</p>
       <h2>Add to the list of contributors:</h2>
       <p>Please add the email addresses of people you think might like to contribute below. You can always add to this list once the Group Hug is created and don't worry we will only use the email addresses you provide for the purpose of inviting people to join group hug to contribute to {{grouphugsShow.selected.gifteeFirstName}}'s Group Hug.</p>
       <form  ng-submit="grouphugsShow.addContributor()">
@@ -25,33 +25,42 @@
       <ul ng-repeat="contributorEmail in grouphugsShow.selected.contributorEmailAddresses">
         <li >{{ contributorEmail }} is on the list</li>
       </ul>
+      <div ng-if="grouphugsShow.selected.status == 'active'">
+        <div ng-repeat="experience in grouphugsShow.selected.experiences">
+          <h3>{{experience.experienceId.name}}<br>Description:{{experience.experienceId.description}} Price: £{{experience.experienceId.price}}  Average Weight {{grouphugsShow.selected.averageWeight(experience)}} </h3>
 
-      <div ng-repeat="experience in grouphugsShow.selected.experiences">
-        <h3>{{experience.experienceId.name}}<br>Description:{{experience.experienceId.description}} Price: £{{experience.experienceId.price}}  Average Weight {{grouphugsShow.selected.averageWeight(experience)}} </h3>
+          <form name="userWeighting" ng-if="grouphugsShow.canVote(experience, main.currentUser._id)">
+            <table>
+              <tr>
+                <td>Not Great</td>
+                <td>Possibly</td>
+                <td>Ok</td>
+                <td>That would work</td>
+                <td>Perfect</td>
+              </tr>
+              <tr>
+                <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="1" ></td>
+                <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="2" ></td>
+                <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="3" ></td>
+                <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="4" ></td>
+                <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="5" ></td>
+                
+              </tr>
+            </table> 
+           </form>
+           <h4>Average Rating: {{grouphugsShow.averageWeight(experience)}}</h4>
+        </div>
+        <button ng-click="grouphugsShow.saveWeightings()" class="btn" >Save ratings</button>
 
-        <form name="userWeighting" ng-if="grouphugsShow.canVote(experience, main.currentUser._id)">
-          <table>
-            <tr>
-              <td>Not Great</td>
-              <td>Possibly</td>
-              <td>Ok</td>
-              <td>That would work</td>
-              <td>Perfect</td>
-            </tr>
-            <tr>
-              <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="1" ></td>
-              <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="2" ></td>
-              <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="3" ></td>
-              <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="4" ></td>
-              <td><input type="radio" class="rating-select" ng-model="experience.newWeighting" value="5" ></td>
-              
-            </tr>
-          </table> 
-         </form>
-         <h4>Average Rating: {{grouphugsShow.averageWeight(experience)}}</h4>
+        <h2>Contributions...</h2>
+        <h3>So far £{{ grouphugsShow.selected.contributionTotal/100}} has been contributed</h3>
+
+
+        <form name="contributionForm" id="form" onsubmit="return false;">
+          <input type="text" name="amount" placeholder="Enter your contribution here £0.00"  ng-model = "grouphugsShow.contributionAmount" ng-pattern="/^\d*\.?\d*$/" required>
+          <input type="submit" id="customButton"   ng-click="grouphugsShow.checkout()" ng-disabled="contributionForm.$invalid">
+        </form>
       </div>
-      <button ng-click="grouphugsShow.saveWeightings()" class="btn" >Save ratings</button>
-
      <!--  <h3>Contributors:</h3>
       <ul ng-repeat="contributor in grouphugsShow.selected.contributors">
         <li>{{ contributor }}</li>
@@ -68,17 +77,9 @@
   
 </div>
 
-<h2>Contributions...</h2>
-<h3>So far £{{ grouphugsShow.selected.contributionTotal/100}} has been contributed</h3>
 
 
-<form id="form" onsubmit="return false;">
-  <input type="text" name="amount" placeholder="Enter your contribution here £0.00"  ng-model = "grouphugsShow.contributionAmount" >
-  <input type="submit" id="customButton"   ng-click="grouphugsShow.checkout()">
-</form>
 
-<!-- <input type="text" name="amount"> -->
-<!-- <button id="customButton" class="btn">Purchase</button> -->
 <button ui-sref="grouphugsEdit({ id: grouphugsShow.selected._id })" class="btn">Edit the group hug details </button><a ui-sref="adminUi"> Back</a>
 <h1>Pictures</h1>
 <img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">

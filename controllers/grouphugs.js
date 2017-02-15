@@ -26,6 +26,7 @@ function grouphugShow(req, res) {
     .populate ('creator')
     .populate('giftee')
     .populate('experiences.experienceId')
+    .populate('contribution.contributionId')
     .then(function(grouphug) {
       res.status(200).json(grouphug);
     })
@@ -111,12 +112,13 @@ function grouphugUpdate(req, res) {
         }
 
         else {
-          if(key === "contributions" && req.body[key]===""){
+          /*if(key === "contributions" && req.body[key]===""){
             grouphug[key] =[];
-          }
-          else{
-          grouphug[key] = req.body[key];
-          }
+          }*/
+          /*if (key === "contributions" && req.body[key]!=""){
+            console.log("this is JSON req body",req.body[key]);
+          grouphug[key] = JSON.parse(req.body[key]);
+          }*/
         }
       }
       if(req.files) {

@@ -28,17 +28,18 @@
 <h1>Pictures</h1>
 <img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">
 <h1>Experiences</h1>
-<button ng-click="grouphugsShow.saveChanges()" class="btn">Save changes</button>
-<button ng-click="grouphugsShow.toggleActivateGrouphug()" class="btn">{{ grouphugsShow.selected.status}}</button>
 
-<select name="category" ng-model="grouphugsShow.selected.status" class="selectOne">
+
+<button  ng-click="grouphugsShow.toggleActivateGrouphug()" class="btn">This Group Hug is {{ grouphugsShow.selected.status}} it can only be made active if at least one experience is added.</button>
+
+<select ng-hide="grouphugsShow.selected.experiences.length == 0" name="category" ng-model="grouphugsShow.selected.status" class="selectOne">
   <option disabled selected>Please select</option>
   <option ng-repeat="status in grouphugsShow.statusOptions" ng-value="status" ng-disabled="grouphugsShow.statusOptions.contains(status)">{{status}}</option>
 </select>
 
 <div ng-repeat="experience in grouphugsShow.selected.experiences">
   <h3>{{experience.experienceId.name}}<br>Description:{{experience.experienceId.description}} Price: £{{experience.experienceId.price}}  <!-- Average Weight {{grouphugsShow.averageWeight(experience)}} --> </h3>
-  <button ng-click="grouphugsShow.removeExperience(experience)" class="btn">Remove experience</button>
+  <button ng-hide="grouphugsShow.selected.status == 'active' && grouphugsShow.selected.experiences.length <=1" ng-click="grouphugsShow.removeExperience(experience)" class="btn">Remove experience</button>
 </div>
 
 <h1>Available Experiences</h1>
@@ -46,4 +47,6 @@
   <h3>{{experience.name}}, {{experience.description}}, £{{experience.price}}</h3>
   <button ng-click="grouphugsShow.addExperience(experience)" class="btn">Add experience</button>
 </div>
+
+<button ng-click="grouphugsShow.saveChanges()" class="btn">Save changes</button>
 
