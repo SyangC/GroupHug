@@ -111,15 +111,6 @@ function grouphugUpdate(req, res) {
 
         }
 
-        else {
-          /*if(key === "contributions" && req.body[key]===""){
-            grouphug[key] =[];
-          }*/
-          /*if (key === "contributions" && req.body[key]!=""){
-            console.log("this is JSON req body",req.body[key]);
-          grouphug[key] = JSON.parse(req.body[key]);
-          }*/
-        }
       }
       if(req.files) {
         var newImages = Object.keys(req.files).map(function(key) {
