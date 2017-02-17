@@ -547,7 +547,7 @@ function GrouphugsNewController(Grouphug, $state, $auth) {
 
   this.occasions = ["Birthday", "Wedding", "Leaving", "Thank You", "Cheer Your Friend Up", "Retirement"];
 
-  this.relations = ["Friend", "Partner", "Parent", "Grandparent", "Subling", "Child"];
+  this.relations = ["Friend", "Partner", "Parent", "Grandparent", "Sibling", "Child"];
 
   this.contributorEmailAddresses = [];
 
