@@ -13,6 +13,7 @@ function stripeCharge(req, res) {
   var stripeToken = req.body.id; // Using Express
   var amount = req.body.amount;
   var grouphugId = req.body.grouphugId;
+  var description = req.body.grouphugDescription;
  
 
 
@@ -21,7 +22,7 @@ function stripeCharge(req, res) {
     amount: amount,
     currency: "gbp",
     source: stripeToken,
-    description: "GroupHug Contribution"
+    description: description,
   }, function(err, chargeInfo) {
 
     // console.log("chargeInfo: ", chargeInfo);
@@ -50,6 +51,7 @@ function stripeCharge(req, res) {
       }) 
 
       console.log("After contribution creation.");
+      
       // The payment has been succesful
       
       return res.status(200).json({ message: "Payment successful" });

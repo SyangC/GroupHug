@@ -110,6 +110,10 @@ function grouphugUpdate(req, res) {
           grouphug[key] = req.body[key];
 
         }
+        else if(key != "contributions"){
+
+          grouphug[key] = req.body[key];
+        }
 
       }
       if(req.files) {

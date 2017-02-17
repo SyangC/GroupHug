@@ -214,6 +214,16 @@ table td {
   text-align: left;
 }
 
+/* GH Show page */
+
+#makelive {
+  display: block;
+  font-size: 20px;
+  color: white;
+  background-color: green;
+  margin:40px auto;
+}
+
 /* Stripe */
 
 .ng-invalid {
