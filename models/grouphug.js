@@ -16,6 +16,7 @@ var grouphugSchema = new mongoose.Schema({
   gifteeRelationship: {type: String},
   // contributors: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
   contributorEmailAddresses: [],
+  contributorEmail: {type: String},
   contributionTotal: { type: Number, default: 0 },
   status: { type: String, default: "inactive" },
   madelive: { type: Boolean, default: false},

@@ -225,40 +225,6 @@ function RegisterController($auth, $state, $rootScope) {
     })
   }
 }
-angular
-  .module('GroupHugApp')
-  .directive('date', date);
-
-function date() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$formatters.push(function(value) {
-        return new Date(value);
-      });
-    }
-  }
-}
-angular
-  .module('GroupHugApp')
-  .directive('file', file);
-
-function file() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      element.on('change', function(e) {
-        if(element.prop('multiple')) {
-          ngModel.$setViewValue(e.target.files);
-        } else {
-          ngModel.$setViewValue(e.target.files[0]);
-        }
-      });
-    }
-  }
-}
 // angular
 //   .module("GroupHugApp")
 //   .factory("Experience", Experience);
@@ -347,6 +313,40 @@ function User($resource) {
   return $resource('/api/users/:id', { id: '@_id' }, {
     update: { method: "PUT" }
   });
+}
+angular
+  .module('GroupHugApp')
+  .directive('date', date);
+
+function date() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
+
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
+        }
+      });
+    }
+  }
 }
 angular
   .module('GroupHugApp')
@@ -599,10 +599,12 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
   this.addContributor = function(){
     console.log(this.selected.gifteeFirstName);
     console.log(this.selected.contributorEmailAddresses);
+
+
     
     if(this.newContributorEmail){
       if(this.selected.contributorEmailAddresses.indexOf(this.newContributorEmail) > -1 ){
-         console.log("user already exists can't be added");
+         console.log("user already in contributor list can't be added");
          this.newContributorEmail = null;
        }
         else {
@@ -617,6 +619,33 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
           this.newContributorEmail = null;
       }
     };
+  }
+
+  this.newContributor = function(){
+   
+    console.log("New Contributor",this.newContributorEmail," name: ",this.newContributorName);
+    
+    console.log("slef Contributor",self.newContributorEmail,"slef  name: ",self.newContributorName);
+    var contributor_email = this.newContributorEmail;
+    var contributorName = this.newContributorName;
+    this.newContributorEmail = ""; 
+    this.newContributorName = "";
+
+    var contributorHandler = JSON.stringify({
+        type: "contributor",
+        email:contributor_email,
+        name:contributorName});
+      $http.post("api/contributor", contributorHandler).
+        success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+            console.log("contributor handler",data);
+        }).
+        error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+    
   }
 
   this.checkout = function(grouphugName) {
@@ -649,6 +678,7 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
           });
       }
     });
+
 
 
     handler.open({

@@ -77,6 +77,7 @@ function grouphugUpdate(req, res) {
   console.log("req.body", req.body);
   console.log("req.body.experiences", req.body.experiences);
   console.log("req.files", req.files);
+  
 
   Grouphug.findById(req.params.id)
     
@@ -162,6 +163,7 @@ function createTempUser(tempContributorEmailAddresses, grouphug){
   sendTempUserEmail(randomstring, tempContributorEmailAddresses, grouphug);
     
 }  
+
 
 
 //make creatorLookUp a directive to use mutlipletimes?
@@ -318,5 +320,5 @@ module.exports = {
   show: grouphugShow,
   create: grouphugCreate,
   update: grouphugUpdate,
-  delete: grouphugDelete
+  delete: grouphugDelete,
 }

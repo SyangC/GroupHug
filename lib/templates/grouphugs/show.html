@@ -26,9 +26,18 @@
 
         <button id="makelive" ng-if="!grouphugsShow.selected.madelive" ng-click="grouphugsShow.makelive()" class="btn">PUBLISH</button>
       </div>
-      <form  ng-submit="grouphugsShow.addContributor()">
+
+
+      <ng-form name="add-Contibutor">
         <input placeholder="contributor's email address" type="email" name="newContributorEmail" ng-model="grouphugsShow.newContributorEmail"> 
-      </form>
+        <input placeholder="contributor's name" type="text" name="newContributorName" ng-model="grouphugsShow.newContributorName"> 
+        <input type="button" value="Add Contributor" ng-click ="grouphugsShow.newContributor()">
+      </ng-form>
+
+
+    <!--   <form  ng-submit="grouphugsShow.addContributor()">
+        <input placeholder="contributor's email address" type="email" name="newContributorEmail" ng-model="grouphugsShow.newContributorEmail"> 
+      </form> -->
       
       <h3>Contributors already on the list:</h3>
       <ul ng-repeat="contributorEmail in grouphugsShow.selected.contributorEmailAddresses">

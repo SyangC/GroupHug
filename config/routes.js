@@ -11,6 +11,7 @@ var thankyousController = require("../controllers/thankyous");
 var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
 var chargeHandler = require("../controllers/chargeHandler");
+var contributorHandler = require("../controllers/contributorHAndler");
 
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
@@ -44,6 +45,9 @@ router.route("/grouphugs/:id")
 
 router.route("/charge")
   .post(chargeHandler.stripeCharge)
+
+router.route("/contributor")
+  .post(contributorHandler.contributorCreate)
 
 router.route('/ecards')
   .get(ecardsController.index)
