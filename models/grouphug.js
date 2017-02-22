@@ -14,7 +14,7 @@ var grouphugSchema = new mongoose.Schema({
   gifteeAge: {type: Number},
   occassion: {type: String},
   gifteeRelationship: {type: String},
-  // contributors: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
+  contributors: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
   contributorEmailAddresses: [],
   contributorEmail: {type: String},
   contributionTotal: { type: Number, default: 0 },

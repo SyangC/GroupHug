@@ -19,6 +19,8 @@ var userSchema = new mongoose.Schema({
   credit: { type: Number, default: 0 },
   reviews: [{ type: mongoose.Schema.ObjectId, ref: "Review" }], 
   grouphugs: [{ type: mongoose.Schema.ObjectId, ref: "Grouphug" }],
+  invitations: [{ type: mongoose.Schema.ObjectId, ref: "Grouphug"}],
+  createBy: [{type: String, default: "Self"}],
   createdAt: { type: Date, default: new Date },
 });
 

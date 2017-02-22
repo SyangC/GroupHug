@@ -6,14 +6,34 @@
   <div class="thumbnail">
     <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcToWXet6ifvpSHOfr1To_xUJ1FfMxzMvo_BnkGwqxwODBitGjv7Sg">
     <div class="caption" ng-controller="UsersShowController as usersShow">
-      <div><div class="showlabel">Username</div> {{ usersShow.selected.username }}</div>
-      <div><div class="showlabel">First Name</div> {{ usersShow.selected.firstName }}</div>
-      <div><div class="showlabel">Last Name</div> {{ usersShow.selected.lastName }}</div>
-      <div><div class="showlabel">Email Address</div> {{ usersShow.selected.email }}</div>
-      <div><div class="showlabel">ContactNumber</div>{{ usersShow.selected.contactNumber }}</div>
-      <p>Total GroupHugs as Giftee: {{ usersShow.selected.something }}</p>
+      <div>
+        <div class="showlabel">Username</div>
+        {{ usersShow.selected.username }}
+      </div>
+      <div>
+        <div class="showlabel">First Name</div>
+        {{ usersShow.selected.firstName }}
+      </div>
+      <div>
+        <div class="showlabel">Last Name</div>
+        {{ usersShow.selected.lastName }}
+      </div>
+      <div>
+        <div class="showlabel">Email Address</div>
+        {{ usersShow.selected.email }}
+      </div>
+      <div>
+        <div class="showlabel">ContactNumber</div>
+        {{ usersShow.selected.contactNumber }}
+      </div>
+      <div>
+        <div class="showlabel">Invitations Pending</div>
+        {{ usersShow.selected.invitations }}
+      </div>
+
+      <!-- <p>Total GroupHugs as Giftee: {{ usersShow.selected.something }}</p>
       <p>Total GroupHugs as Creator: {{ usersShow.selected.somethingElse }}</p>
-      <p>Total GroupHugs as Contributor: {{ usersShow.selected.anotherThing }}</p>
+      <p>Total GroupHugs as Contributor: {{ usersShow.selected.anotherThing }}</p> -->
       <button ui-sref="usersEdit({ id: usersShow.selected._id})" class="btn btn-primary">Edit</button>
     </div>
   </div>
