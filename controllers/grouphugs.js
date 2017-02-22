@@ -148,6 +148,8 @@ function grouphugDelete(req, res) {
     });
 }
 
+/*
+Ol Contributor method ----delete once new method tested
 function createTempUser(tempContributorEmailAddresses, grouphug){
   console.log("create temp user group hug", grouphug);
   console.log("test works", tempContributorEmailAddresses);
@@ -167,7 +169,6 @@ function createTempUser(tempContributorEmailAddresses, grouphug){
 
 
 
-//make creatorLookUp a directive to use mutlipletimes?
 function creatorLookUp(grouphug){
   User.findOne({'_id' : grouphug.creator})
     .then(function(user, err){
@@ -181,7 +182,7 @@ function creatorLookUp(grouphug){
       console.log("Creator look up failed because", err);
       })
 
-};
+};*/
 
 function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphug){
   var date = new Date();

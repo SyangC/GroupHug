@@ -12,12 +12,9 @@ function contributorCreate(req, res){
 
   if(contributor_email){
     console.log("contributor email received",contributor_email);
-    existingUserTest(contributor_email, grouphug_Id);
+    existingUserTest(contributor_email, grouphug_Id, contributor_name);
 
     return res.status(200).json({ message: "Contributor successful" });
-
-
-
 
   }
   else{
@@ -26,23 +23,24 @@ function contributorCreate(req, res){
   
 }
 
-function existingUserTest (contributor_email, grouphug_Id){
-  console.log("Hmmm text started");
+function existingUserTest (contributor_email, grouphug_Id, contributor_name){
   User.findOne ({'email' : contributor_email})
     .then(function(user,err){
       if(user){
-        console.log("Need to add invite for User", user.firstName," ",user.lastName);
-        console.log("current invitations",user.invitations);
-        
-        user.invitations.push(grouphug_Id);
-        console.log("User invitation added",user);
-        addContributorToGrouphug(grouphug_Id, user._id);
-        return User.update({_id: user._id},{invitations: user.invitations});
-
+        if(user.invitations.indexOf(grouphug_Id)===-1){
+          user.invitations.indexOf(grouphug_Id)
+          user.invitations.push(grouphug_Id);
+          addContributorToGrouphug(grouphug_Id, user._id);
+          return User.update({_id: user._id},{invitations: user.invitations});
+        }
       }
-      else {
-        console.log("need to add user")
-      }
+      else if (!user)
+        {
+          createTempUser(contributor_email, grouphug_Id, contributor_name);
+          console.log("New User ID ****", user);
+          
+        }
+      
     })
     .catch(function(err){
       console.log("catch invoked reason was >>>>>>",err);
@@ -50,13 +48,41 @@ function existingUserTest (contributor_email, grouphug_Id){
 
 }
 
-function addContributorToGrouphug(grouphug_Id,user_id){
+
+function createTempUser(contributor_email, grouphug_Id, contributor_name){
+  console.log("create temp user group hug", grouphug_Id);
+  console.log("test works", contributor_email, contributor_name);
+  var randomstring = Math.random().toString(36).slice(-15);
+  console.log(randomstring);
+  User.create({
+    isActivated: "false",
+    username: contributor_email,
+    firstName: contributor_name,
+    email: contributor_email,
+    password: randomstring,
+    passwordConfirmation: randomstring,
+    invitations: [grouphug_Id]
+  })
+  .then(function(user,err){
+    console.log("New user created>>>>>>>>",user);
+    addContributorToGrouphug(grouphug_Id, user._id);
+    return user;
+  })
+  .catch(function(err){
+    //put erraction here
+    console.log("new user not created err",err);
+  })
+
+}  
+
+function addContributorToGrouphug(grouphug_Id, user_id){
   Grouphug.findById(grouphug_Id)
     .then(function(grouphug, err){
       if(grouphug){
       console.log("found a group hug",grouphug,"<<<>>>adding user id ",user_id);
+      console.log("contributors",grouphug.contributors);
       grouphug.contributors.push(user_id);
-      return Grouphug.update({_id: grouphug_Id},{contributors: user_id});
+      return Grouphug.update({_id: grouphug_Id},{contributors: grouphug.contributors});
       }
     })
     .catch(function(err){
