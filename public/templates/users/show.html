@@ -26,9 +26,12 @@
         <div class="showlabel">ContactNumber</div>
         {{ usersShow.selected.contactNumber }}
       </div>
-      <div>
-        <div class="showlabel">Invitations Pending</div>
-        {{ usersShow.selected.invitations }}
+      <div class="showlabel">
+      <h3>Pending Invitations:</h3>
+        <ul ng-repeat="invitation in usersShow.selected.invitations">
+        <li>{{invitation.name}}, a group hug for {{invitation.gifteeFirstName}} {{invitation.gifteeLastName}}</li>
+       
+        </ul>
       </div>
 
       <!-- <p>Total GroupHugs as Giftee: {{ usersShow.selected.something }}</p>

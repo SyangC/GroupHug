@@ -12,6 +12,7 @@ function userIndex(req, res) {
 
 function userShow(req, res) {
   User.findById(req.params.id)
+    .populate('invitations')
     .then(function(user) {
       res.status(200).json(user);
     })
