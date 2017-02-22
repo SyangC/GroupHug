@@ -33,13 +33,30 @@ function existingUserTest (contributor_email, grouphug_Id){
       if(user){
         console.log("Need to add invite for User", user.firstName," ",user.lastName);
         console.log("current invitations",user.invitations);
+        
         user.invitations.push(grouphug_Id);
         console.log("User invitation added",user);
+        addContributorToGrouphug(grouphug_Id, user._id);
         return User.update({_id: user._id},{invitations: user.invitations});
 
       }
       else {
         console.log("need to add user")
+      }
+    })
+    .catch(function(err){
+      console.log("catch invoked reason was >>>>>>",err);
+    })
+
+}
+
+function addContributorToGrouphug(grouphug_Id,user_id){
+  Grouphug.findById(grouphug_Id)
+    .then(function(grouphug, err){
+      if(grouphug){
+      console.log("found a group hug",grouphug,"<<<>>>adding user id ",user_id);
+      grouphug.contributors.push(user_id);
+      return Grouphug.update({_id: grouphug_Id},{contributors: user_id});
       }
     })
     .catch(function(err){

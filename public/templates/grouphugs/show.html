@@ -40,8 +40,8 @@
       </form> -->
       
       <h3>Contributors already on the list:</h3>
-      <ul ng-repeat="contributorEmail in grouphugsShow.selected.contributorEmailAddresses">
-        <li >{{ contributorEmail }} is on the list</li>
+      <ul ng-repeat="contributor in grouphugsShow.selected.contributors">
+        <li >{{contributor.firstName}} {{contributor.lastName}}  ({{ contributor.email}}) is invited</li>
       </ul>
       <div ng-if="grouphugsShow.selected.status == 'active'">
         <div ng-repeat="experience in grouphugsShow.selected.experiences">

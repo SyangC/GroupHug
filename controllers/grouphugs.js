@@ -25,6 +25,7 @@ function grouphugShow(req, res) {
   Grouphug.findById(req.params.id)
     .populate ('creator')
     .populate('giftee')
+    .populate('contributors')
     .populate('experiences.experienceId')
     .populate('contribution.contributionId')
     .then(function(grouphug) {
