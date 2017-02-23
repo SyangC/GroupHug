@@ -641,11 +641,14 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
           success(function(data, status, headers, config) {
               // this callback will be called asynchronously
               // when the response is available
-              console.log("contributor handler",data);
+              console.log("contributor handler sucess",data);
+              $state.reload();
           }).
           error(function(data, status, headers, config) {
               // called asynchronously if an error occurs
               // or server returns response with an error status.
+              console.log("contributor handler failed",data);
+              $state.reload();
           });
     };
 
