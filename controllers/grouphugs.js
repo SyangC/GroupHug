@@ -78,6 +78,7 @@ function grouphugUpdate(req, res) {
       var grouphug_creator_firstName = grouphug.creator.firstName;
       var grouphug_creator_lastName = grouphug.creator.lastName;
       var grouphug_creator_email = grouphug.creator.email;
+      var grouphug_id =grouphug._id;
       console.log("okkkkkk lets try this".grouphug_creator);
       for(key in req.body) {
 
@@ -104,6 +105,8 @@ function grouphugUpdate(req, res) {
         }*/
         else if (key === "status" && req.body[key]==="active" && grouphug[key]!="active"){
           sendGroupHugActivationEmail(grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
+          console.log("CONTRIBUTORS",grouphug.contributors);
+          sendGroupHugInvitations(grouphug.contributors, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
           grouphug[key] = req.body[key];
 
         }
@@ -232,7 +235,16 @@ function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphu
       console.log("Temp user Email did not send", err);
       })
 }
-
+function sendGroupHugInvitations(grouphug_contributors, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email){
+  console.log("Invitees",grouphug_contributors);
+  for (i = 0; i < grouphug_contributors.length; i++ ){
+    console.log("invtees", grouphug_contributors[i]);
+    User.findById(grouphug_contributors[i])
+      .then(function(user){
+        console.log("invitee name", user.firstName, user.lastName, "activated", user.isActivated);
+      })
+  }
+};
 
 function sendGroupHugActivationEmail (grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email){
  
@@ -284,7 +296,7 @@ function sendGroupHugActivationEmail (grouphug, grouphug_creator_firstName, grou
                messageText = messageText+ messageSegment
                console.log("messageText builder", messageText)
           }
-          console.log("Loooooooping",messageSegment);
+         
         };
 
         var data = {

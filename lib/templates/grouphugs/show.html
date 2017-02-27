@@ -19,10 +19,10 @@
       <h2>Add to the list of contributors:</h2>
       <p>Please add the email addresses of people you think might like to contribute below. You can always add to this list once the Group Hug is created and don't worry we will only use the email addresses you provide for the purpose of inviting people to join group hug to contribute to {{grouphugsShow.selected.gifteeFirstName}}'s Group Hug.</p>
 
-      <div ng-if="grouphugsShow.selected.status == 'active' && grouphugsShow.selected.contributorEmailAddresses.length <=1"><p>
+      <div ng-if="grouphugsShow.selected.status == 'active' && grouphugsShow.selected.contributors.length <=1"><p>
       Yeah! This GroupHug is good to go - but you need to add some friend's email addresses before you can publish it</p>
       </div>
-      <div ng-if="grouphugsShow.selected.status == 'active' && grouphugsShow.selected.contributorEmailAddresses.length >1"><p> Yeah! This GroupHug is good to go - please check the details below if you are happy to share this with all your lovely friends go ahead and hit the big green PUBLISH button below, you can add new friends at any time before the grouphug is presented to the recipient</p>
+      <div ng-if="grouphugsShow.selected.status == 'active' && grouphugsShow.selected.contributors.length >1"><p> Yeah! This GroupHug is good to go - please check the details below if you are happy to share this with all your lovely friends go ahead and hit the big green PUBLISH button below, you can add new friends at any time before the grouphug is presented to the recipient</p>
 
         <button id="makelive" ng-if="!grouphugsShow.selected.madelive" ng-click="grouphugsShow.makelive()" class="btn">PUBLISH</button>
       </div>
