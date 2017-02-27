@@ -5,8 +5,7 @@ var email = require("../config/email");
 var mailgun = require('../config/mailgun');
 var EmailTemplate = require("../models/emailTemplate");
 var schedule = require("node-schedule");
-var messageArray = [];
-var groupHugCreator ={}
+
 
 
 
@@ -64,14 +63,6 @@ function grouphugCreate(req, res) {
       console.log(err);
       res.status(500).json(err);
     });
-  // Grouphug.create(req.body)
-  //   .then(function(grouphug) {
-  //     res.status(201).json(grouphug);
-  //   })
-  //   .catch(function(err) {
-  //     console.log(err);
-  //     res.status(500).json(err);
-  //   });
 }
 
 function grouphugUpdate(req, res) {
@@ -81,9 +72,13 @@ function grouphugUpdate(req, res) {
   
 
   Grouphug.findById(req.params.id)
-    
+    .populate('creator')
     .then(function(grouphug) {
       
+      var grouphug_creator_firstName = grouphug.creator.firstName;
+      var grouphug_creator_lastName = grouphug.creator.lastName;
+      var grouphug_creator_email = grouphug.creator.email;
+      console.log("okkkkkk lets try this".grouphug_creator);
       for(key in req.body) {
 
         if(key === "experiences") {
@@ -108,11 +103,11 @@ function grouphugUpdate(req, res) {
           tempContributorEmailAddressesArray=[];
         }*/
         else if (key === "status" && req.body[key]==="active" && grouphug[key]!="active"){
-          sendGroupHugActivationEmail(grouphug);
+          sendGroupHugActivationEmail(grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
           grouphug[key] = req.body[key];
 
         }
-        else if(key != "contributions"){
+        else if(key != "contributions" && key != "contributors"){
 
           grouphug[key] = req.body[key];
         }
@@ -169,24 +164,13 @@ function createTempUser(tempContributorEmailAddresses, grouphug){
 
 
 
-function creatorLookUp(grouphug){
-  User.findOne({'_id' : grouphug.creator})
-    .then(function(user, err){
-      if(err){console.log("error------>",err)};
-      console.log("^^^^Creator look up found^^^^", user)
-      groupHugCreator.firstName = user.firstName;
-      groupHugCreator.lastName = user.lastName;
-      groupHugCreator.email = user.email;
-    })
-    .catch(function(err){
-      console.log("Creator look up failed because", err);
-      })
-
-};*/
+*/
 
 function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphug){
   var date = new Date();
+  var messageArray =[];
     EmailTemplate.findOne({'name': 'ContributorAdd'})
+     
       .then(function(registrationEmail, messageArray) {
 
        /*add user look up uing GH id*/
@@ -204,11 +188,11 @@ function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphu
               break;
             case "creatorFirstName":
               console.log("groupHugCreatorFirstName");
-              messageText = messageText + " "+groupHugCreator.firstName;
+              messageText = messageText + " "+groupHug_creator_firstName;
               break;
             case "creatorLastName":
               console.log("groupHugCreatorLastName");
-              messageText = messageText + " "+groupHugCreator.lastName;
+              messageText = messageText + " "+groupHug_creator_lastName;
               break;
             case "gifteeFirstName":
               console.log("gifteeFirstName");
@@ -250,11 +234,15 @@ function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphu
 }
 
 
-function sendGroupHugActivationEmail (grouphug){
-  creatorLookUp(grouphug);
+function sendGroupHugActivationEmail (grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email){
+ 
   var date = new Date();
+  var messageArray = [];
+  console.log("this is the grouphug!!!!!",grouphug);
+  console.log("this is the grouphug creator......", grouphug_creator_firstName, grouphug_creator_lastName)
+ 
     EmailTemplate.findOne({'name': 'GHActivate'})
-      .then(function(registrationEmail, messageArray) {
+      .then(function(registrationEmail) {
 
        /*add user look up uing GH id*/
 
@@ -270,11 +258,11 @@ function sendGroupHugActivationEmail (grouphug){
               break;
             case "creatorFirstName":
               console.log("groupHugCreatorFirstName");
-              messageText = messageText + " "+groupHugCreator.firstName;
+              messageText = messageText + " "+grouphug_creator_firstName;
               break;
             case "creatorLastName":
               console.log("groupHugCreatorLastName");
-              messageText = messageText + " "+groupHugCreator.lastName;
+              messageText = messageText + " "+grouphug_creator_lastName;
               break;
             case "gifteeFirstName":
               console.log("gifteeFirstName");
@@ -301,7 +289,7 @@ function sendGroupHugActivationEmail (grouphug){
 
         var data = {
           from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
-          to: groupHugCreator.email,
+          to: grouphug_creator_email,
           subject: "Your Group Hug "+grouphug.name+" has been activated",
           html: messageText
         };
@@ -315,7 +303,8 @@ function sendGroupHugActivationEmail (grouphug){
       })
 
   console.log("-----------------activation details------------------",grouphug);
-}                                                    
+}  
+
 
 module.exports = {
   index: grouphugIndex,
