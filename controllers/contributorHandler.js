@@ -42,6 +42,7 @@ function existingUserTest (contributor_email, grouphug_Id, contributor_name){
             console.log(randomstring);
             User.create({
               isActivated: "false",
+              tempUserAccessKey: randomstring,
               username: contributor_email,
               firstName: contributor_name,
               email: contributor_email,

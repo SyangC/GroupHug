@@ -40,7 +40,15 @@ function userUpdate(req, res) {
   user = User.findById(req.params.id)
     .then(function(user){
       console.log('user before',user);
-      for(key in req.body) user[key] = req.body[key];
+      for(key in req.body){ 
+        if(key === 'isActivated' && !req.body[key]){
+          user[key]=true;
+          user.tempUserAccessKey = "";
+        }
+        else if (key != 'tempUserAccessKey'){
+        user[key] = req.body[key];
+        }
+      };
       console.log('user after',user);
       return user.save();
     })

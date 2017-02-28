@@ -106,7 +106,7 @@ function grouphugUpdate(req, res) {
         else if (key === "status" && req.body[key]==="active" && grouphug[key]!="active"){
           sendGroupHugActivationEmail(grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
           console.log("CONTRIBUTORS",grouphug.contributors);
-          sendGroupHugInvitations(grouphug.contributors, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
+          sendGroupHugInvitations(grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
           grouphug[key] = req.body[key];
 
         }
@@ -146,37 +146,16 @@ function grouphugDelete(req, res) {
     });
 }
 
-/*
-Ol Contributor method ----delete once new method tested
-function createTempUser(tempContributorEmailAddresses, grouphug){
-  console.log("create temp user group hug", grouphug);
-  console.log("test works", tempContributorEmailAddresses);
-  var randomstring = Math.random().toString(36).slice(-15);
-  console.log(randomstring);
-  User.create({
-    isActivated: "false",
-    username: tempContributorEmailAddresses,
-    email: tempContributorEmailAddresses,
-    password: randomstring,
-    passwordConfirmation: randomstring
-  });
-  creatorLookUp(grouphug);
-  sendTempUserEmail(randomstring, tempContributorEmailAddresses, grouphug);
-    
-}  
 
 
+function sendTempUserEmail (user, grouphug, grouphug_creator_firstName, grouphug_creator_lastName){
 
-*/
-
-function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphug){
   var date = new Date();
-  var messageArray =[];
-    EmailTemplate.findOne({'name': 'ContributorAdd'})
+  var messageArray =[123];
+    EmailTemplate.findOne({'name': 'NewUserInvite'})
      
-      .then(function(registrationEmail, messageArray) {
-
-       /*add user look up uing GH id*/
+      .then(function(registrationEmail) {
+        console.log("Send new user email",messageArray, user, grouphug);
 
         messageArray = mailgun.mailgunParse(registrationEmail);
         var messageText = ""
@@ -186,28 +165,33 @@ function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphu
           switch (messageSegment) {
             case "email":
              
-             console.log("switching email");
-             messageText = messageText + " "+tempContributorEmailAddresses;
+             console.log("switching email",user.email);
+             messageText = messageText + " "+user.email;
+              break;
+            case "userFirstName":
+             
+             console.log("switching userFirstName",user.firstName);
+             messageText = messageText + " "+user.firstName;
               break;
             case "creatorFirstName":
               console.log("groupHugCreatorFirstName");
-              messageText = messageText + " "+groupHug_creator_firstName;
+              messageText = messageText + " "+grouphug_creator_firstName;
               break;
             case "creatorLastName":
               console.log("groupHugCreatorLastName");
-              messageText = messageText + " "+groupHug_creator_lastName;
+              messageText = messageText + " "+grouphug_creator_lastName;
               break;
             case "gifteeFirstName":
-              console.log("gifteeFirstName");
+              console.log("gifteeFirstName",grouphug.gifteeFirstName);
               messageText = messageText + " "+grouphug.gifteeFirstName;
               break;
             case "gifteeLastName":
-              console.log("gifteeLastName");
+              console.log("gifteeLastName",grouphug.gifteeLastName);
               messageText = messageText + " "+grouphug.gifteeLastName;
               break;
             case "password":
-              console.log("switching password");
-              messageText = messageText + " "+randomstring;
+              console.log("switching password",user.tempUserAccessKey);
+              messageText = messageText + " "+user.tempUserAccessKey;
               break;
             case "newParagraph":
               console.log("adding line break");
@@ -222,26 +206,38 @@ function sendTempUserEmail (randomstring, tempContributorEmailAddresses, grouphu
 
         var data = {
           from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
-          to: tempContributorEmailAddresses,
+          to: user.email,
           subject: "You have been invited to join group hug",
           html: messageText
         };
 
         mailgun.mailgunSend(data); 
-        console.log('Tem User Email being sent', data);
+        console.log('Temp User Email being sent', data);
            
      })
     .catch(function(err){
       console.log("Temp user Email did not send", err);
       })
 }
-function sendGroupHugInvitations(grouphug_contributors, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email){
-  console.log("Invitees",grouphug_contributors);
-  for (i = 0; i < grouphug_contributors.length; i++ ){
-    console.log("invtees", grouphug_contributors[i]);
-    User.findById(grouphug_contributors[i])
+function sendGroupHugInvitations(grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email){
+  console.log("Invitees",grouphug.contributors);
+  for (i = 0; i < grouphug.contributors.length; i++ ){
+    console.log("invtees", grouphug.contributors[i]);
+    User.findById(grouphug.contributors[i])
       .then(function(user){
         console.log("invitee name", user.firstName, user.lastName, "activated", user.isActivated);
+        if(user){
+          if(user.isActivated){
+            console.log("Send group hug user invitation");
+          }
+          else {
+            
+            sendTempUserEmail(user, grouphug, grouphug_creator_firstName, grouphug_creator_lastName );
+          }
+        }
+        else{
+          console.log("UNIDENTIFIED USER", grouphug_contributors[i] );
+        }
       })
   }
 };
@@ -251,6 +247,7 @@ function sendGroupHugActivationEmail (grouphug, grouphug_creator_firstName, grou
   var date = new Date();
   var messageArray = [];
   console.log("this is the grouphug!!!!!",grouphug);
+  console.log("this is the linked user????",grouphug.creator.firstName);
   console.log("this is the grouphug creator......", grouphug_creator_firstName, grouphug_creator_lastName)
  
     EmailTemplate.findOne({'name': 'GHActivate'})

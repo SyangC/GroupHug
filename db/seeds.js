@@ -27,10 +27,16 @@ EmailTemplate.create([{
   html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi {{firstName}}, thank you for registering with us.</h3><h3>This account was created at {{createdAt}}.</h3></body>",
   delay: 60*2
 }, {
-  name: "ContributorAdd",
+  name: "NewUserInvite",
   subject: '|email|Welcome to GroupHug!',
   text: "Hello |email|, |creatorFirstName| |creatorLastName| has invited you to contribute to the person whose name will appear here's Group Hug.  To participate you will need to log on at grouphug.co.uk user your |email| as your username and this |password|. Thanks the lovely pepole at GrougHug",
-  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi |email|, |creatorFirstName| |creatorLastName| has invited you to contribute to |gifteeFirstName| |gifteeLastName|'s Group Hug.</h3><h3>This account was created at |createdAt|.</h3><h3>What is a group hug I here you ask why not log in now at localhost:3000 using your email |email| as your username and |password| as your password. Please be sure to set a new password when registering.|newParagraph| GH TEAM</h3></body>",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi |userFirstName|, |creatorFirstName| |creatorLastName| has invited you to contribute to |gifteeFirstName| |gifteeLastName|'s Group Hug.</h3><h3>This account was created at |createdAt|.</h3><h3>What is a group hug I here you ask why not log in now at localhost:3000 using your email |email| as your username and |password| as your password. Please be sure to set a new password when registering.|newParagraph| GH TEAM</h3></body>",
+  delay: 60*2
+}, {
+  name: "ContributorInvitation",
+  subject: '|userFirstName|You have a new GroupHug Invitation to |groupHugName|....',
+  text: "Hello |email|, |creatorFirstName| |creatorLastName| has invited you to contribute to the person whose name will appear here's Group Hug.  To participate you will need to log on at grouphug.co.uk user your |email| as your username and this |password|. Thanks the lovely pepole at GrougHug",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi |userFirstName|, |creatorFirstName| |creatorLastName| has invited you to contribute to |gifteeFirstName| |gifteeLastName|'s Group Hug.</h3><h3>To contribute to this Group Hug for |gifteeFirstName| just go to www.grouphug.co.uk log in and click the 'my Invitation' link to accept the invitation and see what its all about|newParagraph| GH TEAM</h3></body>",
   delay: 60*2
 }, {
   name: "GHActivate",
