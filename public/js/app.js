@@ -817,7 +817,6 @@ function UsersEditController(User, $state, $auth) {
       })
     }
     else {
-    /*  this.selected.isActivated = true;*/
       this.selected.$update(function() {
         $state.go("userActivated", $state.params)
       })

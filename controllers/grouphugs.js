@@ -91,14 +91,14 @@ function grouphugUpdate(req, res) {
           
           if (grouphug[key].length === 0){
             grouphug[key].push(tempContributorEmailAddresses)
-            createTempUser(tempContributorEmailAddresses, grouphug);
+            create(tempContributorEmailAddresses, grouphug);
           }
           else{
             tempContributorEmailAddressesArray = tempContributorEmailAddresses.split(",");
               if(tempContributorEmailAddressesArray.length > grouphug[key].length ){
               console.log("tempcont length",tempContributorEmailAddressesArray.length," ",tempContributorEmailAddressesArray," grouphug length",grouphug[key].length," ",grouphug[key])
               grouphug[key].push(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
-              createTempUser(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1], grouphug);
+              create(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1], grouphug);
             };
           }
           tempContributorEmailAddressesArray=[];
@@ -148,11 +148,11 @@ function grouphugDelete(req, res) {
 
 
 
-function sendTempUserEmail (user, grouphug, grouphug_creator_firstName, grouphug_creator_lastName){
+function sendEmail (message_type, user, grouphug, grouphug_creator_firstName, grouphug_creator_lastName){
 
   var date = new Date();
   var messageArray =[123];
-    EmailTemplate.findOne({'name': 'NewUserInvite'})
+    EmailTemplate.findOne({'name': message_type})
      
       .then(function(registrationEmail) {
         console.log("Send new user email",messageArray, user, grouphug);
@@ -164,7 +164,6 @@ function sendTempUserEmail (user, grouphug, grouphug_creator_firstName, grouphug
           var messageSegment = messageArray [i];
           switch (messageSegment) {
             case "email":
-             
              console.log("switching email",user.email);
              messageText = messageText + " "+user.email;
               break;
@@ -212,11 +211,11 @@ function sendTempUserEmail (user, grouphug, grouphug_creator_firstName, grouphug
         };
 
         mailgun.mailgunSend(data); 
-        console.log('Temp User Email being sent', data);
+        console.log('Email being sent', data);
            
      })
     .catch(function(err){
-      console.log("Temp user Email did not send", err);
+      console.log("Email did not send", err);
       })
 }
 function sendGroupHugInvitations(grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email){
@@ -228,11 +227,13 @@ function sendGroupHugInvitations(grouphug, grouphug_creator_firstName, grouphug_
         console.log("invitee name", user.firstName, user.lastName, "activated", user.isActivated);
         if(user){
           if(user.isActivated){
+            var message_type = 'ContributorInvitation'
             console.log("Send group hug user invitation");
+            sendEmail(message_type, user, grouphug, grouphug_creator_firstName, grouphug_creator_lastName );
           }
           else {
-            
-            sendTempUserEmail(user, grouphug, grouphug_creator_firstName, grouphug_creator_lastName );
+            var message_type = 'NewUserInvite'
+            sendEmail(message_type, user, grouphug, grouphug_creator_firstName, grouphug_creator_lastName );
           }
         }
         else{
