@@ -93,6 +93,8 @@ function addContributorToGrouphug(grouphug_Id, user/*, user_id*/){
           console.log("gonna send new user email now");
           mailgun.mailgunMail('NewUserInvite',user.email, 'You have a new GroupHug invite', grouphug, grouphug.creator.firstName, grouphug.creator.lastName, grouphug.creator.email, user );
         }
+
+        //MAybe this should be where the return passes to to ensure GH contributors are updated before processing invite updates - not working at moment
         for (i = 0; i < grouphug.contributors.length; i++ ){
           console.log("these are the contributors", grouphug.contributors[i].contributorId, grouphug.contributors[i].contributorStatus);
           grouphug.contributors[i].contributorStatus = "invite has been Sent";

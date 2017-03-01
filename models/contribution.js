@@ -30,11 +30,16 @@ contributionSchema.post('save', function(doc){
     .then(function(grouphug){
       if(!!grouphug) {
         grouphug.contributionTotal = grouphug.contributionTotal + doc.amount;
+        sendMotivationMail(grouphug);
         return grouphug.save();
       }
     })
 })
 
+
+function sendMotivationMail(grouphug){
+  console.log("case statements to go here for contribution motivation");
+};
 // contributionSchema.pre('remove', function(next) {
   
 //   var doc = this;

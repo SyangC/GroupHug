@@ -87,9 +87,10 @@ function grouphugUpdate(req, res) {
           grouphug[key] = JSON.parse(req.body[key]);
         } 
     
-        else if (key === "status" && req.body[key]==="active" && grouphug[key]!="active"){ 
+        else if (key === "status" && req.body[key]==="active" && grouphug[key]!="active"){
+         
           mailgun.mailgunMail('GHActivate', grouphug_creator_email, "Your Group Hug "+grouphug.name+" has been activated", grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
-          console.log("CONTRIBUTORS",grouphug.contributors.length);
+
           sendGroupHugInvitations(grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
           grouphug[key] = req.body[key];
 
