@@ -3,6 +3,8 @@ var Contribution = require('../models/contribution');
 var User = require('../models/user');
 var jwt = require("jsonwebtoken");
 var secret = require("../config/tokens").secret;
+var mailgun = require('../config/mailgun');
+var EmailTemplate = require("../models/emailTemplate");
 
 function contributorCreate(req, res){
   console.log("Contributor req.body", req.body);
@@ -10,10 +12,10 @@ function contributorCreate(req, res){
   var contributor_email = req.body.email;
   var grouphug_Id = req.body.grouphug_Id
 
+
+
   if(contributor_email){
     console.log("contributor email received",contributor_email);
-
-
     existingUserTest(contributor_email, grouphug_Id, contributor_name);
     return res.status(200).json({ message: "Contributor successful" });
 
@@ -30,7 +32,7 @@ function existingUserTest (contributor_email, grouphug_Id, contributor_name){
       if(user){
         if(user.invitations.indexOf(grouphug_Id)===-1){
           user.invitations.push(grouphug_Id);
-          addContributorToGrouphug(grouphug_Id, user._id);
+          addContributorToGrouphug(grouphug_Id, user/*, user._id*/);
           return User.update({_id: user._id},{invitations: user.invitations});
         }
       }
@@ -52,12 +54,11 @@ function existingUserTest (contributor_email, grouphug_Id, contributor_name){
             .then(function(user,err){
               console.log("New user created>>>>>>>>",user);
               user.invitations.push(grouphug_Id);
-              addContributorToGrouphug(grouphug_Id, user._id);
+              addContributorToGrouphug(grouphug_Id, user/*, user._id*/);
               return User.update({_id: user._id},{invitations: user.invitations});
              
             })
             .catch(function(err){
-              //put erraction here
               console.log("new user not created err",err);
             })
 
@@ -74,18 +75,35 @@ function existingUserTest (contributor_email, grouphug_Id, contributor_name){
 
 
 
-function addContributorToGrouphug(grouphug_Id, user_id){
+function addContributorToGrouphug(grouphug_Id, user/*, user_id*/){
+  
   Grouphug.findById(grouphug_Id)
+    .populate('creator')
     .then(function(grouphug, err){
       if(grouphug){
-      console.log("found a group hug",grouphug,"<<<>>>adding user id ",user_id);
+      console.log("found a group hug",grouphug,"<<<>>>adding user id ",user._id);
+      console.log("Add contributor user detaisll&&&&&&&&",user);
       console.log("contributors",grouphug.contributors);
-      grouphug.contributors.push(user_id);
-      return Grouphug.update({_id: grouphug_Id},{contributors: grouphug.contributors});
+      if(grouphug.status ==="active"){
+        if(user.isActivated){
+          console.log("gonna send active user email now");
+          mailgun.mailgunMail('ContributorInvitation', user.email, 'You have been invited to join GroupHug', grouphug, grouphug.creator.firstName, grouphug.creator.lastName, grouphug.creator.email, user );
+        }
+        else{
+          console.log("gonna send new user email now");
+          mailgun.mailgunMail('NewUserInvite',user.email, 'You have a new GroupHug invite', grouphug, grouphug.creator.firstName, grouphug.creator.lastName, grouphug.creator.email, user );
+        }
+        for (i = 0; i < grouphug.contributors.length; i++ ){
+          console.log("these are the contributors", grouphug.contributors[i].contributorId, grouphug.contributors[i].contributorStatus);
+          grouphug.contributors[i].contributorStatus = "invite has been Sent";
+
+        }
+      }
+      return Grouphug.update({_id: grouphug_Id},{$push:{'contributors':{contributorId: user._id}}});
       }
     })
     .catch(function(err){
-      console.log("catch invoked reason was >>>>>>",err);
+      console.log(" add to contributor catch invoked reason was >>>>>>",err);
     })
 
 }

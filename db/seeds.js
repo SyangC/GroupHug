@@ -139,7 +139,6 @@ User.create([{
         description: "mike needs pampering",
         creator: users[0],
         giftee: users[1],
-        contributors: [ users[2], users[3]],
         experiences: [{
           experienceId: experiences[0],
           userWeightings: [{

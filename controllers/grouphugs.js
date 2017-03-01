@@ -10,6 +10,7 @@ var schedule = require("node-schedule");
 
 
 
+
 function grouphugIndex(req, res) {
   Grouphug.find()
     .then(function(grouphugs) {
@@ -24,7 +25,7 @@ function grouphugShow(req, res) {
   Grouphug.findById(req.params.id)
     .populate ('creator')
     .populate('giftee')
-    .populate('contributors')
+    .populate('contributors.contributorId')
     .populate('experiences.experienceId')
     .populate('contribution.contributionId')
     .then(function(grouphug) {
@@ -85,27 +86,10 @@ function grouphugUpdate(req, res) {
         if(key === "experiences") {
           grouphug[key] = JSON.parse(req.body[key]);
         } 
-      /*  else if (key === "contributorEmailAddresses"){
-          // Check ths evelaution to see if a new contributor has been added as we should only push in if new one added to avoid triggering emails every time a GH save or stop emails auto firing as per new work flow??
-          var tempContributorEmailAddresses = (req.body[key]);
-          
-          if (grouphug[key].length === 0){
-            grouphug[key].push(tempContributorEmailAddresses)
-            create(tempContributorEmailAddresses, grouphug);
-          }
-          else{
-            tempContributorEmailAddressesArray = tempContributorEmailAddresses.split(",");
-              if(tempContributorEmailAddressesArray.length > grouphug[key].length ){
-              console.log("tempcont length",tempContributorEmailAddressesArray.length," ",tempContributorEmailAddressesArray," grouphug length",grouphug[key].length," ",grouphug[key])
-              grouphug[key].push(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1]);
-              create(tempContributorEmailAddressesArray[tempContributorEmailAddressesArray.length-1], grouphug);
-            };
-          }
-          tempContributorEmailAddressesArray=[];
-        }*/
-        else if (key === "status" && req.body[key]==="active" && grouphug[key]!="active"){
-          sendGroupHugActivationEmail(grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
-          console.log("CONTRIBUTORS",grouphug.contributors);
+    
+        else if (key === "status" && req.body[key]==="active" && grouphug[key]!="active"){ 
+          mailgun.mailgunMail('GHActivate', grouphug_creator_email, "Your Group Hug "+grouphug.name+" has been activated", grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
+          console.log("CONTRIBUTORS",grouphug.contributors.length);
           sendGroupHugInvitations(grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email);
           grouphug[key] = req.body[key];
 
@@ -148,172 +132,40 @@ function grouphugDelete(req, res) {
 
 
 
-function sendEmail (message_type, user, grouphug, grouphug_creator_firstName, grouphug_creator_lastName){
 
-  var date = new Date();
-  var messageArray =[123];
-    EmailTemplate.findOne({'name': message_type})
-     
-      .then(function(registrationEmail) {
-        console.log("Send new user email",messageArray, user, grouphug);
-
-        messageArray = mailgun.mailgunParse(registrationEmail);
-        var messageText = ""
-
-        for (var i = 0, len = messageArray.length; i < len; i++) {
-          var messageSegment = messageArray [i];
-          switch (messageSegment) {
-            case "email":
-             console.log("switching email",user.email);
-             messageText = messageText + " "+user.email;
-              break;
-            case "userFirstName":
-             
-             console.log("switching userFirstName",user.firstName);
-             messageText = messageText + " "+user.firstName;
-              break;
-            case "creatorFirstName":
-              console.log("groupHugCreatorFirstName");
-              messageText = messageText + " "+grouphug_creator_firstName;
-              break;
-            case "creatorLastName":
-              console.log("groupHugCreatorLastName");
-              messageText = messageText + " "+grouphug_creator_lastName;
-              break;
-            case "gifteeFirstName":
-              console.log("gifteeFirstName",grouphug.gifteeFirstName);
-              messageText = messageText + " "+grouphug.gifteeFirstName;
-              break;
-            case "gifteeLastName":
-              console.log("gifteeLastName",grouphug.gifteeLastName);
-              messageText = messageText + " "+grouphug.gifteeLastName;
-              break;
-            case "password":
-              console.log("switching password",user.tempUserAccessKey);
-              messageText = messageText + " "+user.tempUserAccessKey;
-              break;
-            case "newParagraph":
-              console.log("adding line break");
-              messageText = messageText + "<BR>";
-              break;
-            default:
-               messageText = messageText+ messageSegment
-               console.log("messageText builder", messageText)
-          }
-          console.log("Loooooooping",messageSegment);
-        };
-
-        var data = {
-          from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
-          to: user.email,
-          subject: "You have been invited to join group hug",
-          html: messageText
-        };
-
-        mailgun.mailgunSend(data); 
-        console.log('Email being sent', data);
-           
-     })
-    .catch(function(err){
-      console.log("Email did not send", err);
-      })
-}
 function sendGroupHugInvitations(grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email){
   console.log("Invitees",grouphug.contributors);
   for (i = 0; i < grouphug.contributors.length; i++ ){
-    console.log("invtees", grouphug.contributors[i]);
-    User.findById(grouphug.contributors[i])
+    console.log("invtees", grouphug.contributors[i].contributorId);
+    User.findById(grouphug.contributors[i].contributorId)
       .then(function(user){
         console.log("invitee name", user.firstName, user.lastName, "activated", user.isActivated);
         if(user){
           if(user.isActivated){
-            var message_type = 'ContributorInvitation'
             console.log("Send group hug user invitation");
-            sendEmail(message_type, user, grouphug, grouphug_creator_firstName, grouphug_creator_lastName );
+            mailgun.mailgunMail('ContributorInvitation', user.email, 'You have been invited to join GroupHug', grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email, user );
+            console.log("this is the gh invite updater #####",grouphug)
+            
           }
+
           else {
-            var message_type = 'NewUserInvite'
-            sendEmail(message_type, user, grouphug, grouphug_creator_firstName, grouphug_creator_lastName );
+            mailgun.mailgunMail('NewUserInvite',user.email, 'You have a new GroupHug invite', grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email, user );
+          }
+
+          for (i = 0; i < grouphug.contributors.length; i++ ){
+            console.log("these are the contributors", grouphug.contributors[i].contributorId, grouphug.contributors[i].contributorStatus);
+            grouphug.contributors[i].contributorStatus = "invite has been Sent";
+
           }
         }
         else{
           console.log("UNIDENTIFIED USER", grouphug_contributors[i] );
         }
-      })
+        grouphug.save();
+    })
   }
 };
 
-function sendGroupHugActivationEmail (grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email){
- 
-  var date = new Date();
-  var messageArray = [];
-  console.log("this is the grouphug!!!!!",grouphug);
-  console.log("this is the linked user????",grouphug.creator.firstName);
-  console.log("this is the grouphug creator......", grouphug_creator_firstName, grouphug_creator_lastName)
- 
-    EmailTemplate.findOne({'name': 'GHActivate'})
-      .then(function(registrationEmail) {
-
-       /*add user look up uing GH id*/
-
-        messageArray = mailgun.mailgunParse(registrationEmail);
-        var messageText = ""
-
-        for (var i = 0, len = messageArray.length; i < len; i++) {
-          var messageSegment = messageArray [i];
-          switch (messageSegment) {
-            case "GHName":
-             console.log("GHName");
-             messageText = messageText + " "+grouphug.name;
-              break;
-            case "creatorFirstName":
-              console.log("groupHugCreatorFirstName");
-              messageText = messageText + " "+grouphug_creator_firstName;
-              break;
-            case "creatorLastName":
-              console.log("groupHugCreatorLastName");
-              messageText = messageText + " "+grouphug_creator_lastName;
-              break;
-            case "gifteeFirstName":
-              console.log("gifteeFirstName");
-              messageText = messageText + " "+grouphug.gifteeFirstName;
-              break;
-            case "gifteeLastName":
-              console.log("gifteeLastName");
-              messageText = messageText + " "+grouphug.gifteeLastName;
-              break;
-            case "password":
-              console.log("switching password");
-              messageText = messageText + " "+randomstring;
-              break;
-            case "newParagraph":
-              console.log("adding line break");
-              messageText = messageText +"<BR>";
-              break;
-            default:
-               messageText = messageText+ messageSegment
-               console.log("messageText builder", messageText)
-          }
-         
-        };
-
-        var data = {
-          from: 'Mail Gun Test Group Hug <   postmaster@sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org>',
-          to: grouphug_creator_email,
-          subject: "Your Group Hug "+grouphug.name+" has been activated",
-          html: messageText
-        };
-
-        mailgun.mailgunSend(data); 
-        console.log('Activation email being sent', data);
-           
-     })
-    .catch(function(err){
-      console.log("Activiation Email did not send", err);
-      })
-
-  console.log("-----------------activation details------------------",grouphug);
-}  
 
 
 module.exports = {
