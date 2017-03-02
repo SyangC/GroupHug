@@ -228,6 +228,14 @@ table td {
 .choices{
   flex-direction: column;
 }
+.admin-weightings{
+  text-align: left;
+}
+
+.admin-weightings-value{
+  text-align: left;
+  padding-left: 10em;
+}
 
 /* Stripe */
 
