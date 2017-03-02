@@ -67,20 +67,40 @@
 
       <br/>
 
+      <div class="form-group" 
+        <label>Contact Number</label>
+        <input type="telephone" name="giftee-contactNumber" class="form-control" ng-model="grouphugsNew.new.gifteeContactNumber" ng-minlength="10" ng-maxlength="12"placeholder="Enter the best contact number mobile or landline">
+      </div>
+
+      <br/>
+
       How old is your friend? <br/>
 
-      <select name="category" ng-model="grouphugs.ages[0]" class="selectOne">
+      <select name="age-category" ng-model="grouphugsNew.new.gifteeAge" class="selectOne">
         <option disabled selected>Please select</option>
-        <option ng-repeat="age in grouphugsNew.ages" ng-value="age.id" ng-value="age.id" ng-disabled="grouphugsNew.ages.contains(age.id)">{{age}}</option>
+        <option ng-repeat="age in grouphugsNew.ages"  ng-value="grouphugsNew.new.gifteeAge" ng-disabled="grouphugsNew.new.gifteeAge.contains(age.id)">{{age}}</option>
       </select>
 
       <br />
 
-      What's the occasion? <br />
+      What gender is your friend <br/>
 
-      <select name="category" ng-model="grouphugsNew.occasions[0]" class="selectOne">
+      <select name="gender-category" ng-model="grouphugsNew.new.gifteeGender" class="selectOne">
         <option disabled selected>Please select</option>
-        <option ng-repeat="occasion in grouphugsNew.occasions" ng-value="occasion.id" ng-value="occasion.id" ng-disabled="grouphugsNew.occasions.contains(occasion.id)">{{occasion}}</option>
+        <option ng-repeat="gender in grouphugsNew.genders" ng-value="grouphugsNew.new.gifteeGender"  ng-disabled="grouphugsNew.new.gifteeGender.contains(gender.id)">{{gender}}</option>
+      </select>
+
+      <br />
+
+
+
+      <br />
+
+      What's the occassion? <br />
+
+      <select name="occassion-category" ng-model="grouphugsNew.new.occassion" class="selectOne">
+        <option disabled selected>Please select</option>
+        <option ng-repeat="occassion in grouphugsNew.occassions" ng-value="grouphugsNew.new.occassion" ng-disabled="grouphugsNew.new.occassion.contains(occassion.id)">{{occassion}}</option>
       </select>
 
       <br />
@@ -93,9 +113,9 @@
 
       What's your relationship to the person you're giving a gift to? <br />
 
-      <select name="category" ng-model="grouphugsNew.relation[0]" class="selectOne">
+      <select name="category" ng-model="grouphugsNew.new.gifteeRelationship" class="selectOne">
         <option disabled selected>Please select</option>
-        <option ng-repeat="relation in grouphugsNew.relations" ng-value="relation.id" ng-value="relation.id" ng-disabled="grouphugs.relations.contains(relation.id)">{{relation}}</option>
+        <option ng-repeat="relation in grouphugsNew.relations" ng-value="grouphugsNew.new.gifteeRelationship" ng-disabled="grouphugsNew.new.gifteeRelationship.contains(relation.id)">{{relation}}</option>
       </select>
 
       <br />
@@ -107,100 +127,119 @@
       <h2>What do you think they'd like to do?</h2>
 
       <hr />
-
-      <table>
-
-      <tr>
-        <td></td>
-        <td>Never!</td>
-        <td>Now and Then</td>
-        <td>Sometimes</td>
-        <td>Often</td>
-        <td>Yes, yes, yes! Every time!</td>
-      </tr>
+      <div class='form-group>'>
+        <table>
 
         <tr>
-          <td class="table-title">Luxurious - They like the finer things in life</td>
-          <td><input type="radio" name="question-1-answers" value="A" /></td>
-          <td><input type="radio" name="question-1-answers" value="A" /></td>
-          <td><input type="radio" name="question-1-answers" value="A" /></td>
-          <td><input type="radio" name="question-1-answers" value="A" /></td>
-          <td><input type="radio" name="question-1-answers" value="A" /></td>
-        </tr>        
-
-        <tr>
-          <td class="table-title">Pampering — ahhhh, spa!</td>
-          <td><input type="radio" name="question-2-answers" value="A" /></td>
-          <td><input type="radio" name="question-2-answers" value="A" /></td>
-          <td><input type="radio" name="question-2-answers" value="A" /></td>
-          <td><input type="radio" name="question-2-answers" value="A" /></td>
-          <td><input type="radio" name="question-2-answers" value="A" /></td>
-        </tr>        
-
-        <tr>
-          <td class="table-title">Active — they love exercise</td>
-          <td><input type="radio" name="question-3-answers" value="A" /></td>
-          <td><input type="radio" name="question-3-answers" value="A" /></td>
-          <td><input type="radio" name="question-3-answers" value="A" /></td>
-          <td><input type="radio" name="question-3-answers" value="A" /></td>
-          <td><input type="radio" name="question-3-answers" value="A" /></td>
-        </tr>        
-
-        <tr>
-          <td class="table-title">Cultural — for them, escape means exercising the mind</td>
-          <td><input type="radio" name="question-4-answers" value="A" /></td>
-          <td><input type="radio" name="question-4-answers" value="A" /></td>
-          <td><input type="radio" name="question-4-answers" value="A" /></td>
-          <td><input type="radio" name="question-4-answers" value="A" /></td>
-          <td><input type="radio" name="question-4-answers" value="A" /></td>
-        </tr>        
-
-        <tr>
-          <td class="table-title">Creative — they like learning how to do things</td>
-          <td><input type="radio" name="question-5-answers" value="A" /></td>
-          <td><input type="radio" name="question-5-answers" value="A" /></td>
-          <td><input type="radio" name="question-5-answers" value="A" /></td>
-          <td><input type="radio" name="question-5-answers" value="A" /></td>
-          <td><input type="radio" name="question-5-answers" value="A" /></td>
-        </tr>        
-
-        <tr>
-          <td class="table-title">Social — being with others makes their day/night/weekend</td>
-          <td><input type="radio" name="question-6-answers" value="A" /></td>
-          <td><input type="radio" name="question-6-answers" value="A" /></td>
-          <td><input type="radio" name="question-6-answers" value="A" /></td>
-          <td><input type="radio" name="question-6-answers" value="A" /></td>
-          <td><input type="radio" name="question-6-answers" value="A" /></td>
-        </tr>        
-
-        <tr>
-          <td class="table-title">Foodie — food makes their eyes grow wider</td>
-          <td><input type="radio" name="question-7-answers" value="A" /></td>
-          <td><input type="radio" name="question-7-answers" value="A" /></td>
-          <td><input type="radio" name="question-7-answers" value="A" /></td>
-          <td><input type="radio" name="question-7-answers" value="A" /></td>
-          <td><input type="radio" name="question-7-answers" value="A" /></td>
-        </tr>        
-
-        <tr>
-          <td class="table-title">Healthy — wellbeing is key</td>
-          <td><input type="radio" name="question-8-answers" value="A" /></td>
-          <td><input type="radio" name="question-8-answers" value="A" /></td>
-          <td><input type="radio" name="question-8-answers" value="A" /></td>
-          <td><input type="radio" name="question-8-answers" value="A" /></td>
-          <td><input type="radio" name="question-8-answers" value="A" /></td>
-        </tr>        
-
-        <tr>
-          <td class="table-title">Exciting — adrenalin is all</td>
-          <td><input type="radio" name="question-9-answers" value="A" /></td>
-          <td><input type="radio" name="question-9-answers" value="A" /></td>
-          <td><input type="radio" name="question-9-answers" value="A" /></td>
-          <td><input type="radio" name="question-9-answers" value="A" /></td>
-          <td><input type="radio" name="question-9-answers" value="A" /></td>
+          <td></td>
+          <td>Never!</td>
+          <td>Now and Then</td>
+          <td>Sometimes</td>
+          <td>Often</td>
+          <td>Yes, yes, yes! Every time!</td>
         </tr>
 
-      </table>
+          <tr>
+            <td class="table-title">Luxurious - They like the finer things in life</td>
+            <td><input type="radio" name="question-1-answers" ng-model = "grouphugsNew.new.question1" value="1" /></td>
+            <td><input type="radio" name="question-1-answers" ng-model = "grouphugsNew.new.question1" value="2" /></td>
+            <td><input type="radio" name="question-1-answers" ng-model = "grouphugsNew.new.question1" value="3" /></td>
+            <td><input type="radio" name="question-1-answers" ng-model = "grouphugsNew.new.question1" value="4" /></td>
+            <td><input type="radio" name="question-1-answers" ng-model = "grouphugsNew.new.question1" value="5" /></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Pampering — ahhhh, spa!</td>
+            <td><input type="radio" name="question-2-answers" ng-model = "grouphugsNew.new.question2" value="1" /></td>
+            <td><input type="radio" name="question-2-answers" ng-model = "grouphugsNew.new.question2" value="2" /></td>
+            <td><input type="radio" name="question-2-answers" ng-model = "grouphugsNew.new.question2" value="3" /></td>
+            <td><input type="radio" name="question-2-answers" ng-model = "grouphugsNew.new.question2" value="4" /></td>
+            <td><input type="radio" name="question-2-answers" ng-model = "grouphugsNew.new.question2" value="5" /></td>
+            
+          </tr>         
+          <tr>
+            <td class="table-title">Active — they love exercise</td>
+            <td><input type="radio" name="question-3-answers" ng-model = "grouphugsNew.new.question3" value="1" /></td>
+            <td><input type="radio" name="question-3-answers" ng-model = "grouphugsNew.new.question3" value="2" /></td>
+            <td><input type="radio" name="question-3-answers" ng-model = "grouphugsNew.new.question3" value="3" /></td>
+            <td><input type="radio" name="question-3-answers" ng-model = "grouphugsNew.new.question3" value="4" /></td>
+            <td><input type="radio" name="question-3-answers" ng-model = "grouphugsNew.new.question3" value="5" /></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Cultural — for them, escape means exercising the mind</td>
+            <td><input type="radio" name="question-4-answers" ng-model = "grouphugsNew.new.question4" value="1" /></td>
+            <td><input type="radio" name="question-4-answers" ng-model = "grouphugsNew.new.question4" value="2" /></td>
+            <td><input type="radio" name="question-4-answers" ng-model = "grouphugsNew.new.question4" value="3" /></td>
+            <td><input type="radio" name="question-4-answers" ng-model = "grouphugsNew.new.question4" value="4" /></td>
+            <td><input type="radio" name="question-4-answers" ng-model = "grouphugsNew.new.question4" value="5" /></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Creative — they like learning how to do things</td>
+            <td><input type="radio" name="question-5-answers" ng-model = "grouphugsNew.new.question5" value="1" /></td>
+            <td><input type="radio" name="question-5-answers" ng-model = "grouphugsNew.new.question5" value="2" /></td>
+            <td><input type="radio" name="question-5-answers" ng-model = "grouphugsNew.new.question5" value="3" /></td>
+            <td><input type="radio" name="question-5-answers" ng-model = "grouphugsNew.new.question5" value="4" /></td>
+            <td><input type="radio" name="question-5-answers" ng-model = "grouphugsNew.new.question5" value="5" /></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Social — being with others makes their day/night/weekend</td>
+            <td><input type="radio" name="question-6-answers" ng-model = "grouphugsNew.new.question6" value="1" /></td>
+            <td><input type="radio" name="question-6-answers" ng-model = "grouphugsNew.new.question6" value="2" /></td>
+            <td><input type="radio" name="question-6-answers" ng-model = "grouphugsNew.new.question6" value="3" /></td>
+            <td><input type="radio" name="question-6-answers" ng-model = "grouphugsNew.new.question6" value="4" /></td>
+            <td><input type="radio" name="question-6-answers" ng-model = "grouphugsNew.new.question6" value="5" /></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Foodie — food makes their eyes grow wider</td>
+            <td><input type="radio" name="question-7-answers" ng-model = "grouphugsNew.new.question7" value="1" /></td>
+            <td><input type="radio" name="question-7-answers" ng-model = "grouphugsNew.new.question7" value="2" /></td>
+            <td><input type="radio" name="question-7-answers" ng-model = "grouphugsNew.new.question7" value="3" /></td>
+            <td><input type="radio" name="question-7-answers" ng-model = "grouphugsNew.new.question7" value="4" /></td>
+            <td><input type="radio" name="question-7-answers" ng-model = "grouphugsNew.new.question7" value="5" /></td>
+          </tr>   
+
+          <tr>
+            <td class="table-title">Boozie — they're happiest drinking with friends</td>
+            <td><input type="radio" name="question-8-answers" ng-model = "grouphugsNew.new.question8" value="1" /></td>
+            <td><input type="radio" name="question-8-answers" ng-model = "grouphugsNew.new.question8" value="2" /></td>
+            <td><input type="radio" name="question-8-answers" ng-model = "grouphugsNew.new.question8" value="3" /></td>
+            <td><input type="radio" name="question-8-answers" ng-model = "grouphugsNew.new.question8" value="4" /></td>
+            <td><input type="radio" name="question-8-answers" ng-model = "grouphugsNew.new.question8" value="5" /></td>
+          </tr>      
+
+          <tr>
+            <td class="table-title">Healthy — wellbeing is key</td>
+            <td><input type="radio" name="question-9-answers" ng-model = "grouphugsNew.new.question9" value="1" /></td>
+            <td><input type="radio" name="question-9-answers" ng-model = "grouphugsNew.new.question9" value="2" /></td>
+            <td><input type="radio" name="question-9-answers" ng-model = "grouphugsNew.new.question9" value="3" /></td>
+            <td><input type="radio" name="question-9-answers" ng-model = "grouphugsNew.new.question9" value="4" /></td>
+            <td><input type="radio" name="question-9-answers" ng-model = "grouphugsNew.new.question9" value="5" /></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Travel -they love discovering new places</td>
+            <td><input type="radio" name="question-10-answers" ng-model = "grouphugsNew.new.question10" value="1" /></td>
+            <td><input type="radio" name="question-10-answers" ng-model = "grouphugsNew.new.question10" value="2" /></td>
+            <td><input type="radio" name="question-10-answers" ng-model = "grouphugsNew.new.question10" value="3" /></td>
+            <td><input type="radio" name="question-10-answers" ng-model = "grouphugsNew.new.question10" value="4" /></td>
+            <td><input type="radio" name="question-10-answers" ng-model = "grouphugsNew.new.question10" value="5" /></td>
+          </tr>
+
+          <tr>
+            <td class="table-title">Exciting — adrenalin is all</td>
+            <td><input type="radio" name="question-11-answers" ng-model = "grouphugsNew.new.question11" value="1" /></td>
+            <td><input type="radio" name="question-11-answers" ng-model = "grouphugsNew.new.question11" value="2" /></td>
+            <td><input type="radio" name="question-11-answers" ng-model = "grouphugsNew.new.question11" value="3" /></td>
+            <td><input type="radio" name="question-11-answers" ng-model = "grouphugsNew.new.question11" value="4" /></td>
+            <td><input type="radio" name="question-11-answers" ng-model = "grouphugsNew.new.question11" value="5" /></td>
+          </tr>
+
+        </table>
+      </div>
 
       Ideas - last form segment
 

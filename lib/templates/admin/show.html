@@ -5,21 +5,42 @@
       <h2>{{ grouphugsShow.selected.description }}</h2>
 
       <h3>Giftee:</h3>
-      <p>Name: {{ grouphugsShow.selected.gifteeFirstName }} {{grouphugsShow.selected.gifteeLastName}} Age: {{grouphugsShow.selected.gifteeAge}} Relationship: {{grouphugsShow.selected.gifteeRelationship}} </p>
-      <h3>Occassion:</h3>
-      {{grouphugsShow.selected.occassion}}
+      <p>Name: {{ grouphugsShow.selected.gifteeFirstName }} {{grouphugsShow.selected.gifteeLastName}}</p>
 
-      <h3>Creator:</h3>
+      <p> Age: {{grouphugsShow.selected.gifteeAge}} </p>
+
+      <p>
+      Relationship: {{grouphugsShow.selected.gifteeRelationship}} </p>
+      <p>Email: {{grouphugsShow.selected.gifteeEmailAddress}}</p>
+      <p>Contact Number: {{grouphugsShow.selected.gifteeContactNumber}}</p>
+      <p>Gender: {{grouphugsShow.selected.gifteeGender}}</p>
+      <p>Occassion: {{grouphugsShow.selected.occassion}}
+      </p>
+      <br/>
+      <h3>Creator</h3>
       <p>{{ grouphugsShow.selected.creator.firstName }} {{grouphugsShow.selected.creator.lastName}}</p>
+      <br/>
+      <div>
+        <ul class="choices">
+          <li >Luxurious - They like the finer things in life {{grouphugsShow.selected.question1}}</li>
+          <li >Pampering — ahhhh, spa! {{grouphugsShow.selected.question2}}</li>
+          <li >Active — they love exercise {{grouphugsShow.selected.question3}}</li>
+          <li >Cultural — for them, escape means exercising the mind {{grouphugsShow.selected.question4}}</li>
+          <li >Creative — they like learning how to do things{{grouphugsShow.selected.question5}}</li>
+          <li >Social — being with others makes their day/night/weekend {{grouphugsShow.selected.question6}}</li>
+          <li >Foodie — food makes their eyes grow wider {{grouphugsShow.selected.question7}}</li>
+          <li >Boozie — they're happiest drinking with friends {{grouphugsShow.selected.question8}}</li>
+          <li >Healthy — wellbeing is key {{grouphugsShow.selected.question9}}</li>
+          <li >Travel -they love discovering new places {{grouphugsShow.selected.question10}}</li>
+          <li >Exciting — adrenalin is all {{grouphugsShow.selected.question11}}</li>
+        </ul>
+      </div>
+      
 
       <h3>Contributors:</h3>
-     <!--  <ul ng-repeat="contributor in grouphugsShow.selected.contributors">
-        <li>{{ contributor }}</li>
-        <li ui-sref="usersShow({ id: contributor._id })">Enter</li>
-      </ul> -->
-      <ul ng-repeat="contributorEmail in grouphugsShow.selected.contributorEmailAddresses">
-        <li >{{ contributorEmail }}</li>
-      </ul>
+       <ul ng-repeat="contributor in grouphugsShow.selected.contributors">
+         <li >{{contributor.contributorId.firstName}} {{contributor.contributorId.lastName}}  ({{ contributor.contributorId.email}}) is {{contributor.contributorStatus}}</li>
+       </ul>
 
     </div>
 
@@ -27,6 +48,7 @@
   </div>
   <p><a ui-sref="adminUi">Back</a></p>
 </div>
+
 <h1>Pictures</h1>
 <img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">
 <h1>Experiences</h1>

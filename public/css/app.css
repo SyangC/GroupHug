@@ -224,6 +224,11 @@ table td {
   margin:40px auto;
 }
 
+/*admin show page*/
+.choices{
+  flex-direction: column;
+}
+
 /* Stripe */
 
 .ng-invalid {

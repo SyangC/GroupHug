@@ -9,6 +9,7 @@ var userSchema = new mongoose.Schema({
   lastName: { type: String, maxlength: 100 }, // limited length to 100
   avatar: { type: String, default: "http://swingmaresme.com/wp-content/uploads/2015/03/avant.png" }, 
   DOB: { type: Date },
+  gender: {type: String},
   contactNumber: {type: String, maxlength: 12},
   email: { type: String, reqiured: true, unique: true },
   githubId: { type: String },
