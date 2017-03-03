@@ -28,6 +28,9 @@ var grouphugSchema = new mongoose.Schema({
   question9: {type: String, default: "3"},
   question10: {type: String, default: "3"},
   question11: {type: String, default: "3"},
+  creatorIdea: {type: String},
+  gifteeMention: {type: String},
+  gifteePassion: {type: String},
   contributors: [{
     contributorId: { type: mongoose.Schema.ObjectId, ref: "User" },
     contributorStatus: {type: String, default: "Invitation Pending"}
