@@ -569,8 +569,8 @@ angular
 
 
 
-GrouphugsShowController.$inject = ["User", "Grouphug", "$state", "$scope", "$auth", "$http"];
-function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
+GrouphugsShowController.$inject = ["User", "Grouphug", "$state", "$scope", "$auth", "$http", "$timeout"];
+function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $timeout) {
 
   var self = this
 
@@ -644,7 +644,9 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
               // this callback will be called asynchronously
               // when the response is available
               console.log("contributor handler sucess",data);
-              $state.reload();
+              $timeout(function () {
+                    $state.go('.', {}, { reload: true });
+                    }, 100);    
           }).
           error(function(data, status, headers, config) {
               // called asynchronously if an error occurs
@@ -661,8 +663,6 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
 
   this.checkout = function(grouphugName) {
     self.chargeAmount = Math.round(parseFloat(this.contributionAmount)*100);
-   
-    this.contributionAmount = "";
     var handler = StripeCheckout.configure({
       key: "pk_test_eeEvZQY5GGkEmboxgG7RsiWa",
       image: "https://stripe.com/img/documentation/checkout/marketplace.png",
@@ -679,7 +679,12 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
             console.log("token: ", token);
             console.log("status: ", status);
             console.log("headers: ", headers);
-          })
+            console.log("payment complete");
+            $timeout(function () {
+                  $state.go('.', {}, { reload: true });
+                  }, 100);  
+            this.contributionAmount = "";  
+            })
           .error(function (token, status, header) {
             console.log("failure: ");
             console.log("token: ", token);
@@ -689,6 +694,9 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http) {
           });
       }
     });
+
+
+
 
 
 

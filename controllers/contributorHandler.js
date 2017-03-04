@@ -56,6 +56,7 @@ function existingUserTest (contributor_email, grouphug_Id, contributor_name){
               user.invitations.push(grouphug_Id);
               addContributorToGrouphug(grouphug_Id, user/*, user._id*/);
               return User.update({_id: user._id},{invitations: user.invitations});
+         
              
             })
             .catch(function(err){
@@ -71,8 +72,6 @@ function existingUserTest (contributor_email, grouphug_Id, contributor_name){
     })
 
 }
-
-
 
 
 function addContributorToGrouphug(grouphug_Id, user/*, user_id*/){
