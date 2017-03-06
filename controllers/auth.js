@@ -31,7 +31,7 @@ function register(req, res) {
     var payload = { _id: user._id, username: user.username };
     var token = jwt.sign(payload, secret, { expiresIn: 60*60*24 });
     var date = new Date();
-    EmailTemplate.findOne({'name': 'Registration'})
+    /*EmailTemplate.findOne({'name': 'Registration'})
       .then(function(registrationEmail) {
         var newDate = date.setSeconds(date.getSeconds() + registrationEmail.delay);
         email.sendRegisterTemplate(user);
@@ -47,7 +47,7 @@ function register(req, res) {
       .catch(function(err) {
         console.log(err);
         res.status(500).json(err);
-      });
+      });*/
     // var newDate = date.setSeconds(date.getSeconds() + registrationEmail.delay);
     // // email.sendRegisterTemplate(user);
     // var j = schedule.scheduleJob(newDate, function(){
