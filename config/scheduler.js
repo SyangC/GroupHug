@@ -1,5 +1,5 @@
 var schedule = require("node-schedule");
-var email = require("./config/email");
+var email = require("./config/mailgunEmail");
 
 var registrationDate = new Date();
 
@@ -11,7 +11,5 @@ var j = schedule.scheduleJob(newDate, function(){
 
 
 module.exports = {
-  scheduleTask: function(delay, callback, ) {
-,
   sendRegisterTemplate: sendRegisterTemplate
 }

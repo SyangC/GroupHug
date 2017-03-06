@@ -3,7 +3,8 @@
   "description": "",
   "main": "app.js",
   "authors": [
-    "Ben Blowers, Becky Bolton and Shu-yang Chia"
+    "Ben Blowers",
+    "Becky Bolton and Shu-yang Chia"
   ],
   "license": "ISC",
   "homepage": "https://github.com/SyangC/GroupHug",
@@ -15,9 +16,9 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.5.8",
-    "angular-resource": "^1.5.8",
     "angular-ui-router": "ui-router#^0.3.1",
-    "satellizer": "^0.15.5"
+    "angular-resource": "^1.5.8",
+    "satellizer": "^0.15.5",
+    "stripe-angular": "^1.0.2"
   }
 }

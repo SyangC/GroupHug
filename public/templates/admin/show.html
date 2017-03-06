@@ -1,0 +1,117 @@
+<div class="col-md-8 col-md-offset-2">
+  <div class="thumbnail">
+    <div class="caption">
+      <h1>{{ grouphugsShow.selected.name }} Admin Edit</h1>
+      <h2>{{ grouphugsShow.selected.description }}</h2>
+
+      <h3>Giftee:</h3>
+      <p>Name: {{ grouphugsShow.selected.gifteeFirstName }} {{grouphugsShow.selected.gifteeLastName}}</p>
+
+      <p> Age: {{grouphugsShow.selected.gifteeAge}} </p>
+
+      <p>
+      Relationship: {{grouphugsShow.selected.gifteeRelationship}} </p>
+      <p>Email: {{grouphugsShow.selected.gifteeEmailAddress}}</p>
+      <p>Contact Number: {{grouphugsShow.selected.gifteeContactNumber}}</p>
+      <p>Gender: {{grouphugsShow.selected.gifteeGender}}</p>
+      <p>Occassion: {{grouphugsShow.selected.occassion}}
+      </p>
+      <br/>
+      <h3>Creator</h3>
+      <p>{{ grouphugsShow.selected.creator.firstName }} {{grouphugsShow.selected.creator.lastName}}</p>
+      <br/>
+      <div>
+        <table>
+          <tr>
+            <td class = "admin-weightings">Weighting type<td>
+            <td>Value</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Luxurious - They like the finer things in life</td>
+            <td class = "admin-weightings-value"> {{grouphugsShow.selected.question1}}</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Pampering — ahhhh, spa!</td>
+            <td class = "admin-weightings-value"> {{grouphugsShow.selected.question2}}</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Active — they love exercise</td>
+            <td class = "admin-weightings-value"> {{grouphugsShow.selected.question3}}</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Cultural — for them, escape means exercising the mind</td>
+            <td class = "admin-weightings-value"> {{grouphugsShow.selected.question4}}</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Creative — they like learning how to do things</td>
+            <td class = "admin-weightings-value">{{grouphugsShow.selected.question5}}</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Social — being with others makes their day/night/weekend</td>
+            <td class = "admin-weightings-value"> {{grouphugsShow.selected.question6}}</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Foodie — food makes their eyes grow wider</td>
+            <td class = "admin-weightings-value"> {{grouphugsShow.selected.question7}}</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Boozie — they're happiest drinking with friends</td>
+            <td class = "admin-weightings-value"> {{grouphugsShow.selected.question8}}</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Healthy — wellbeing is key</td>
+            <td class = "admin-weightings-value"> {{grouphugsShow.selected.question9}}</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Travel -they love discovering new places</td>
+            <td class = "admin-weightings-value"> {{grouphugsShow.selected.question10}}</td>
+          </tr>
+          <tr>
+            <td class = "admin-weightings">Exciting — adrenalin is all</td>
+            <td class = "admin-weightings-value"> {{grouphugsShow.selected.question11}}</td>
+          </tr>
+       </table>
+      </div>
+      <p>Creator Gift Idea:{{grouphugsShow.selected.creatorIdea}}</p>
+      <p>Giftee Mention: {{grouphugsShow.selected.gifteeMention}}</p>
+      <p>Giftee Passion:{{grouphugsShow.selected.gifteePassion}}</p>
+      <br>
+      
+
+      <h3>Contributors:</h3>
+       <ul ng-repeat="contributor in grouphugsShow.selected.contributors">
+         <li >{{contributor.contributorId.firstName}} {{contributor.contributorId.lastName}}  ({{ contributor.contributorId.email}}) is {{contributor.contributorStatus}}</li>
+       </ul>
+
+    </div>
+
+    <button ui-sref="grouphugsEdit({ id: grouphugsShow.selected._id })" class="btn">Edit</button>
+  </div>
+  <p><a ui-sref="adminUi">Back</a></p>
+</div>
+
+<h1>Pictures</h1>
+<img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">
+<h1>Experiences</h1>
+
+
+<button  ng-click="grouphugsShow.toggleActivateGrouphug()" class="btn">This Group Hug is {{ grouphugsShow.selected.status}} it can only be made active if at least one experience is added.</button>
+
+<select ng-hide="grouphugsShow.selected.experiences.length == 0" name="category" ng-model="grouphugsShow.selected.status" class="selectOne">
+  <option disabled selected>Please select</option>
+  <option ng-repeat="status in grouphugsShow.statusOptions" ng-value="status" ng-disabled="grouphugsShow.statusOptions.contains(status)">{{status}}</option>
+</select>
+
+<div ng-repeat="experience in grouphugsShow.selected.experiences">
+  <h3>{{experience.experienceId.name}}<br>Description:{{experience.experienceId.description}} Price: £{{experience.experienceId.price}}  <!-- Average Weight {{grouphugsShow.averageWeight(experience)}} --> </h3>
+  <button ng-hide="grouphugsShow.selected.status == 'active' && grouphugsShow.selected.experiences.length <=1" ng-click="grouphugsShow.removeExperience(experience)" class="btn">Remove experience</button>
+</div>
+
+<h1>Available Experiences</h1>
+<div ng-repeat="experience in grouphugsShow.allExperiences">
+  <h3>{{experience.name}}, {{experience.description}}, £{{experience.price}}</h3>
+  <button ng-click="grouphugsShow.addExperience(experience)" class="btn">Add experience</button>
+</div>
+
+<button ng-click="grouphugsShow.saveChanges()" class="btn">Save changes</button>
+

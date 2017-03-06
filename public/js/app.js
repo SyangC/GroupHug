@@ -1,7 +1,10 @@
 angular
-  .module("GroupHugApp", ["ngResource", "ui.router", "satellizer"])
+  .module("GroupHugApp", ["ngResource", "ui.router", "satellizer", "angularPayments"])
   .config(oAuthConfig)
   .config(Router)
+  .config(function() {
+    Stripe.setPublishableKey("pk_test_eeEvZQY5GGkEmboxgG7RsiWa");
+  })
 
 oAuthConfig.$inject = ["$authProvider"];
 function oAuthConfig($authProvider) {
@@ -34,6 +37,16 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/register.html",
       controller: "RegisterController as register"
     })
+    .state("adminUi", {
+      url: "/adminUi",
+      templateUrl: "/templates/adminUi.html",
+      controller: "AdminUiController as admin"
+    })
+    .state("adminUiGrouphugShow", {
+      url: "/adminUi/grouphugs/:id",
+      templateUrl: "/templates/admin/show.html",
+      controller: "adminUiGrouphugShowController as grouphugsShow"
+    })
     .state("experiencesIndex", {
       url: "/experiences",
       templateUrl: "/templates/experiences/index.html",
@@ -53,6 +66,21 @@ function Router($stateProvider, $urlRouterProvider) {
       url: "/experiences/:id/edit",
       templateUrl: "/templates/experiences/edit.html",
       controller: "ExperiencesEditController as experiencesEdit"
+    })
+    .state("thankyousIndex", {
+      url: "/thankyous",
+      templateUrl: "/templates/thankyous/index.html",
+      controller: "ThankyousIndexController as thankyousIndex"
+    })
+    .state("thankyousShow", {
+      url: "/thankyous/:id",
+      templateUrl: "/templates/thankyous/show.html",
+      controller: "ThankyousShowController as thankyousShow"
+    })
+    .state("thankyousEdit", {
+      url: "/thankyous/:id/edit",
+      templateUrl: "/templates/thankyous/edit.html",
+      controller: "ThankyousEditController as thankyousEdit"
     })
     .state("grouphugsIndex", {
       url: "/grouphugs",
@@ -83,10 +111,29 @@ function Router($stateProvider, $urlRouterProvider) {
       url: "/users/:id",
       templateUrl: "/templates/users/show.html",
       controller: "UsersShowController as usersShow"
-    });
+    })
+    .state("usersEdit", {
+      url: "/edit/:id",
+      templateUrl: "/templates/users/edit.html",
+      controller: "UsersEditController as usersEdit"
+    })
+    .state("userActivated",{
+      url: "/activated",
+      templateUrl: "/templates/users/activated.html",
+      controller: "UsersEditController as usersEdit"
+    })
+    .state("unauthorised",{
+      url: "/unauthorised",
+      templateUrl: "/templates/unauthorised.html",
+      controller: "MainController as main"
+    })
+
+
 
     $urlRouterProvider.otherwise("/");
 }
+angular
+  .module("GroupHugApp")
 angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
@@ -117,17 +164,25 @@ angular
   .module("GroupHugApp")
   .controller("MainController", MainController);
 
-MainController.$inject = ["$state", "$auth", "$rootScope", "User"];
-function MainController($state, $auth, $rootScope, User) {
+MainController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function MainController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
   var self = this;
+
+  this.allUsers = User.query();
+
+  this.allGrouphugs = Grouphug.query();
+
+  this.allExperiences = Experience.query();
 
   this.authenticate = function(provider) {
     $auth.authenticate(provider)
-         .then(function() {
-      $rootScope.$broadcast("loggedIn");
-      $state.go('events');
-    });
+      .then(function() {
+        $rootScope.$broadcast("loggedIn");
+        $state.go("home");
+      });
   }
+
+  this.currentUser = $auth.getPayload();
 
   this.errorMessage = null;
 
@@ -150,6 +205,8 @@ function MainController($state, $auth, $rootScope, User) {
     self.errorMessage = null;
   });
 
+  $rootScope.$state = $state;
+
 }
 angular
   .module("GroupHugApp")
@@ -158,36 +215,132 @@ angular
 RegisterController.$inject = ["$auth", "$state", "$rootScope"];
 function RegisterController($auth, $state, $rootScope) {
 
-  this.user = {};
+  self = this;
 
-  this.submit = function() {
-    $auth.signup(this.user, {
+  self.user = {};
+
+  self.submit = function() {
+    $auth.signup(self.user, {
       url: '/api/register'
     })
     .then(function(){
+      console.log(self.user);
       $rootScope.$broadcast("loggedIn");
       $state.go("home");
     })
   }
 }
 angular
+  .module('GroupHugApp')
+  .directive('date', date);
+
+function date() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
+
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
+        }
+      });
+    }
+  }
+}
+// angular
+//   .module("GroupHugApp")
+//   .factory("Experience", Experience);
+
+// Experience.$inject = ["$resource"]
+// function Experience($resource) {
+//   return $resource('/api/experiences/:id', { id: '@_id' }, {
+//     update: { method: "PUT" }
+//   });
+// }
+
+angular
   .module("GroupHugApp")
   .factory("Experience", Experience);
 
-Experience.$inject = ["$resource"]
-function Experience($resource) {
+Experience.$inject = ["$resource", "formData"]
+function Experience($resource, formData) {
   return $resource('/api/experiences/:id', { id: '@_id' }, {
-    update: { method: "PUT" }
+    update: {
+      method: "PUT",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    },
+    save: {
+      method: "POST",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    }
   });
 }
 angular
   .module("GroupHugApp")
   .factory("Grouphug", Grouphug);
 
-Grouphug.$inject = ["$resource"]
-function Grouphug($resource) {
+Grouphug.$inject = ["$resource", "formData"]
+function Grouphug($resource, formData) {
   return $resource('/api/grouphugs/:id', { id: '@_id' }, {
-    update: { method: "PUT" }
+    update: {
+      method: "PUT",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    },
+    save: {
+      method: "POST",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    }
+  });
+}
+// angular
+//   .module("GroupHugApp")
+//   .factory("Experience", Experience);
+
+// Experience.$inject = ["$resource"]
+// function Experience($resource) {
+//   return $resource('/api/experiences/:id', { id: '@_id' }, {
+//     update: { method: "PUT" }
+//   });
+// }
+
+angular
+  .module("GroupHugApp")
+  .factory("Thankyou", Thankyou);
+
+Thankyou.$inject = ["$resource", "formData"]
+function Thankyou($resource, formData) {
+  return $resource('/api/thankyous/:id', { id: '@_id' }, {
+    update: {
+      method: "PUT",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    },
+    save: {
+      method: "POST",
+      headers: { 'Content-Type': undefined },
+      transformRequest: formData.transform
+    }
   });
 }
 angular
@@ -200,13 +353,110 @@ function User($resource) {
     update: { method: "PUT" }
   });
 }
+angular
+  .module('GroupHugApp')
+  .factory('formData', formData);
 
+function formData() {
+  return {
+    transform: function(data) {
+      var formData = new FormData();
+      angular.forEach(data, function(value, key) {
+        if(!!value && value._id) value = value._id;
+        if(!key.match(/^\$/)) {
 
+          if(value instanceof FileList) {
+            for(i=0;i<value.length;i++) {
+              formData.append(key, value[i]);
+            }
+          } else if(key === "experiences") {
+            formData.append(key, angular.toJson(value, false));
+          } else {
+            formData.append(key, value);
+          }
+        }
+      });
+      return formData;
+    }
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("adminUiGrouphugShowController", adminUiGrouphugShowController);
 
+  adminUiGrouphugShowController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function adminUiGrouphugShowController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
+  var self = this;
 
+  this.selected = Grouphug.get($state.params, function(res) {
+    console.log("res", res);
+  })
 
+  this.ages = ["0-12", "13-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "81-90", "91+"];
 
+  this.statusOptions = ["inactive", "active"];
 
+  this.averageWeight = function(experience) {
+    var weightTotal = 0;
+    var weightCount = 0;
+    experience.userWeightings.forEach(function(userWeighting) {
+      weightTotal += userWeighting.weightValue;
+      weightCount++;
+    })
+    if (weightCount === 0) return "No Ratings";
+    return weightTotal/weightCount;
+  }
+
+  this.addExperience = function(experience) {
+    this.selected.experiences.push({
+      experienceId: experience
+    })
+    console.log("Adding experience", this.selected.experiences);
+  }
+
+  this.removeExperience = function(experience) {
+    this.selected.experiences.splice(
+      this.selected.experiences.indexOf(experience), 1);
+  }
+
+  this.toggleActivateGrouphug = function() {
+    console.log("trying to make GH Active...");
+    if(this.selected.status === "inactive") {
+      this.selected.status = "active";
+    } else {
+      console.log("making GH inactive")
+      this.selected.status = "inactive";
+    }
+  }
+
+  this.allExperiences = Experience.query();
+
+  this.currentUser = $auth.getPayload();
+
+  this.saveChanges = function() {
+    this.selected.$update(function() {
+      $state.reload();
+    })
+  }
+
+}
+angular
+  .module("GroupHugApp")
+  .controller("AdminUiController", AdminUiController);
+
+AdminUiController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
+function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
+  var self = this;
+
+  this.allUsers = User.query();
+
+  this.allGrouphugs = Grouphug.query();
+
+  this.allExperiences = Experience.query();
+
+  this.currentUser = $auth.getPayload();
+
+}
 angular
   .module("GroupHugApp")
   .controller("ExperiencesEditController", ExperiencesEditController);
@@ -226,9 +476,10 @@ angular
   .module("GroupHugApp")
   .controller("ExperiencesIndexController", ExperiencesIndexController);
 
-ExperiencesIndexController.$inject = ["Experience"];
+ExperiencesIndexController.$inject = ["Experience", "$state"];
 function ExperiencesIndexController(Experience) {
   this.all = Experience.query();
+  console.log("experiences All", this.all);
 }
 angular
   .module("GroupHugApp")
@@ -288,12 +539,29 @@ angular
   .module("GroupHugApp")
   .controller("GrouphugsNewController", GrouphugsNewController);
 
-GrouphugsNewController.$inject = ["Grouphug", "$state"]
-function GrouphugsNewController(Grouphug, $state) {
+GrouphugsNewController.$inject = ["Grouphug", "$state", "$auth"]
+function GrouphugsNewController(Grouphug, $state, $auth) {
 
   this.new = {};
 
+  this.currentUser = $auth.getPayload();
+
+
+
+  this.ages = ["0-12", "13-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "81-90", "91+"];
+
+  this.genders = ["Female", "Male", "Gender-Neutral", "Prefer not to say"];
+
+  this.occassions = ["Birthday", "Wedding", "Leaving", "Thank You", "Cheer Your Friend Up", "Retirement"];
+
+  this.relations = ["Friend", "Partner", "Parent", "Grandparent", "Sibling", "Child"];
+
+  this.contributorEmailAddresses = [];
+
+
   this.create = function() {
+    this.new.creator = this.currentUser._id
+    console.log("sends this.new:", this.new);
     Grouphug.save(this.new, function() {
       $state.go("grouphugsIndex");
     })
@@ -303,14 +571,279 @@ angular
   .module("GroupHugApp")
   .controller("GrouphugsShowController", GrouphugsShowController);
 
-GrouphugsShowController.$inject = ["Grouphug", "$state"];
-function GrouphugsShowController(Grouphug, $state) {
-  this.selected = Grouphug.get($state.params)
+
+
+
+GrouphugsShowController.$inject = ["User", "Grouphug", "$state", "$scope", "$auth", "$http", "$timeout"];
+function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $timeout) {
+
+  var self = this
+
+  this.selected = Grouphug.get($state.params, function(res) {
+    console.log("res", res);
+  })
 
   this.delete = function() {
     this.selected.$remove(function() {
       $state.go("grouphugsIndex");
     })
+  }
+
+  this.contributionAmount;
+  this.allUsers = User.query();
+
+  this.allUserEmails = function(){
+    var tempUserEmails =[];
+    for (i=0; i < this.allUsers.length; i++){
+      tempUserEmails.push(this.allUsers[i].email);
+    }
+    console.log('User Emails', tempUserEmails);
+    return tempUserEmails
+  }
+
+  this.newContributorEmail = null
+
+  this.addContributor = function(){
+    console.log(this.selected.gifteeFirstName);
+    console.log(this.selected.contributorEmailAddresses);
+
+
+    
+    if(this.newContributorEmail){
+      if(this.selected.contributorEmailAddresses.indexOf(this.newContributorEmail) > -1 ){
+         console.log("user already in contributor list can't be added");
+         this.newContributorEmail = null;
+       }
+        else {
+          if(this.allUserEmails().indexOf(this.newContributorEmail) === -1){
+            console.log("Adding a group hug user"); 
+          };
+          console.log("user is ok to add");
+          console.log(this.allUsers);
+          console.log("adding ",this.newContributorEmail, "to the list", this.selected.contributorEmailAddresses,"for ",this.selected.gifteeFirstName,"length",this.selected.contributorEmailAddresses.length);
+          this.selected.contributorEmailAddresses.push(this.newContributorEmail);
+          this.selected.$update();
+          this.newContributorEmail = null;
+      }
+    };
+  }
+
+
+
+  this.newContributor = function(){
+   
+    
+
+    if(this.newContributorEmail){
+      console.log("New Contributor",this.newContributorEmail," name: ",this.newContributorName,  this.selected._id,this.selected.name);
+      var contributor_email = this.newContributorEmail;
+      var contributor_name = this.newContributorName;
+      var grouphug_Id = this.selected._id;
+      this.newContributorEmail = ""; 
+      this.newContributorName = "";
+
+      var contributorHandler = JSON.stringify({
+          grouphug_Id:grouphug_Id,
+          email:contributor_email,
+          name:contributor_name});
+        $http.post("api/contributor", contributorHandler).
+          success(function(data, status, headers, config) {
+              // this callback will be called asynchronously
+              // when the response is available
+              console.log("contributor handler sucess",data);
+              $timeout(function () {
+                    $state.go('.', {}, { reload: true });
+                    }, 100);    
+          }).
+          error(function(data, status, headers, config) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+              console.log("contributor handler failed",data);
+              $state.reload();
+          });
+    };
+
+    //add some code to warn if only email given or if submit and no email address.
+      
+    
+  }
+
+  this.contributionMessage = null;
+
+  this.checkout = function(grouphugName) {
+
+    self.chargeAmount = Math.round(parseFloat(this.contributionAmount)*100);
+    var handler = StripeCheckout.configure({
+      key: "pk_test_eeEvZQY5GGkEmboxgG7RsiWa",
+      image: "https://stripe.com/img/documentation/checkout/marketplace.png",
+      locale: "auto",
+      token: function(token) {
+        console.log("<<<docfor contribution process",grouphugName);
+        token.amount = self.chargeAmount;
+        token.grouphugId = $state.params.id;
+        token.grouphugDescription = grouphugName;
+
+        $http.post("/api/charge", token)
+          .success(function (token, status, headers) {
+            console.log("success: ");
+            console.log("token: ", token);
+            console.log("status: ", status);
+            console.log("headers: ", headers);
+            console.log("payment complete");
+            this.contributionMessage = "Your payment was received successfully";
+            $timeout(function () {
+                  $state.go('.', {}, { reload: true });
+                  }, 100);  
+            this.contributionAmount = "";  
+          
+            })
+
+          .error(function (token, status, header) {
+            console.log("failure: ");
+            console.log("token: ", token);
+            console.log("status: ", status);
+            console.log("headers: ", headers);
+
+          });
+      }
+    });
+
+
+
+
+
+
+    handler.open({
+      name: "GroupHug",
+      description: "Please enter your payment details below",
+      zipCode: true,
+      currency: "gbp",
+      amount: self.chargeAmount,
+      billingAddress: true
+    });
+    
+    window.addEventListener("popstate", function() {
+      handler.close();
+    });
+
+  }
+
+  this.makelive = function(){
+    window.alert("live");
+    this.selected.madelive = "true";
+    console.log("self is this before ", this.selected.madelive);
+    this.selected.$update();
+    console.log("self is this after", self.selected);
+  }
+
+  this.averageWeight = function(experience) {
+    var weightTotal = 0;
+    var weightCount = 0;
+    experience.userWeightings.forEach(function(userWeighting) {
+      weightTotal += userWeighting.weightValue;
+      weightCount++;
+    })
+    if (weightCount === 0) return "No Ratings";
+    return weightTotal/weightCount;
+  }
+
+  this.canVote = function(experience, user) {
+    if (experience.userWeightings.filter(function(weighting) { return weighting.user == user }).length > 0 || !user) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  this.saveWeightings = function() {
+    var weightCount = 0;
+    var userId = $auth.getPayload();
+    this.selected.experiences.forEach(function(experience) {
+      if (!!experience.newWeighting) {
+        experience.userWeightings.push({
+          user: userId,
+          weightValue: +experience.newWeighting
+        })
+        weightCount++;
+      }
+    })
+
+    if (weightCount > 0) {
+      this.selected.$update(function() {
+        $state.reload();
+      })
+    }
+  }
+
+
+  $scope.stripeCallback = function (code, result) {
+    if (result.error) {
+      window.alert('it failed! error: ' + result.error.message);
+    } else {
+      window.alert('success! token: ' + result.id);
+    }
+  };
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousEditController", ThankyousEditController);
+
+ThankyousEditController.$inject = ["Thankyou", "$state"];
+function ThankyousEditController(Thankyou, $state) {
+
+  this.selected = Thankyou.get($state.params);
+
+  this.save = function() {
+    this.selected.$update(function() {
+      $state.go("thankyousShow", $state.params)
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousIndexController", ThankyousIndexController);
+
+ThankyousIndexController.$inject = ["Thankyou"];
+function ThankyousIndexController(Thankyou) {
+  this.all = Thankyou.query();
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousShowController", ThankyousShowController);
+
+ThankyousShowController.$inject = ["Thankyou", "$state"];
+function ThankyousShowController(Thankyou, $state) {
+  this.selected = Thankyou.get($state.params)
+
+  this.delete = function() {
+    this.selected.$remove(function() {
+      $state.go("thankyousIndex");
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("UsersEditController", UsersEditController);
+
+UsersEditController.$inject = ["User", "$state", "$auth"];
+function UsersEditController(User, $state, $auth) {
+  var self = this;
+
+  this.selected = User.get($state.params);
+  console.log("current user", this.selected);
+
+  this.save = function() {
+    console.log("self", this.selected);
+    if(this.selected.isActivated){
+      this.selected.$update(function() {
+        $state.go("usersShow", $state.params)
+      })
+    }
+    else {
+      this.selected.$update(function() {
+        $state.go("userActivated", $state.params)
+      })
+    }
   }
 }
 angular
@@ -327,11 +860,14 @@ angular
   .module("GroupHugApp")
   .controller("UsersShowController", UsersShowController);
 
-UsersShowController.$inject = ["User", "$state"];
-function UsersShowController(User, $state) {
-  var self = this;
+UsersShowController.$inject = ["User", "$state", "$auth"];
+function UsersShowController(User, $state, $auth) {
 
-  this.selected = User.get({ id: $state.params.id });
+/* this method was not updating show page after edit 
+  this.selected = $auth.getPayload();*/
+
+  this.selected = User.get($state.params);
+
 
   this.update = function() {
     this.selected.$update();

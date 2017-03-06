@@ -9,7 +9,7 @@ var http = require('http');
 var bodyParser = require ("body-parser");
 var cookieParser = require('cookie-parser');
 
-var webpack = require("webpack");
+// var webpack = require("webpack");
 
 var routes = require("./config/routes");
 
@@ -37,6 +37,8 @@ app.use(cookieParser());
 app.use(express.static("public"));
 
 app.use("/api", routes);
+
+
 
 var server = app.listen(port, function() {
   console.log("Node running on port 3000, Cap'n.");

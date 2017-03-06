@@ -1,0 +1,20 @@
+<h1>This is the Thankyou show</h1>
+
+<div class="col-md-8 col-md-offset-2">
+  <div class="thumbnail">
+    <img src="https://fillmurray.com/500/300">
+    <div class="caption">
+      <h1>{{ thankyousShow.selected.title }}</h1>
+      <h2>{{ thankyousShow.selected.description }}</h2>
+    </div>
+
+    <button ui-sref="thankyousEdit({ id: thankyousShow.selected._id })" class="btn">Edit</button>
+    <button ng-click="thankyousShow.delete()" class="btn">Delete</button>
+
+  </div>
+</div>
+
+<p><a ui-sref="adminUi">Back</a></p>
+
+<h1>Pictures</h1>
+<img ng-repeat="picture in thankyousShow.selected.pictures" ng-src="{{ picture }}">

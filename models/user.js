@@ -2,27 +2,34 @@ var mongoose = require("mongoose");
 var bcrypt = require("bcrypt");
 
 var userSchema = new mongoose.Schema({
+  isActivated: {type: Boolean, default: true},
+  tempUserAccessKey: {type: String},
   username: { type: String, required: true, minlength: 6, maxlength: 100 }, // between 6 and 100
-  firstName: { type: String, required: true, maxlength: 100 }, // limited length to 100
-  lastName: { type: String, required: true, maxlength: 100 }, // limited length to 100
+  firstName: { type: String, maxlength: 100 }, // limited length to 100
+  lastName: { type: String, maxlength: 100 }, // limited length to 100
   avatar: { type: String, default: "http://swingmaresme.com/wp-content/uploads/2015/03/avant.png" }, 
   DOB: { type: Date },
-  email: { type: String, reqiured: true },
+  gender: {type: String},
+  contactNumber: {type: String, maxlength: 12},
+  email: { type: String, reqiured: true, unique: true },
   githubId: { type: String },
   facebookId: { type: String },
   twitterId: { type: String },
   pinterestId: { type: String },
   instagramId: { type: String },
-  passwordHash: { type: String, required: true },
+  passwordHash: { type: String },
   credit: { type: Number, default: 0 },
   reviews: [{ type: mongoose.Schema.ObjectId, ref: "Review" }], 
   grouphugs: [{ type: mongoose.Schema.ObjectId, ref: "Grouphug" }],
+  invitations: [{ type: mongoose.Schema.ObjectId, ref: "Grouphug"}],
+  createBy: [{type: String, default: "Self"}],
   createdAt: { type: Date, default: new Date },
 });
 
 userSchema.pre("validate", function(next) {
   if(!this._password && !this.githubId && !this.facebookId && !this.twitterId && !this.pinterestId && !this.instagramId) {
     this.invalidate('password', 'A password is required');
+    console.log("password validation failed");
   }
   next();
 });

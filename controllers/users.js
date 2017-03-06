@@ -12,6 +12,7 @@ function userIndex(req, res) {
 
 function userShow(req, res) {
   User.findById(req.params.id)
+    .populate('invitations')
     .then(function(user) {
       res.status(200).json(user);
     })
@@ -20,8 +21,8 @@ function userShow(req, res) {
     });
 }
 
-function userUpdate(req, res) {
-  User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+function userEdit(req, res) {
+  User.findById(req.params.id)
     .then(function(user) {
       res.status(200).json(user);
     })
@@ -29,9 +30,45 @@ function userUpdate(req, res) {
       res.status(500).json(err);
     });
 }
+
+
+
+function userUpdate(req, res) {
+  console.log("req.body", req.body)
+  /* -- this method does not update password -- 
+  user = User.findByIdAndUpdate(req.params.id, req.body, { new: true })*/
+  user = User.findById(req.params.id)
+    .then(function(user){
+      console.log('user before',user);
+      for(key in req.body){ 
+        if(key === 'isActivated' && !req.body[key]){
+          user[key]=true;
+          user.tempUserAccessKey = "";
+        }
+        else if (key != 'tempUserAccessKey'){
+        user[key] = req.body[key];
+        }
+      };
+      console.log('user after',user);
+      return user.save();
+    })
+    .then(function(user) {
+      console.log(user)
+      res.status(200).json(user);
+    })
+    .catch(function(err) {
+      res.status(500).json(err);
+    });
+}
+
+
+
 
 module.exports = {
   index: userIndex,
   show: userShow,
-  update: userUpdate
+  edit: userEdit,
+  update: userUpdate,
+
+
 }

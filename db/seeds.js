@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Grouphug = require('../models/grouphug');
+var Ecard = require('../models/ecard');
 var Tag = require('../models/tag');
 var Experience = require('../models/experience');
 var Review = require('../models/review');
@@ -17,45 +18,70 @@ Experience.collection.drop();
 User.collection.drop();
 Review.collection.drop();
 EmailTemplate.collection.drop();
+Ecard.collection.drop();
 
-EmailTemplate.create({
+EmailTemplate.create([{
   name: "Registration",
   subject: '{{firstName }}, Welcome to GroupHug!',
   text: "This is the text version from GroupHug. Hi {{firstName}}, thank you for registering with us. This account was created at {{createdAt}}.",
   html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi {{firstName}}, thank you for registering with us.</h3><h3>This account was created at {{createdAt}}.</h3></body>",
-  delay: 60*5
-});
+  delay: 60*2
+}, {
+  name: "NewUserInvite",
+  subject: '|email|Welcome to GroupHug!',
+  text: "Hello |email|, |creatorFirstName| |creatorLastName| has invited you to contribute to the person whose name will appear here's Group Hug.  To participate you will need to log on at grouphug.co.uk user your |email| as your username and this |password|. Thanks the lovely pepole at GrougHug",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi |userFirstName|, |creatorFirstName| |creatorLastName| has invited you to contribute to |gifteeFirstName| |gifteeLastName|'s Group Hug.</h3><h3>This account was created at |createdAt|.</h3><h3>What is a group hug I here you ask why not log in now at localhost:3000 using your email |email| as your username and |password| as your password. Please be sure to set a new password when registering.|newParagraph| GH TEAM</h3></body>",
+  delay: 60*2
+}, {
+  name: "ContributorInvitation",
+  subject: '|userFirstName|You have a new GroupHug Invitation to |groupHugName|....',
+  text: "Hello |email|, |creatorFirstName| |creatorLastName| has invited you to contribute to the person whose name will appear here's Group Hug.  To participate you will need to log on at grouphug.co.uk user your |email| as your username and this |password|. Thanks the lovely pepole at GrougHug",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi |userFirstName|, |creatorFirstName| |creatorLastName| has invited you to contribute to |gifteeFirstName| |gifteeLastName|'s Group Hug.</h3><h3>To contribute to this Group Hug for |gifteeFirstName| just go to www.grouphug.co.uk log in and click the 'my Invitation' link to accept the invitation and see what its all about|newParagraph| GH TEAM</h3></body>",
+  delay: 60*2
+}, {
+  name: "GHActivate",
+  subject: 'Your Group Hug, |GHName|, has been activated',
+  text: "Hello |creatorFirstName|, the lovely people at GroupHug headquarters have done all the fiddly bits behind the scenes so your wonderful GroupHug is ready to go! Simply log on to GroupHug now got 'My Group Hugs' and find |GHName| once you have checked everything just click the 'GO LIVE' button to invite all your friends to participate and wait for our next exciting email to arrive. GH TEAM",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hello |creatorFirstName|, the lovely people at GroupHug headquarters have done all the fiddly bits behind the scenes so your wonderful GroupHug for |gifteeFirstName| |gifteeLastName| is ready to go! Simply log on to GroupHug now go to 'My Group Hugs' and find |GHName| once you have checked everything just click the 'GO LIVE' button to invite all your friends to participate and wait for our next exciting email to arrive.|newParagraph| GH TEAM</h3></body>",
+  delay: 60*2
+}],function(err, EmailTemplate) {
+    if(!err) {
+      console.log("EmailTemplate Created");
+      console.log("EmailTemplates are: ", EmailTemplate);
+    } else {
+      console.log("err is:", err.errors);
+    }
 
 User.create([{
-  username: "tesoasdfsn",
-  firstName: "tes",
-  lastName: "ysont",
+  username: "jsmith",
+  firstName: "jack",
+  lastName: "smith",
   DOB: new Date,
-  email: "testy@sont.com",
+  email: "jack@smith.com",
   password: "password",
   passwordConfirmation: "password",
 }, {
-  username: "something",
-  firstName: "some",
-  lastName: "thing",
+  username: "jleslie",
+  firstName: "julia",
+  lastName: "leslie",
   DOB: new Date,
-  email: "some@thing.com",
+  email: "julia@leslie.com",
   password: "password",
   passwordConfirmation: "password",
 }, {
-  username: "newname",
-  firstName: "new",
-  lastName: "name",
+  username: "hdowner",
+  firstName: "harry",
+  lastName: "downer",
   DOB: new Date,
-  email: "new@name.com",
+  email: "harry@downer.com",
   password: "password",
   passwordConfirmation: "password",
 }, {
-  username: "borednow",
-  firstName: "bored",
-  lastName: "now",
+  username: "ggrant",
+  firstName: "george",
+  lastName: "grant",
   DOB: new Date,
-  email: "bored@now.com",
+  email: "george@grant.com",
   password: "password",
   passwordConfirmation: "password",
 }], function(err, users) {
@@ -81,25 +107,25 @@ User.create([{
       name: "spa weekend",
       supplier: "bens beautification center",
       price: 1000,
-      tags: [tags[0]._id, tags[1]._id],
+      tags: [tags[0], tags[1]],
       description: "it's beautiful"
     }, {
       name: "baking",
       supplier: "bens baking center",
       price: 50,
-      tags: [tags[0]._id],
+      tags: [tags[0]],
       description: "it's baking"
     }, {
       name: "shu winetasting",
       supplier: "shus discount alcohol center",
       price: 2,
-      tags: [tags[0]._id, tags[1]._id],
+      tags: [tags[0], tags[1]],
       description: "it's cheap"
     }, {
       name: "wing walking",
-      supplier: "bens dropout flight school",
+      supplier: "flight stunts",
       price: 500,
-      tags: [tags[1]._id],
+      tags: [tags[1]],
       description: "it's kinda safe"
     }], function(err, experiences) {
       if(!err) {
@@ -111,19 +137,18 @@ User.create([{
       Grouphug.create([{
         name: "mikes pampering weekend",
         description: "mike needs pampering",
-        creator: users[0]._id,
-        giftee: users[1]._id,
-        contributors: [ users[2]._id, users[3]._id],
+        creator: users[0],
+        giftee: users[1],
         experiences: [{
-          experienceId: experiences[0]._id,
+          experienceId: experiences[0],
           userWeightings: [{
-            user: users[0]._id,
+            user: users[0],
             weightValue: 5
           }, {
-            user: users[3]._id,
+            user: users[3],
             weightValue: 3
           }, {
-            user: users[2]._id,
+            user: users[2],
             weightValue: 4
           }]
         }],
@@ -147,8 +172,8 @@ User.create([{
           experience: experiences[0]._id,
           added: new Date        
         }, {
-          title: "crap",
-          content: "not as cheap as advertised",
+          title: "good",
+          content: "had a lot of fun!",
           rating: 1,
           user: users[3]._id,
           experience: experiences[2]._id,
@@ -160,9 +185,27 @@ User.create([{
           } else {
             console.log("err is:", err.errors);
           }
-          mongoose.connection.close();
+          // mongoose.connection.close();
+          Ecard.create([{
+            title: "Thanks you guys",
+            description: "had a great time!",
+            grouphug: grouphugs[0]._id    
+          }], function(err, ecards) {
+            if(!err) {
+              console.log("ecards created!");
+              console.log("ecards are: ", ecards);
+            } else {
+              console.log("err is:", err.errors);
+            }
+            grouphugs[0].ecard = ecards[0]._id;
+            grouphugs[0].save(function(err) {
+              console.log('grouphugs', grouphugs);
+              mongoose.connection.close();
+            });
+          })
         })
       })
     })
   })
+})
 })
