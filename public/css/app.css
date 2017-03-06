@@ -246,3 +246,9 @@ table td {
 .btn {
   color:black;
 }
+
+#unauthorised{
+  font-size: 5em;
+  color: red;
+  margin: 50% auto;
+}

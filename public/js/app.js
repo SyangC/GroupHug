@@ -122,6 +122,11 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/users/activated.html",
       controller: "UsersEditController as usersEdit"
     })
+    .state("unauthorised",{
+      url: "/unauthorised",
+      templateUrl: "/templates/unauthorised.html",
+      controller: "MainController as main"
+    })
 
 
 
@@ -623,6 +628,8 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     };
   }
 
+
+
   this.newContributor = function(){
    
     
@@ -661,7 +668,10 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     
   }
 
+  this.contributionMessage = null;
+
   this.checkout = function(grouphugName) {
+
     self.chargeAmount = Math.round(parseFloat(this.contributionAmount)*100);
     var handler = StripeCheckout.configure({
       key: "pk_test_eeEvZQY5GGkEmboxgG7RsiWa",
@@ -680,11 +690,14 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
             console.log("status: ", status);
             console.log("headers: ", headers);
             console.log("payment complete");
+            this.contributionMessage = "Your payment was received successfully";
             $timeout(function () {
                   $state.go('.', {}, { reload: true });
                   }, 100);  
             this.contributionAmount = "";  
+          
             })
+
           .error(function (token, status, header) {
             console.log("failure: ");
             console.log("token: ", token);

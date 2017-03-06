@@ -24,6 +24,7 @@ function secureRoute(req, res, next) {
   var token = req.headers.authorization.replace("Bearer ", "");
 
   jwt.verify(token, secret, function(err, payload) {
+
     if(err || !payload) return res.status(401).json({ message: "Unauthorized" });
 
     req.user = payload;
@@ -35,10 +36,12 @@ router.route("")
   .get(grouphugsController.index);
 
 router.route("/grouphugs")
+  .all(secureRoute)
   .get(grouphugsController.index)
   .post(upload.array('pictures'),grouphugsController.create);
 
 router.route("/grouphugs/:id")
+  .all(secureRoute)
   .get(grouphugsController.show)
   .put(upload.array('pictures'),grouphugsController.update)
   .delete(grouphugsController.delete);
@@ -90,14 +93,23 @@ router.route("/tags/:id")
   .put(tagsController.update)
   .delete(tagsController.delete);
 
-router.get("/users", usersController.index)
+router.route("/users")
+  .all(secureRoute)
+  .get(usersController.index);
+
+
 router.route("/users/:id")
+  .all(secureRoute)
   .get(usersController.show)
   .put(usersController.update);
 
 router.route("/edit/:id")
   .get(usersController.show)
   .put(usersController.update);
+
+
+
+
 
   
 
