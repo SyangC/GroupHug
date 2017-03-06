@@ -44,10 +44,10 @@ function register(req, res) {
           token: token
         })        
       // })
-      .catch(function(err) {
+      /*.catch(function(err) {
         console.log(err);
         res.status(500).json(err);
-      });
+      });*/
     // var newDate = date.setSeconds(date.getSeconds() + registrationEmail.delay);
     // // email.sendRegisterTemplate(user);
     // var j = schedule.scheduleJob(newDate, function(){
