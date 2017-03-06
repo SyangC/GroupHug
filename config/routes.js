@@ -11,7 +11,7 @@ var thankyousController = require("../controllers/thankyous");
 var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
 var chargeHandler = require("../controllers/chargeHandler");
-var contributorHandler = require("../controllers/contributorHAndler");
+var contributorHandler = require("../controllers/contributorHandler");
 
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
