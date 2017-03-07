@@ -31,6 +31,7 @@ function register(req, res) {
     var payload = { _id: user._id, username: user.username };
     var token = jwt.sign(payload, secret, { expiresIn: 60*60*24 });
     var date = new Date();
+    mailgun.mailgunMail('Registraion', user.email, 'Welcome to Grouphug', "", "", "", "", user );
     // EmailTemplate.findOne({'name': 'Registration'})
     //   .then(function(registrationEmail) {
     //     var newDate = date.setSeconds(date.getSeconds() + registrationEmail.delay);
