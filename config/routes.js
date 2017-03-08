@@ -31,7 +31,7 @@ function secureRoute(req, res, next) {
     next();
   });
 }
-
+/*check if we need route / here*/
 router.route("")
   .get(grouphugsController.index);
 

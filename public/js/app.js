@@ -1,6 +1,7 @@
 angular
-  .module("GroupHugApp", ["ngResource", "ui.router", "satellizer", "angularPayments"])
+  .module("GroupHugApp", ["ngResource", "ui.router","angular-jwt", "satellizer", "angularPayments"])
   .config(oAuthConfig)
+  .config(setupInterceptor)
   .config(Router)
   .config(function() {
     Stripe.setPublishableKey("pk_test_eeEvZQY5GGkEmboxgG7RsiWa");
@@ -16,6 +17,11 @@ function oAuthConfig($authProvider) {
     url: "/api/oauth/facebook",
     clientId: "1115097508582543"
   })
+}
+
+setupInterceptor.$inject = ["$httpProvider"];
+function setupInterceptor($httpProvider){
+  return $httpProvider.interceptors.push("AuthInterceptor");
 }
 
 Router.$inject = ["$stateProvider", "$urlRouterProvider"];
@@ -146,6 +152,7 @@ function LoginController($auth, $state, $rootScope) {
   this.authenticate = function(provider) {
     $auth.authenticate(provider)
       .then(function() {
+        console.log("Logging in ....");
         $rootScope.$broadcast("loggedIn");
         $state.go("home");
       });
@@ -155,7 +162,7 @@ function LoginController($auth, $state, $rootScope) {
     $auth.login(this.credentials, {
       url: "/api/login"
     }).then(function(){
-      $rootScope.$broadcast("loggedIn");
+      $rootScope.$broadcast("vloggedIn");
       $state.go("home");
     })
   }
@@ -164,8 +171,8 @@ angular
   .module("GroupHugApp")
   .controller("MainController", MainController);
 
-MainController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http"];
-function MainController(User, Grouphug, Experience, $state, $auth, $rootScope, $http) {
+MainController.$inject = ["User", "Grouphug", "Experience", "$state", "$auth", "$rootScope", "$http", "$window", "TokenService"];
+function MainController(User, Grouphug, Experience, $state, $auth, $rootScope, $http, $window, TokenService) {
   var self = this;
 
   this.allUsers = User.query();
@@ -187,16 +194,20 @@ function MainController(User, Grouphug, Experience, $state, $auth, $rootScope, $
   this.errorMessage = null;
 
   this.logout = function logout() {
-    $auth.logout();
+    $auth.removeToken();
+    $window.localStorage.removeItem('token');
+    console.log("logging out");
     this.currentUser = null;
     $state.go("home");
   }
 
   $rootScope.$on("loggedIn", function() {
     self.currentUser = $auth.getPayload();
+    console.log("wey logged in");
   });
 
   $rootScope.$on("unauthorized", function() {
+    console.log("Getting unauthorized");
     $state.go("login");
     self.errorMessage = "You are not authorized to view this content, please log in.";
   });
@@ -355,6 +366,37 @@ function User($resource) {
 }
 angular
   .module('GroupHugApp')
+  .factory('AuthInterceptor', AuthInterceptor);
+
+AuthInterceptor.$inject = ['TokenService', '$rootScope'];
+function AuthInterceptor(TokenService, $rootScope) {
+  return {
+    request: function(req) {
+      var token = TokenService.getToken();
+
+      if(!!req.url.match('/api') && token) {
+        req.headers.Authorization = 'Bearer ' + token;
+      }
+
+      // console.log(req.headers);
+      return req;
+    },
+    response: function(res) {
+      if(!!res.config.url.match('/api') && res.data.token) {
+        TokenService.setToken(res.data.token);
+      }
+      return res;
+    },
+    responseError: function(res) {
+      if(res.status === 401) {
+        $rootScope.$broadcast('unauthorized');
+      }
+      return res.data;
+    }
+  };
+}
+angular
+  .module('GroupHugApp')
   .factory('formData', formData);
 
 function formData() {
@@ -379,6 +421,32 @@ function formData() {
       return formData;
     }
   }
+}
+angular
+  .module("GroupHugApp")
+  .service("TokenService", TokenService);
+
+TokenService.$inject = ["$window", "jwtHelper"];
+function TokenService($window, jwtHelper) {
+  
+  this.setToken = function setToken(token) {
+    return $window.localStorage.setItem('token', token);
+  }
+
+  this.getToken = function getToken() {
+    return $window.localStorage.getItem('satellizer_token')?  $window.localStorage.getItem('satellizer_token'): $window.localStorage.getItem('token');
+   
+  }
+
+  this.decodeToken = function decodeToken() {
+    var token = this.getToken();
+    return token ? jwtHelper.decodeToken(token) : null;
+  }
+
+  this.clearToken = function clearToken() {
+    return $window.localStorage.removeItem('token');
+  }
+
 }
 angular
   .module("GroupHugApp")

@@ -1,5 +1,5 @@
 
-<div ng-if="main.currentUser">
+<!-- <div ng-if="main.currentUser"> -->
   <div ng-repeat="grouphug in grouphugsIndex.all">
     <div class="thumbnail">
         <h3>{{ grouphug.name }}</h3>
@@ -7,5 +7,5 @@
         <p ui-sref="grouphugsShow({ id: grouphug._id })">Enter</p>
     </div>
   </div>
-</div>
-<div id="unauthorised" ng-if="!main.currentUser">You do not have permission to view this page - sorry</div>
+<!-- </div> -->
+<!-- <div id="unauthorised" ng-if="!main.currentUser">You do not have permission to view this page - sorry</div> -->
