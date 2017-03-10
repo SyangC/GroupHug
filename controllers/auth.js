@@ -3,6 +3,7 @@ var Promise = require("bluebird");
 var User = require("../models/user");
 var secret = require("../config/tokens").secret;
 var email = require("../config/email");
+var mailgun = require("../config/mailgun");
 var EmailTemplate = require("../models/emailTemplate");
 var schedule = require("node-schedule");
 
@@ -31,7 +32,7 @@ function register(req, res) {
     var payload = { _id: user._id, username: user.username };
     var token = jwt.sign(payload, secret, { expiresIn: 60*60*24 });
     var date = new Date();
-    mailgun.mailgunMail('Registraion', user.email, 'Welcome to Grouphug', "", "", "", "", user );
+    mailgun.mailgunMail('Registration', user.email, 'Welcome to Grouphug', "", "", "", "", user );
     // EmailTemplate.findOne({'name': 'Registration'})
     //   .then(function(registrationEmail) {
     //     var newDate = date.setSeconds(date.getSeconds() + registrationEmail.delay);

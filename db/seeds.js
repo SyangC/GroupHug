@@ -22,9 +22,9 @@ Ecard.collection.drop();
 
 EmailTemplate.create([{
   name: "Registration",
-  subject: '{{firstName }}, Welcome to GroupHug!',
+  subject: 'Hey,|userFirstName|, Welcome to GroupHug!',
   text: "This is the text version from GroupHug. Hi {{firstName}}, thank you for registering with us. This account was created at {{createdAt}}.",
-  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi {{firstName}}, thank you for registering with us.</h3><h3>This account was created at {{createdAt}}.</h3></body>",
+  html: "<head><style>.body{background-color: #E4DFDA}h1{color: #4281a4}</style></head><body class='body'><h1>GroupHug</h1><br><h3>Hi |userFirstName|, You just registered with GroupHug, yeah!|newParagraph| You can now create a GroupHug for your friends or contribute to a GroupHug someone else has already set up.|newParagraph|Just to check, we have you registered as |userFirstName| |userLastName|, if you didn't register with us or you think this email is not for you please call the lovely people at GroupHug who can try and rectify things for you ....EVENTUALLY THERE WILL BE A CONFIRM YOUR ACCOUNT LINK HERE....</h3><h3>|newParagraph| This account was created at |createdAt|.</h3></body>",
   delay: 60*2
 }, {
   name: "NewUserInvite",

@@ -38,8 +38,13 @@ function mailgunMail (message_type, message_address, message_subject, grouphug, 
             case "userFirstName":
              messageText = messageText + " "+user.firstName;
               break;
+            case "userLastName":
+             messageText = messageText + " "+user.lastName;
+              break;
             case "createdAt":
-              messageText = messageText + " "+ Date.now();
+              var today = new Date();
+              var UTCstring = today.toUTCString()
+              messageText = messageText + " "+ UTCstring;
                break;
             case "creatorFirstName":
               messageText = messageText + " "+grouphug_creator_firstName;
