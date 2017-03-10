@@ -7,6 +7,7 @@ var userSchema = new mongoose.Schema({
   /*username: { type: String, required: true, minlength: 6, maxlength: 100 },*/ // Username depricated
   firstName: { type: String, maxlength: 100 }, // limited length to 100
   lastName: { type: String, maxlength: 100 }, // limited length to 100
+  displayName: { type: String, maxlength: 100},
   avatar: { type: String, default: "http://swingmaresme.com/wp-content/uploads/2015/03/avant.png" }, 
   DOB: { type: Date },
   gender: {type: String},
