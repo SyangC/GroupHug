@@ -597,9 +597,10 @@ angular
   .module("GroupHugApp")
   .controller("GrouphugsIndexController", GrouphugsIndexController);
 
-GrouphugsIndexController.$inject = ["Grouphug"];
-function GrouphugsIndexController(Grouphug) {
+GrouphugsIndexController.$inject = ["Grouphug", "$auth"];
+function GrouphugsIndexController(Grouphug, $auth) {
   this.all = Grouphug.query();
+  this.currentUser = $auth.getPayload()._id
 }
 
 
@@ -842,6 +843,8 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
       })
     }
   }
+
+
 
 
   $scope.stripeCallback = function (code, result) {

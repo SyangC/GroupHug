@@ -4,6 +4,7 @@ var jwt = require("jsonwebtoken");
 var secret = require("../config/tokens").secret;
 var stripe_Api_Key = process.env.STRIPE_SECRET_KEY;
 var stripe = require("stripe")(stripe_Api_Key);
+var mailgun = require("../config/mailgun");
 
 function stripeCharge(req, res) {
   console.log("req.body.amount is:", req.body.amount);
@@ -31,6 +32,8 @@ function stripeCharge(req, res) {
 
     console.log("Contribution contents: ", {
         name: req.body.card.name,
+        email: req.body.email,
+        id: req.body.card.id,
         stripeToken: stripeToken,
         grouphug: grouphugId,
         amount: amount
@@ -51,8 +54,10 @@ function stripeCharge(req, res) {
       }) 
 
       console.log("After contribution creation.");
-      
-      // The payment has been succesful
+      //send receipt to perosn making conribution to stripe recorded email address
+      mailgun.mailgunMail('ContributionReceipt', req.body.email, 'Thank you for your contribution via Strip', "", "", "", "","", req.body.card.name, req.body.grouphugDescription, amount );
+
+      //
       
       return res.status(200).json({ message: "Payment successful" });
     }

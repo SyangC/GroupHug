@@ -14,7 +14,7 @@ function mailgunParse(template){
   return templateArray;
 };
 
-function mailgunMail (message_type, message_address, message_subject, grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email, user){
+function mailgunMail (message_type, message_address, message_subject, grouphug, grouphug_creator_firstName, grouphug_creator_lastName, grouphug_creator_email, user,  card_holder_name, group_hug_name, contribution_amount){
 
   var date = new Date();
   var messageArray =[];
@@ -63,6 +63,16 @@ function mailgunMail (message_type, message_address, message_subject, grouphug, 
               break;
             case "newParagraph":
               messageText = messageText + "<BR>";
+              break;
+            case "cardHolderName":
+              messageText = messageText + " "+card_holder_name;
+              break;
+            case "groupHugContributedToo":
+              messageText = messageText + " "+group_hug_name;
+              break;
+            case "contributionAmount":
+              var contributionReceived = contribution_amount/100;
+              messageText = messageText + " "+contributionReceived;
               break;
             default:
                messageText = messageText+ messageSegment

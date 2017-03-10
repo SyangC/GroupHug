@@ -13,6 +13,7 @@ var schedule = require("node-schedule");
 
 function grouphugIndex(req, res) {
   Grouphug.find()
+    .populate('contributors.contributorId')
     .then(function(grouphugs) {
       res.status(200).json(grouphugs)
     })
@@ -20,6 +21,7 @@ function grouphugIndex(req, res) {
       res.status(500).json(err);
     });
 }
+
 
 function grouphugShow(req, res) {
   Grouphug.findById(req.params.id)
@@ -52,6 +54,7 @@ function grouphugCreate(req, res) {
       req.body.thankyou = thankyou._id;
       Grouphug.create(req.body)
         .then(function(grouphug) {
+          addGroupHugToCreator(req, grouphug);
           console.log(grouphug);
           res.status(201).json(grouphug);
         })
@@ -167,6 +170,24 @@ function sendGroupHugInvitations(grouphug, grouphug_creator_firstName, grouphug_
   }
 };
 
+
+function addGroupHugToCreator (req, grouphug){
+  User.findById (req.body.creator)
+    .then(function(user,err){
+      if(user){
+        console.log(">>>>>>PUSHING Grouphug ID", grouphug._id, "into user ", user.email);
+        user.grouphugs.push(grouphug._id);
+        return User.update({_id: user._id},{grouphugs: user.grouphugs});
+      }
+      else {
+        console.log("User Not found");
+      }
+    })
+    .catch(function(err){
+      console.log("new user not created err",err);
+    });
+
+};
 
 
 
