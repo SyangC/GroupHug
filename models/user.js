@@ -4,7 +4,7 @@ var bcrypt = require("bcrypt");
 var userSchema = new mongoose.Schema({
   isActivated: {type: Boolean, default: true},
   tempUserAccessKey: {type: String},
-  username: { type: String, required: true, minlength: 6, maxlength: 100 }, // between 6 and 100
+  /*username: { type: String, required: true, minlength: 6, maxlength: 100 },*/ // Username depricated
   firstName: { type: String, maxlength: 100 }, // limited length to 100
   lastName: { type: String, maxlength: 100 }, // limited length to 100
   avatar: { type: String, default: "http://swingmaresme.com/wp-content/uploads/2015/03/avant.png" }, 

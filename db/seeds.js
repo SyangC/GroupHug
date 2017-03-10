@@ -53,7 +53,6 @@ EmailTemplate.create([{
     }
 
 User.create([{
-  username: "jsmith",
   firstName: "jack",
   lastName: "smith",
   DOB: new Date,
@@ -61,7 +60,6 @@ User.create([{
   password: "password",
   passwordConfirmation: "password",
 }, {
-  username: "jleslie",
   firstName: "julia",
   lastName: "leslie",
   DOB: new Date,
@@ -69,7 +67,6 @@ User.create([{
   password: "password",
   passwordConfirmation: "password",
 }, {
-  username: "hdowner",
   firstName: "harry",
   lastName: "downer",
   DOB: new Date,
@@ -77,7 +74,6 @@ User.create([{
   password: "password",
   passwordConfirmation: "password",
 }, {
-  username: "ggrant",
   firstName: "george",
   lastName: "grant",
   DOB: new Date,
