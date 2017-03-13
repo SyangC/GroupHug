@@ -4,7 +4,7 @@ angular
   .config(setupInterceptor)
   .config(Router)
   .config(function() {
-    Stripe.setPublishableKey("pk_live_DE9SCJa4lsKkLWhnHlvT3roC");
+    Stripe.setPublishableKey("pk_test_UwzuaWQwCBqL92hiVkmzupiJ");
   })
 
 oAuthConfig.$inject = ["$authProvider"];
@@ -146,40 +146,6 @@ function Router($stateProvider, $urlRouterProvider) {
 angular
   .module("GroupHugApp")
 angular
-  .module('GroupHugApp')
-  .directive('date', date);
-
-function date() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$formatters.push(function(value) {
-        return new Date(value);
-      });
-    }
-  }
-}
-angular
-  .module('GroupHugApp')
-  .directive('file', file);
-
-function file() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      element.on('change', function(e) {
-        if(element.prop('multiple')) {
-          ngModel.$setViewValue(e.target.files);
-        } else {
-          ngModel.$setViewValue(e.target.files[0]);
-        }
-      });
-    }
-  }
-}
-angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
 
@@ -278,6 +244,40 @@ function RegisterController($auth, $state, $rootScope) {
       $rootScope.$broadcast("loggedIn");
       $state.go("home");
     })
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('date', date);
+
+function date() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
+
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
+        }
+      });
+    }
   }
 }
 // angular
@@ -750,7 +750,7 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
 
     self.chargeAmount = Math.round(parseFloat(this.contributionAmount)*100);
     var handler = StripeCheckout.configure({
-      key: "pk_live_DE9SCJa4lsKkLWhnHlvT3roC",
+      key: "pk_test_UwzuaWQwCBqL92hiVkmzupiJ",
       image: "https://stripe.com/img/documentation/checkout/marketplace.png",
       locale: "auto",
       token: function(token) {
