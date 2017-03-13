@@ -4,7 +4,7 @@ angular
   .config(setupInterceptor)
   .config(Router)
   .config(function() {
-    Stripe.setPublishableKey("pk_test_eeEvZQY5GGkEmboxgG7RsiWa");
+    Stripe.setPublishableKey("pk_live_DE9SCJa4lsKkLWhnHlvT3roC");
   })
 
 oAuthConfig.$inject = ["$authProvider"];
@@ -31,6 +31,11 @@ function Router($stateProvider, $urlRouterProvider) {
     .state("home", {
       url: "/",
       templateUrl: "/templates/home.html",
+      controller: "MainController as main"
+    })
+    .state("welcome", {
+      url: "/",
+      templateUrl: "/templates/welcome.html",
       controller: "MainController as main"
     })
     .state("login", {
@@ -154,7 +159,7 @@ function LoginController($auth, $state, $rootScope) {
       .then(function() {
         console.log("Logging in ....");
         $rootScope.$broadcast("loggedIn");
-        $state.go("home");
+        $state.go("welcome");
       });
   }
 
@@ -163,7 +168,7 @@ function LoginController($auth, $state, $rootScope) {
       url: "/api/login"
     }).then(function(){
       $rootScope.$broadcast("loggedIn");
-      $state.go("home");
+      $state.go("welcome");
     })
   }
 }
@@ -745,7 +750,7 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
 
     self.chargeAmount = Math.round(parseFloat(this.contributionAmount)*100);
     var handler = StripeCheckout.configure({
-      key: "pk_test_eeEvZQY5GGkEmboxgG7RsiWa",
+      key: "pk_live_DE9SCJa4lsKkLWhnHlvT3roC",
       image: "https://stripe.com/img/documentation/checkout/marketplace.png",
       locale: "auto",
       token: function(token) {

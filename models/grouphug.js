@@ -11,6 +11,7 @@ var grouphugSchema = new mongoose.Schema({
   gifteeLastName: { type: String },
   gifteeDisplayName: { type: String },
   gifteeEmailAddress: { type: String, required: true},
+  gifteePostalTown: {type: String, required: true},
   gifteeContactNumber:{ type: String },
   gifteeAge: {type: String},
   gifteeGender: {type: String},

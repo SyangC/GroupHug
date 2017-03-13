@@ -48,17 +48,17 @@
       </div>
 
     <br />
-    How many people is your group hug for?
+   <!--  How many people is your group hug for?
     <select name="groupSize-category" ng-model="grouphugsNew.new.gifteeGroupSize" class="selectOne">
       <option disabled selected>Please select</option>
       <option ng-repeat="groupSize in grouphugsNew.groupSizes" >{{groupSize}}</option>
     </select>
-    <br/>
+    <br/> -->
 
     <br/>
 
-    <div ng-if="grouphugsNew.new.gifteeGroupSize === 'One person' ">What's your friend's name?</div>
-    <div ng-if="grouphugsNew.new.gifteeGroupSize === 'A couple' || grouphugsNew.new.gifteeGroupSize === 'A group'">Enter details for the main contact</div>
+    <div>What's your friend's name?</div>
+    <!-- <div ng-if="grouphugsNew.new.gifteeGroupSize === 'A couple' || grouphugsNew.new.gifteeGroupSize === 'A group'">Enter details for the main contact</div> -->
     <br />
     <div ng-if="grouphugsNew.new.gifteeGroupSize === 'One person' ">
      Please enter your friend's email? It's important this is the correct email for us to contact them by:
@@ -68,10 +68,8 @@
      Please enter the main contact's email? It's important this is the correct email for us to contact them by:
       (Don't worry, we won't email them yet. This is for after you've given the Experience Gift Card so we can organise the experience!)
     </div>
-    <div ng-if="grouphugsNew.new.gifteeGroupSize">
-      <div class="form-group">
-        <input type="email" name="friends-email" class="form-control" ng-model="grouphugsNew.new.gifteeEmailAddress" placeholder="Your Friend's Email">
-      </div>
+    <div>
+     
 
       <div class="form-group">
         <input type="text" name="giftee-first-name" class="form-control" ng-model="grouphugsNew.new.gifteeFirstName" placeholder="Your Friend's First Name">
@@ -83,6 +81,16 @@
 
       <div class="form-group">
         <input type="text" name="giftee-nickname" class="form-control" ng-model="grouphugsNew.new.gifteeNickname" placeholder="Your Friend's Nickname">
+      <br/>
+      What's their email?
+      <div class="form-group">
+        <input type="email" name="friends-email" class="form-control" ng-model="grouphugsNew.new.gifteeEmailAddress" placeholder="Your Friend's Email">
+      </div>
+      <br/>
+      Where do they live?
+
+      </div> <div class="form-group">
+        <input type="text" name="giftee-postaltown" class="form-control" ng-model="grouphugsNew.new.gifteePostalTown" placeholder="If they live in London, please tell us where e.g. Notting Hill or Clapham">
       </div>
 
       <br/>
