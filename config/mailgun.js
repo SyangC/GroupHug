@@ -1,6 +1,7 @@
 var Promise = require("bluebird");
 var api_key = process.env.MAILGUN_SECERET_KEY;
-var domain = 'sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org';
+/*var domain = 'sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org';*/
+var domain = 'group-hug.co';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 var User = require('../models/user');
 var Grouphug = require('../models/grouphug');
