@@ -4,7 +4,7 @@ angular
   .config(setupInterceptor)
   .config(Router)
   .config(function() {
-    Stripe.setPublishableKey("pk_live_DE9SCJa4lsKkLWhnHlvT3roC");
+    Stripe.setPublishableKey("pk_test_UwzuaWQwCBqL92hiVkmzupiJ");
   })
 
 oAuthConfig.$inject = ["$authProvider"];
@@ -750,7 +750,7 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
 
     self.chargeAmount = Math.round(parseFloat(this.contributionAmount)*100);
     var handler = StripeCheckout.configure({
-      key: "pk_live_DE9SCJa4lsKkLWhnHlvT3roC",
+      key: "pk_test_UwzuaWQwCBqL92hiVkmzupiJ",
       image: "https://stripe.com/img/documentation/checkout/marketplace.png",
       locale: "auto",
       token: function(token) {
