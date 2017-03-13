@@ -39,13 +39,12 @@ function existingUserTest (contributor_email, grouphug_Id, contributor_name){
       else if (!user)
         {
           console.log("create temp user group hug", grouphug_Id);
-            console.log("test works", contributor_email, contributor_name);
             var randomstring = Math.random().toString(36).slice(-15);
             console.log(randomstring);
             User.create({
               isActivated: "false",
               tempUserAccessKey: randomstring,
-              username: contributor_email,
+              displayName: contributor_email,
               firstName: contributor_name,
               email: contributor_email,
               password: randomstring,
@@ -61,9 +60,7 @@ function existingUserTest (contributor_email, grouphug_Id, contributor_name){
             })
             .catch(function(err){
               console.log("new user not created err",err);
-            })
-
-          
+            })  
         }
       
     })

@@ -48,33 +48,53 @@ function grouphugCreate(req, res) {
   }
   console.log("req.files after", req.files);
   console.log("req.body after", req.body);
-  Thankyou.create({})
-    .then(function(thankyou) {
-      console.log("thankyou: ", thankyou);
-      req.body.thankyou = thankyou._id;
-      Grouphug.create(req.body)
-        .then(function(grouphug) {
-          addGroupHugToCreator(req, grouphug);
-          console.log(grouphug);
-          res.status(201).json(grouphug);
+  var user = {};
+  User.findOne ({'email' : req.body.gifteeEmailAddress})
+    .then(function(user, err){
+      if(user){
+       console.log("<<<<GIFTEE EXISTS>>>>", user._id)
+       createGroupHug(req, res, user);
+      }
+      else if (!user)
+      { 
+      console.log("creating temp giftee user");
+      var randomstring = Math.random().toString(36).slice(-15);
+      console.log(randomstring);
+      User.create({
+        isActivated: "false",
+        tempUserAccessKey: randomstring,
+        displayName: req.body.gifteeNickName,
+        firstName: req.body.gifteeFirstName,
+        lastName: req.body.gifteeLastNAme,
+        email: req.body.gifteeEmailAddress,
+        password: randomstring,
+        passwordConfirmation: randomstring,
         })
-        .catch(function(err) {
-          console.log(err);
-          res.status(500).json(err);
-        });
+        .then(function(user, err){
+          
+          console.log("giftee id is",user._id);
+          console.log("giftee......", user);
+          createGroupHug(req, res, user);
+        })
+        .catch(function(err){
+          console.log("giftee user creation failed", err)
+        })
+      }
+
     })
-    .catch(function(err) {
-      console.log(err);
-      res.status(500).json(err);
-    });
-}
+    
+  .catch(function(err){
+    console.log("new user not created err",err);
+  });        
+};
+
+    
+
 
 function grouphugUpdate(req, res) {
   console.log("req.body", req.body);
   console.log("req.body.experiences", req.body.experiences);
   console.log("req.files", req.files);
-  
-
   Grouphug.findById(req.params.id)
     .populate('creator')
     .then(function(grouphug) {
@@ -188,6 +208,49 @@ function addGroupHugToCreator (req, grouphug){
     });
 
 };
+
+function addGroupHugToGiftee(grouphug){
+    User.findById (grouphug.giftee)
+      .then(function(user,err){
+        if(user){
+          console.log(">>>>>>PUSHING Grouphug ID to giftee", grouphug._id, "into giftee ", user.email);
+          user.gifts.push(grouphug._id);
+          return User.update({_id: user._id},{gifts: grouphug._id});
+        }
+        else {
+          console.log("Giftee Not found");
+        }
+      })
+      .catch(function(err){
+        console.log("Gift not added to giftee",err);
+      });
+};
+
+function createGroupHug(req, res, user){
+  req.body.giftee = user._id;
+    Thankyou.create({})
+      .then(function(thankyou) {
+        console.log("thankyou: ", thankyou);
+        req.body.thankyou = thankyou._id;
+        Grouphug.create(req.body)
+        .then(function(grouphug) {
+          addGroupHugToCreator(req, grouphug);
+          addGroupHugToGiftee(grouphug);
+          console.log(grouphug);
+          res.status(201).json(grouphug);
+          })
+        .catch(function(err) {
+          console.log(err);
+          res.status(500).json(err);
+        });
+      })
+    .catch(function(err) {
+      console.log(err);
+      res.status(500).json(err);
+      });
+}
+
+
 
 
 

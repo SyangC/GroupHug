@@ -24,6 +24,7 @@ var userSchema = new mongoose.Schema({
   reviews: [{ type: mongoose.Schema.ObjectId, ref: "Review" }], 
   grouphugs: [{ type: mongoose.Schema.ObjectId, ref: "Grouphug" }],
   invitations: [{ type: mongoose.Schema.ObjectId, ref: "Grouphug"}],
+  gifts: [{type: mongoose.Schema.ObjectId, ref: "Grouphug"}],
   createBy: [{type: String, default: "Self"}],
   createdAt: { type: Date, default: new Date },
 });

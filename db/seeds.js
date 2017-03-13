@@ -141,6 +141,7 @@ User.create([{
         description: "mike needs pampering",
         creator: users[0],
         giftee: users[1],
+        gifteeEmailAddress: "mike@mail",
         experiences: [{
           experienceId: experiences[0],
           userWeightings: [{
