@@ -619,9 +619,11 @@ function GrouphugsNewController(Grouphug, $state, $auth) {
 
   this.ages = ["0-12", "13-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "81-90", "91+"];
 
-  this.genders = ["Female", "Male", "Gender-Neutral", "Prefer not to say"];
+  this.genders = ["Female", "Male", "Gender-Neutral", "Prefer not to say", "Mixed"];
 
   this.occassions = ["Birthday", "Wedding", "Leaving", "Thank You", "Cheer Your Friend Up", "Retirement"];
+
+  this.groupSizes = ["One person", "A couple", "A group"];
 
   this.relations = ["Friend", "Partner", "Parent", "Grandparent", "Sibling", "Child"];
 

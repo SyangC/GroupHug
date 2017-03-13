@@ -9,7 +9,7 @@ var grouphugSchema = new mongoose.Schema({
   giftee: { type: mongoose.Schema.ObjectId, ref: "User" },
   gifteeFirstName: { type: String },
   gifteeLastName: { type: String },
-  gifteeNickName: { type: String },
+  gifteeDisplayName: { type: String },
   gifteeEmailAddress: { type: String, required: true},
   gifteeContactNumber:{ type: String },
   gifteeAge: {type: String},

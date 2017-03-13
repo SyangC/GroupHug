@@ -63,7 +63,6 @@ function grouphugCreate(req, res) {
       User.create({
         isActivated: "false",
         tempUserAccessKey: randomstring,
-        displayName: req.body.gifteeNickName,
         firstName: req.body.gifteeFirstName,
         lastName: req.body.gifteeLastNAme,
         email: req.body.gifteeEmailAddress,

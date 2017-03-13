@@ -43,16 +43,16 @@
 
     <li ng-if="!main.currentUser"><a ui-sref="login">Login</a></li>
     <li ng-if="!main.currentUser"><a ui-sref="register">Register</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="adminUi">Admin UI</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin'"><a ui-sref="adminUi">Admin UI</a></li>
 
 
     <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="usersEdit({ id: main.currentUser._id})">Edit My Details</a></li>
     <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="usersShow({ id: main.currentUser._id})">Show My Details</a></li>
 
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="experiencesIndex">All Experiences</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="experiencesNew">New Experiences</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin'"><a ui-sref="experiencesIndex">All Experiences</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin'"><a ui-sref="experiencesNew">New Experiences</a></li>
 
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="grouphugsIndex">All Grouphugs</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin'">All Grouphugs</a></li>
     <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="grouphugsNew">New Grouphug</a></li>
     <li ng-if="main.currentUser && main.currentUser.isActivated == false"><a ui-sref="usersEdit({ id: main.currentUser._id})">Complete Your Registration</a></li>
 
