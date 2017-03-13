@@ -142,6 +142,7 @@ User.create([{
         creator: users[0],
         giftee: users[1],
         gifteeEmailAddress: "mike@mail",
+        gifteePostalTown: "Wapping",
         experiences: [{
           experienceId: experiences[0],
           userWeightings: [{
