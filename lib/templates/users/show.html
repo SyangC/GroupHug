@@ -5,54 +5,57 @@
 <div class="col-md-8 col-md-offset-2">
   <div class="thumbnail">
     <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcToWXet6ifvpSHOfr1To_xUJ1FfMxzMvo_BnkGwqxwODBitGjv7Sg">
-    <div class="caption" ng-controller="UsersShowController as usersShow">
-      <div>
-        <div class="showlabel">Display Name</div>
-        {{ usersShow.selected.displayName }}
-      </div>
-      <div>
-        <div class="showlabel">First Name</div>
-        {{ usersShow.selected.firstName }}
-      </div>
-      <div>
-        <div class="showlabel">Last Name</div>
-        {{ usersShow.selected.lastName }}
-      </div>
-      <div>
-        <div class="showlabel">Email Address</div>
-        {{ usersShow.selected.email }}
-      </div>
-      <div>
-        <div class="showlabel">ContactNumber</div>
-        {{ usersShow.selected.contactNumber }}
-      </div>
-      <div class="showlabel">
-      <h3>Grouphugs:</h3>
-        <ul ng-repeat="grouphug in usersShow.selected.grouphugs">
+  </div>
+   <div class="caption" ng-controller="UsersShowController as usersShow">
+     <div>
+       <div class="showlabel">Display Name</div>
+       {{ usersShow.selected.displayName }}
+     </div>
+     <div>
+       <div class="showlabel">First Name</div>
+       {{ usersShow.selected.firstName }}
+     </div>
+     <div>
+       <div class="showlabel">Last Name</div>
+       {{ usersShow.selected.lastName }}
+     </div>
+     <div>
+       <div class="showlabel">Email Address</div>
+       {{ usersShow.selected.email }}
+     </div>
+     <div>
+       <div class="showlabel">ContactNumber</div>
+       {{ usersShow.selected.contactNumber }}
+     </div>
+     <div>
+       <div class="showlabel">Role</div>
+       {{ usersShow.selected.role }}
+     </div>
+     <div class="showlabel">
+     <h3>Grouphugs:</h3>
+       <ul ng-repeat="grouphug in usersShow.selected.grouphugs">
         <li>{{grouphug.name}}</li>
-       
-        </ul>
-      </div>
-      <div class="showlabel">
+       </ul>
+     </div>
+     <div class="showlabel">
       <h3>Gifts:</h3>
-        <ul ng-repeat="gift in usersShow.selected.gifts">
+      <ul ng-repeat="gift in usersShow.selected.gifts">
         <li>{{gift}}</li>
-       
-        </ul>
-      </div>
-      <h3>Pending Invitations:</h3>
-        <ul ng-repeat="invitation in usersShow.selected.invitations">
-        <li>{{invitation.name}}, a group hug for {{invitation.gifteeFirstName}} {{invitation.gifteeLastName}}</li>
-       
-        </ul>
-      </div>
-
-      <!-- <p>Total GroupHugs as Giftee: {{ usersShow.selected.something }}</p>
-      <p>Total GroupHugs as Creator: {{ usersShow.selected.somethingElse }}</p>
-      <p>Total GroupHugs as Contributor: {{ usersShow.selected.anotherThing }}</p> -->
-      <button ui-sref="usersEdit({ id: usersShow.selected._id})" class="btn btn-primary">Edit</button>
-    </div>
+      </ul>
+     </div>
+     <h3>Pending Invitations:</h3>
+       <ul ng-repeat="invitation in usersShow.selected.invitations">
+        <li>{{invitation.name}}, a group hug for {{invitation.gifteeFirstName}}{{invitation.gifteeLastName}}</li>
+      </ul>
+     </div>
+     <!-- <p>Total GroupHugs as Giftee: {{ usersShow.selected.something }}</p>
+     <p>Total GroupHugs as Creator: {{ usersShow.selected.somethingElse }}</p>
+     <p>Total GroupHugs as Contributor: {{ usersShow.selected.anotherThing }}</p> -->
+     <button ui-sref="usersEdit({ id: usersShow.selected._id})" class="btn btn-primary">Edit</button>
   </div>
 </div>
 
-<p><a ui-sref="adminUi">Back</a></p>
+<p>
+  <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">Back</a>
+  <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">Back</a>
+</p>

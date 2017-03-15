@@ -314,6 +314,8 @@
 
       <input type="submit" value="Submit" class="btn btn-primary">
       <button style="color: black">Save</button>
+      <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">CANCEL</a>
+      <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">CANCEL</a>
     </form>
   </div>
 

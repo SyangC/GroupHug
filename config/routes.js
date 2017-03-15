@@ -24,27 +24,43 @@ function secureRoute(req, res, next) {
   var token = req.headers.authorization.replace("Bearer ", "");
 
   jwt.verify(token, secret, function(err, payload) {
-
     if(err || !payload) return res.status(401).json({ message: "Unauthorized" });
-
     req.user = payload;
     next();
   });
 }
+
+function requireRole(role) {
+    return function(req, res, next) {
+      if(req.headers.authorization){
+          var token = req.headers.authorization.replace("Bearer ", "");
+          jwt.verify(token, secret, function(err, payload) {
+          if(err || !payload || payload.role != "superAdmin") return res.status(403).json({ message: "Bad Role" });
+            
+          next();
+          });
+            
+        }
+      }
+     
+}
+
+
+
 /*check if we need route / here*/
 router.route("")
   .get(grouphugsController.index);
 
 router.route("/grouphugs")
   .all(secureRoute)
-  .get(grouphugsController.index)
+  .get(requireRole('superAdmin'), grouphugsController.index)
   .post(upload.array('pictures'),grouphugsController.create);
 
 router.route("/grouphugs/:id")
   .all(secureRoute)
   .get(grouphugsController.show)
   .put(upload.array('pictures'),grouphugsController.update)
-  .delete(grouphugsController.delete);
+  .delete(requireRole('superAdmin'),grouphugsController.delete);
 
 router.route("/charge")
   .post(chargeHandler.stripeCharge)
@@ -62,8 +78,8 @@ router.route("/ecards/:id")
   .delete(ecardsController.delete);
 
 router.route("/experiences")
-  .get(experiencesController.index)
-  .post(upload.array('pictures'),experiencesController.create);
+  .get(requireRole('superAdmin'),experiencesController.index)
+  .post(requireRole('superAdmin'), upload.array('pictures'),experiencesController.create);
 router.route("/experiences/:id")
   .get(experiencesController.show)
   .put(upload.array('pictures'),experiencesController.update)
@@ -94,8 +110,7 @@ router.route("/tags/:id")
   .delete(tagsController.delete);
 
 router.route("/users")
-  .all(secureRoute)
-  .get(usersController.index);
+  .get(requireRole('superAdmin'),usersController.index);
 
 
 router.route("/users/:id")
@@ -104,6 +119,7 @@ router.route("/users/:id")
   .put(usersController.update);
 
 router.route("/edit/:id")
+  .all(secureRoute)
   .get(usersController.show)
   .put(usersController.update);
 

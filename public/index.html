@@ -32,30 +32,22 @@
 
 </head>
 <body ng-controller="MainController as main">
-
-  <div class="container" ng-if="main.errorMessage">
-    <div class="alert alert-danger">{{ main.errorMessage }}</div>
-  </div>
-
 <header>
   <ul>
     <li><a ui-sref="home">Home</a></li>
 
     <li ng-if="!main.currentUser"><a ui-sref="login">Login</a></li>
     <li ng-if="!main.currentUser"><a ui-sref="register">Register</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true "><a ui-sref="adminUi">Admin UI</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin'"><a ui-sref="adminUi">Admin UI</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="usersWelcome({ id: main.currentUser._id})">My GroupHugs</a></li>
 
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin' "><a ui-sref="experiencesIndex">All Experiences</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin'"><a ui-sref="experiencesNew">New Experiences</a></li>
 
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="usersEdit({ id: main.currentUser._id})">Edit My Details</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="usersShow({ id: main.currentUser._id})">Show My Details</a></li>
-
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true "><a ui-sref="experiencesIndex">All Experiences</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true "><a ui-sref="experiencesNew">New Experiences</a></li>
-
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true "><a ui-sref="grouphugsIndex">All Grouphugs</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="grouphugsNew">New Grouphug</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin'"><a ui-sref="grouphugsIndex">All Grouphugs</a></li>
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="grouphugsNew">Create A Grouphug</a></li>
     <li ng-if="main.currentUser && main.currentUser.isActivated == false"><a ui-sref="usersEdit({ id: main.currentUser._id})">Complete Your Registration</a></li>
-
+    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="usersShow({ id: main.currentUser._id})">Show My Details</a></li>
     <li ng-if="main.currentUser"><a ng-click="main.logout()">Log Out...{{main.currentUser.email}}</a></li>
 
   <!--   <li><a ui-sref="usersIndex">Users Index</a></li>
@@ -68,12 +60,7 @@
   
 
   <footer>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  Give more happiness
   </footer>
 </body>
 </html>
