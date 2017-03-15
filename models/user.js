@@ -27,6 +27,7 @@ var userSchema = new mongoose.Schema({
   gifts: [{type: mongoose.Schema.ObjectId, ref: "Grouphug"}],
   createBy: [{type: String, default: "Self"}],
   createdAt: { type: Date, default: new Date },
+  loggedIn: Boolean
 });
 
 userSchema.pre("validate", function(next) {

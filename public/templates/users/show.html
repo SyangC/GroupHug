@@ -9,6 +9,7 @@
       <div>
         <div class="showlabel">Display Name</div>
         {{ usersShow.selected.displayName }}
+        
       </div>
       <div>
         <div class="showlabel">First Name</div>
@@ -25,6 +26,10 @@
       <div>
         <div class="showlabel">ContactNumber</div>
         {{ usersShow.selected.contactNumber }}
+      </div>
+      <div>
+        <div class="showlabel">Role</div>
+        {{ usersShow.selected.role }}
       </div>
       <div class="showlabel">
       <h3>Grouphugs:</h3>
@@ -55,4 +60,7 @@
   </div>
 </div>
 
-<p><a ui-sref="adminUi">Back</a></p>
+<p>
+  <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">Back</a>
+  <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">Back</a>
+</p>

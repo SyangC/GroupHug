@@ -72,8 +72,12 @@ header ul li a:hover {
 footer {
   background-color: #232323;
   color: white;
-  min-height: 3em;
+  min-height: 2em;
+  text-align: center;
+  padding: 1em;
+  font-size: 30px;
 }
+
 
 td, th {
   text-align: center;

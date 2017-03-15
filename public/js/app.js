@@ -33,11 +33,6 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/home.html",
       controller: "MainController as main"
     })
-    .state("welcome", {
-      url: "/",
-      templateUrl: "/templates/welcome.html",
-      controller: "MainController as main"
-    })
     .state("login", {
       url: "/login",
       templateUrl: "/templates/login.html",
@@ -123,11 +118,17 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/users/show.html",
       controller: "UsersShowController as usersShow"
     })
+    .state("usersWelcome", {
+      url: "/welcome/:id",
+      templateUrl: "/templates/users/welcome.html",
+      controller: "UsersWelcomeController as usersWelcome"
+    })
     .state("usersEdit", {
       url: "/edit/:id",
       templateUrl: "/templates/users/edit.html",
       controller: "UsersEditController as usersEdit"
     })
+   
     .state("userActivated",{
       url: "/activated",
       templateUrl: "/templates/users/activated.html",
@@ -149,8 +150,8 @@ angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
 
-LoginController.$inject = ["$auth", "$state", "$rootScope"];
-function LoginController($auth, $state, $rootScope) {
+LoginController.$inject = ["$auth", "$state", "$stateParams", "$rootScope"];
+function LoginController($auth, $state, $stateParams, $rootScope) {
 
   this.credentials = {};
 
@@ -159,10 +160,10 @@ function LoginController($auth, $state, $rootScope) {
       .then(function() {
         console.log("Logging in ....");
         $rootScope.$broadcast("loggedIn");
-        $state.go("welcome");
+      /*  $state.go("home");*/
       });
   }
-
+/*
   this.submit = function() {
     $auth.login(this.credentials, {
       url: "/api/login"
@@ -170,7 +171,21 @@ function LoginController($auth, $state, $rootScope) {
       $rootScope.$broadcast("loggedIn");
       $state.go("welcome");
     })
-  }
+  }*/
+
+  this.submit = function submit(){
+
+    $auth.login(this.credentials, {
+      url:"api/login"
+    }).then(function(){
+      $rootScope.$broadcast("loggedIn");
+      this.currentUser = $auth.getPayload();
+      console.log("USER IS>>>",this.currentUser)
+      $state.go('usersWelcome',{id: this.currentUser._id});
+      self.currentUser = $auth.getPayload();
+  
+    });
+  };
 }
 angular
   .module("GroupHugApp")
@@ -190,7 +205,7 @@ function MainController(User, Grouphug, Experience, $state, $auth, $rootScope, $
     $auth.authenticate(provider)
       .then(function() {
         $rootScope.$broadcast("loggedIn");
-        $state.go("home");
+       /* $state.go("welcome");*/
       });
   }
 
@@ -216,6 +231,7 @@ function MainController(User, Grouphug, Experience, $state, $auth, $rootScope, $
     $state.go("login");
     self.errorMessage = "You are not authorized to view this content, please log in.";
   });
+
 
   $rootScope.$on("$stateChangeStart", function() {
     self.errorMessage = null;
@@ -605,6 +621,7 @@ angular
 GrouphugsIndexController.$inject = ["Grouphug", "$auth"];
 function GrouphugsIndexController(Grouphug, $auth) {
   this.all = Grouphug.query();
+  this.message = null;
   this.currentUser = $auth.getPayload()._id
 }
 
@@ -945,9 +962,22 @@ function UsersShowController(User, $state, $auth) {
   this.selected = $auth.getPayload();*/
 
   this.selected = User.get($state.params);
-
+  this.user = "john";
 
   this.update = function() {
     this.selected.$update();
   }
+}
+angular
+  .module("GroupHugApp")
+  .controller("UsersWelcomeController", UsersWelcomeController);
+
+UsersWelcomeController.$inject = ["User", "$state", "$auth"];
+function UsersWelcomeController(User, $state, $auth) {
+
+
+  this.selected = User.get($state.params);
+
+ 
+
 }

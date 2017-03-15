@@ -102,7 +102,9 @@
 
 
 
-  <button ui-sref="grouphugsEdit({ id: grouphugsShow.selected._id })" class="btn">Edit the group hug details </button><a ui-sref="adminUi"> Back</a>
+  <button ui-sref="grouphugsEdit({ id: grouphugsShow.selected._id })" class="btn">Edit the group hug details </button>
+  <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">Back</a>
+  <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">Back</a>
   <h1>Pictures</h1>
   <img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">
 </div>
