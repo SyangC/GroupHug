@@ -147,6 +147,40 @@ function Router($stateProvider, $urlRouterProvider) {
 angular
   .module("GroupHugApp")
 angular
+  .module('GroupHugApp')
+  .directive('date', date);
+
+function date() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
+
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
+        }
+      });
+    }
+  }
+}
+angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
 
@@ -260,40 +294,6 @@ function RegisterController($auth, $state, $rootScope) {
       $rootScope.$broadcast("loggedIn");
       $state.go("home");
     })
-  }
-}
-angular
-  .module('GroupHugApp')
-  .directive('date', date);
-
-function date() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$formatters.push(function(value) {
-        return new Date(value);
-      });
-    }
-  }
-}
-angular
-  .module('GroupHugApp')
-  .directive('file', file);
-
-function file() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      element.on('change', function(e) {
-        if(element.prop('multiple')) {
-          ngModel.$setViewValue(e.target.files);
-        } else {
-          ngModel.$setViewValue(e.target.files[0]);
-        }
-      });
-    }
   }
 }
 // angular
@@ -881,43 +881,6 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
 }
 angular
   .module("GroupHugApp")
-  .controller("ThankyousEditController", ThankyousEditController);
-
-ThankyousEditController.$inject = ["Thankyou", "$state"];
-function ThankyousEditController(Thankyou, $state) {
-
-  this.selected = Thankyou.get($state.params);
-
-  this.save = function() {
-    this.selected.$update(function() {
-      $state.go("thankyousShow", $state.params)
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousIndexController", ThankyousIndexController);
-
-ThankyousIndexController.$inject = ["Thankyou"];
-function ThankyousIndexController(Thankyou) {
-  this.all = Thankyou.query();
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousShowController", ThankyousShowController);
-
-ThankyousShowController.$inject = ["Thankyou", "$state"];
-function ThankyousShowController(Thankyou, $state) {
-  this.selected = Thankyou.get($state.params)
-
-  this.delete = function() {
-    this.selected.$remove(function() {
-      $state.go("thankyousIndex");
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
   .controller("UsersEditController", UsersEditController);
 
 UsersEditController.$inject = ["User", "$state", "$auth"];
@@ -980,4 +943,41 @@ function UsersWelcomeController(User, $state, $auth) {
 
  
 
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousEditController", ThankyousEditController);
+
+ThankyousEditController.$inject = ["Thankyou", "$state"];
+function ThankyousEditController(Thankyou, $state) {
+
+  this.selected = Thankyou.get($state.params);
+
+  this.save = function() {
+    this.selected.$update(function() {
+      $state.go("thankyousShow", $state.params)
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousIndexController", ThankyousIndexController);
+
+ThankyousIndexController.$inject = ["Thankyou"];
+function ThankyousIndexController(Thankyou) {
+  this.all = Thankyou.query();
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousShowController", ThankyousShowController);
+
+ThankyousShowController.$inject = ["Thankyou", "$state"];
+function ThankyousShowController(Thankyou, $state) {
+  this.selected = Thankyou.get($state.params)
+
+  this.delete = function() {
+    this.selected.$remove(function() {
+      $state.go("thankyousIndex");
+    })
+  }
 }
