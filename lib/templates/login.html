@@ -1,4 +1,6 @@
-
+<div class="container" ng-if="main.errorMessage" ng-model="MainController as main">
+  <div class="alert alert-danger">{{ main.errorMessage }}</div>
+</div>
 <div id="wrapper">
 
   <h2>Login</h2>
