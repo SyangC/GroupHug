@@ -124,7 +124,7 @@ function Router($stateProvider, $urlRouterProvider) {
       controller: "UsersWelcomeController as usersWelcome"
     })
     .state("usersEdit", {
-      url: "/edit/:id",
+      url: "/users/edit/:id",
       templateUrl: "/templates/users/edit.html",
       controller: "UsersEditController as usersEdit"
     })
@@ -654,9 +654,11 @@ function GrouphugsNewController(Grouphug, $state, $auth) {
 
   this.create = function() {
     this.new.creator = this.currentUser._id
+    self.currentUserId = this.currentUser._id
     console.log("sends this.new:", this.new);
     Grouphug.save(this.new, function() {
-      $state.go("grouphugsIndex");
+      console.log("Current user ID", self.currentUserId)
+      $state.go('usersWelcome',{id: self.currentUserId});
     })
   }
 }
