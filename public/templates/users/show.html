@@ -51,11 +51,12 @@
      <!-- <p>Total GroupHugs as Giftee: {{ usersShow.selected.something }}</p>
      <p>Total GroupHugs as Creator: {{ usersShow.selected.somethingElse }}</p>
      <p>Total GroupHugs as Contributor: {{ usersShow.selected.anotherThing }}</p> -->
-     <button ui-sref="usersEdit({ id: usersShow.selected._id})" class="btn btn-primary">Edit</button>
+     <button ui-sref="usersEdit({ id: usersShow.selected._id})" class="btn btn-primary">Edit </button>
+     <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">Back</a>
+     <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">Back</a>
   </div>
 </div>
 
-<p>
-  <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">Back</a>
-  <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">Back</a>
-</p>
+
+  
+

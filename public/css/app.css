@@ -208,7 +208,7 @@ input[type=radio] {
 }
 
 input[type=submit] {
-  height: 1em;
+  height: 3em;
 }
 
 table {
@@ -255,8 +255,12 @@ table td {
 }
 
 .btn {
-  color:black;
+  color:white;
+  width:200px;
+  background-color: rgba(81, 81, 81, 1.0);
+  height: 3em;
 }
+
 
 #unauthorised{
   font-size: 5em;
