@@ -35,8 +35,7 @@ function requireRole(role) {
       if(req.headers.authorization){
           var token = req.headers.authorization.replace("Bearer ", "");
           jwt.verify(token, secret, function(err, payload) {
-          if(err || !payload || payload.role != "superAdmin") return res.status(403).json({ message: "Bad Role" });
-            
+          if(err || !payload || payload.role != "superAdmin") return res.status(403).json({ message: "Bad Role" }); 
           next();
           });
             
@@ -118,7 +117,7 @@ router.route("/users/:id")
   .get(usersController.show)
   .put(usersController.update);
 
-router.route("/edit/:id")
+router.route("/users/edit/:id")
   .all(secureRoute)
   .get(usersController.show)
   .put(usersController.update);
