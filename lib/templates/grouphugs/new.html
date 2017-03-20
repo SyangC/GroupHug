@@ -328,7 +328,7 @@
       
       <input type="file" file name="pictures" ng-model="grouphugsNew.new.pictures" placeholder="pictures" multiple class="file-upload">
       <p ng-show="grouphugForm.$invalid">Items highlighted in red must be completed to be able to save your grouphug...</p>
-      <button type="submit" class="btn btn-primary" ng-disabled="grouphugForm.$invalid">Save</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="grouphugForm.$invalid">Save - {{grouphugsNew.lock}}</button>
 
       <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">CANCEL</a>
       <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">CANCEL</a>
