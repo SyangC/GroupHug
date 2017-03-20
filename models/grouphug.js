@@ -16,6 +16,7 @@ var grouphugSchema = new mongoose.Schema({
   gifteeAge: {type: String},
   gifteeGender: {type: String},
   occassion: {type: String},
+  date: {type: Date},
   gifteeRelationship: {type: String},
   gifteeGroupSize: {type: String},
   question1: {type: String, default: "3"},
