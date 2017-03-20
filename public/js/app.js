@@ -147,6 +147,40 @@ function Router($stateProvider, $urlRouterProvider) {
 angular
   .module("GroupHugApp")
 angular
+  .module('GroupHugApp')
+  .directive('date', date);
+
+function date() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
+
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
+        }
+      });
+    }
+  }
+}
+angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
 
@@ -636,6 +670,8 @@ function GrouphugsNewController(Grouphug, $state, $auth) {
   this.new = {};
 
   this.currentUser = $auth.getPayload();
+
+  this.minDate = new Date();
 
 
 
