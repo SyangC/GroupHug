@@ -637,6 +637,8 @@ function GrouphugsNewController(Grouphug, $state, $auth) {
 
   this.currentUser = $auth.getPayload();
 
+  this.minDate = new Date();
+
 
 
   this.ages = ["0-12", "13-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "81-90", "91+"];
