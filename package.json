@@ -1,18 +1,20 @@
 {
   "name": "grouphug",
   "version": "1.0.0",
-  "description": "",
+  "description": "Give experiences not things",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "bundle": "webpack",
-    "start": "node app"
+    "start": "node app",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SyangC/GroupHug.git"
   },
-  "author": "Ben Blowers, Becky Bolton and Shu-yang Chia",
+  "author": "Ben Blowers, Becky Bolton, Shu-yang and Chia Julian Wyatt",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SyangC/GroupHug/issues"
@@ -32,11 +34,11 @@
     "cors": "^2.8.1",
     "debug": "^2.2.0",
     "express": "^4.14.0",
-    "gulp": "^3.9.1",
+    "fine-uploader": "^5.11.5",
     "json-loader": "^0.5.4",
     "jsonwebtoken": "^7.1.9",
+    "mailgun-js": "^0.8.2",
     "main-bower-files": "^2.13.1",
-    "mailgun-js":"latest",
     "mongoose": "^4.6.3",
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
@@ -50,8 +52,9 @@
     "sass": "^0.5.0",
     "satellizer": "^0.15.5",
     "sdk": "^0.5.0",
-    "stripe": "^4.12.0",
-    "uuid": "^3.0.0"
+    "stripe": "^4.15.1",
+    "uuid": "^3.0.0",
+    "snyk": "^1.25.2"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -79,5 +82,7 @@
     "sass-loader": "^4.0.2",
     "webpack": "^1.13.2",
     "webpack-node-externals": "^1.5.4"
-  }
+  },
+  "snyk": true
 }
+

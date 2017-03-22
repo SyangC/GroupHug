@@ -1,0 +1,39 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.7.0
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  'npm:qs:20170213':
+    - sdk > request > qs:
+        reason: None given
+        expires: '2017-04-21T09:40:18.332Z'
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:hawk:20160119':
+    - sdk > request > hawk:
+        patched: '2017-03-22T09:38:29.511Z'
+  'npm:minimatch:20160620':
+    - gulp > vinyl-fs > glob-stream > minimatch:
+        patched: '2017-03-22T09:38:29.511Z'
+    - gulp > vinyl-fs > glob-stream > glob > minimatch:
+        patched: '2017-03-22T09:38:29.511Z'
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
+        patched: '2017-03-22T09:38:29.511Z'
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
+        patched: '2017-03-22T09:38:29.511Z'
+    - aws > vows > glob > minimatch:
+        patched: '2017-03-22T09:38:29.511Z'
+  'npm:ms:20151024':
+    - sdk > debug > ms:
+        patched: '2017-03-22T09:38:29.511Z'
+  'npm:qs:20140806':
+    - sdk > request > qs:
+        patched: '2017-03-22T09:38:29.511Z'
+  'npm:qs:20140806-1':
+    - sdk > request > qs:
+        patched: '2017-03-22T09:38:29.511Z'
+  'npm:request:20160119':
+    - sdk > request:
+        patched: '2017-03-22T09:38:29.511Z'
+  'npm:uglify-js:20151024':
+    - sdk > swig > uglify-js:
+        patched: '2017-03-22T09:38:29.511Z'
