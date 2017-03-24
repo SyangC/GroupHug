@@ -1,11 +1,13 @@
-angular
-  .module("GroupHugApp", ["ngResource", "ui.router","angular-jwt", "satellizer", "angularPayments"])
+ angular
+  .module("GroupHugApp", ["ngResource", "ui.router","angular-jwt", "satellizer", "angularPayments", "angularModalService"])
   .config(oAuthConfig)
   .config(setupInterceptor)
   .config(Router)
   .config(function() {
-    Stripe.setPublishableKey("pk_test_UwzuaWQwCBqL92hiVkmzupiJ");
-  })
+    Stripe.setPublishableKey("pk_test_UwzuaWQwCBqL92hiVkmzupiJ")
+  });
+
+ 
 
 oAuthConfig.$inject = ["$authProvider"];
 function oAuthConfig($authProvider) {
@@ -139,13 +141,17 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/unauthorised.html",
       controller: "MainController as main"
     })
+   
 
 
 
     $urlRouterProvider.otherwise("/");
+
+
 }
 angular
   .module("GroupHugApp")
+
 angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
@@ -677,8 +683,8 @@ angular
 
 
 
-GrouphugsShowController.$inject = ["User", "Grouphug", "$state", "$scope", "$auth", "$http", "$timeout"];
-function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $timeout) {
+GrouphugsShowController.$inject = ["User", "Grouphug", "$state", "$scope", "$auth", "$http", "$timeout", "ModalService"];
+function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $timeout, ModalService) {
 
   var self = this
 
@@ -692,38 +698,31 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     })
   }
 
-  this.contributionAmount;
+  this.contributionAmount = null;
+
+ 
+
   this.allUsers = User.query();
+
 
   this.allUserEmails = function(){
     var tempUserEmails =[];
     for (i=0; i < this.allUsers.length; i++){
       tempUserEmails.push(this.allUsers[i].email);
     }
-    console.log('User Emails', tempUserEmails);
     return tempUserEmails
   }
 
   this.newContributorEmail = null
 
   this.addContributor = function(){
-    console.log(this.selected.gifteeFirstName);
-    console.log(this.selected.contributorEmailAddresses);
-
-
-    
+  
     if(this.newContributorEmail){
       if(this.selected.contributorEmailAddresses.indexOf(this.newContributorEmail) > -1 ){
          console.log("user already in contributor list can't be added");
          this.newContributorEmail = null;
        }
         else {
-          if(this.allUserEmails().indexOf(this.newContributorEmail) === -1){
-            console.log("Adding a group hug user"); 
-          };
-          console.log("user is ok to add");
-          console.log(this.allUsers);
-          console.log("adding ",this.newContributorEmail, "to the list", this.selected.contributorEmailAddresses,"for ",this.selected.gifteeFirstName,"length",this.selected.contributorEmailAddresses.length);
           this.selected.contributorEmailAddresses.push(this.newContributorEmail);
           this.selected.$update();
           this.newContributorEmail = null;
@@ -775,61 +774,63 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
 
   this.checkout = function(grouphugName) {
 
-    self.chargeAmount = Math.round(parseFloat(this.contributionAmount)*100);
-    var handler = StripeCheckout.configure({
-      key: "pk_test_UwzuaWQwCBqL92hiVkmzupiJ",
-      image: "https://stripe.com/img/documentation/checkout/marketplace.png",
-      locale: "auto",
-      token: function(token) {
-        console.log("<<<docfor contribution process",grouphugName);
-        token.amount = self.chargeAmount;
-        token.grouphugId = $state.params.id;
-        token.grouphugDescription = grouphugName;
+      self.chargeAmount = Math.round(parseFloat(this.contributionAmount)*100);
+      var handler = StripeCheckout.configure({
+        key: "pk_test_UwzuaWQwCBqL92hiVkmzupiJ",
+        image: "https://stripe.com/img/documentation/checkout/marketplace.png",
+        locale: "auto",
+        token: function(token) {
+          console.log("<<<docfor contribution process",grouphugName);
+          token.amount = self.chargeAmount;
+          token.grouphugId = $state.params.id;
+          token.grouphugDescription = grouphugName;
 
-        $http.post("/api/charge", token)
-          .success(function (token, status, headers) {
-            console.log("success: ");
-            console.log("token: ", token);
-            console.log("status: ", status);
-            console.log("headers: ", headers);
-            console.log("payment complete");
-            this.contributionMessage = "Your payment was received successfully";
-            $timeout(function () {
-                  $state.go('.', {}, { reload: true });
-                  }, 100);  
-            this.contributionAmount = "";  
-          
-            })
+          $http.post("/api/charge", token)
+            .success(function (token, status, headers) {
+              console.log("success: ");
+              console.log("token: ", token);
+              console.log("status: ", status);
+              console.log("headers: ", headers);
+              console.log("payment complete");
+              this.contributionMessage = "Your payment was received successfully";
+              $timeout(function () {
+                    $state.go('.', {}, { reload: true });
+                    }, 100);  
+              this.contributionAmount = "";  
+            
+              })
 
-          .error(function (token, status, header) {
-            console.log("failure: ");
-            console.log("token: ", token);
-            console.log("status: ", status);
-            console.log("headers: ", headers);
+            .error(function (token, status, header) {
+              console.log("failure: ");
+              console.log("token: ", token);
+              console.log("status: ", status);
+              console.log("headers: ", headers);
 
-          });
-      }
-    });
-
-
+            });
+        }
+      });
 
 
 
 
-    handler.open({
-      name: "GroupHug",
-      description: "Please enter your payment details below",
-      zipCode: true,
-      currency: "gbp",
-      amount: self.chargeAmount,
-      billingAddress: true
-    });
-    
-    window.addEventListener("popstate", function() {
-      handler.close();
-    });
 
-  }
+
+      handler.open({
+        name: "GroupHug",
+        description: "Please enter your payment details below",
+        zipCode: true,
+        currency: "gbp",
+        amount: self.chargeAmount,
+        billingAddress: true
+      });
+      
+      window.addEventListener("popstate", function() {
+        handler.close();
+      });
+
+    }
+
+
 
   this.makelive = function(){
     window.alert("live");
@@ -878,9 +879,6 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     }
   }
 
-
-
-
   $scope.stripeCallback = function (code, result) {
     if (result.error) {
       window.alert('it failed! error: ' + result.error.message);
@@ -889,6 +887,29 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     }
   };
 }
+
+this.showAModal = function() {
+  console.log("showing a modal?");
+  alert("whoa");
+
+    // Just provide a template url, a controller and call 'showModal'.
+    ModalService.showModal({
+      templateUrl: "../../../templates/yesno.html",
+      controller: "YesNoController"
+    }).then(function(modal) {
+      // The modal object has the element built, if this is a bootstrap modal
+      // you can call 'modal' to show it, if it's a custom modal just show or hide
+      // it as you need to.
+      modal.element.modal();
+      modal.close.then(function(result) {
+        $scope.message = result ? "You said Yes" : "You said No";
+      });
+    });
+
+  };
+
+
+
 angular
   .module("GroupHugApp")
   .controller("ThankyousEditController", ThankyousEditController);
