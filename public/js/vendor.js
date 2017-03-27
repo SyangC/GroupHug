@@ -34329,7 +34329,6 @@ function($window) {
 	
 	      //  Get the actual html of the template.
 	      getTemplate(options.template, options.templateUrl).then(function (template) {
-	
 	        //  Create a new scope for the modal.
 	        var modalScope = (options.scope || $rootScope).$new();
 	        var rootScopeOnClose = $rootScope.$on('$locationChangeSuccess', cleanUpClose);

@@ -692,6 +692,8 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     console.log("res", res);
   })
 
+  this.contributionMessage = "Hey";
+
   this.delete = function() {
     this.selected.$remove(function() {
       $state.go("grouphugsIndex");
@@ -770,7 +772,27 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     
   }
 
-  this.contributionMessage = null;
+
+
+  this.showAModal = function(message) {
+    console.log("showing a modal?", message);
+    window.alert("whoa " + message);
+
+      // Just provide a template url, a controller and call 'showModal'.
+      ModalService.showModal({
+        templateUrl: "../../../templates/modals/complexModal.html",
+        controller:"YesNoController"
+      }).then(function(modal) {
+        // The modal object has the element built, if this is a bootstrap modal
+        // you can call 'modal' to show it, if it's a custom modal just show or hide
+        // it as you need to.
+        modal.element.modal();
+        modal.close.then(function(result) {
+          $scope.message = result ? "You said Yes" : "You said No";
+        });
+      });
+
+    };
 
   this.checkout = function(grouphugName) {
 
@@ -792,7 +814,8 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
               console.log("status: ", status);
               console.log("headers: ", headers);
               console.log("payment complete");
-              this.contributionMessage = "Your payment was received successfully";
+              self.contributionMessage = "Your payment was received successfully";
+              self.showAModal(self.contributionMessage);
               $timeout(function () {
                     $state.go('.', {}, { reload: true });
                     }, 100);  
@@ -888,28 +911,53 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
   };
 }
 
-this.showAModal = function() {
-  console.log("showing a modal?");
-  alert("whoa");
 
-    // Just provide a template url, a controller and call 'showModal'.
-    ModalService.showModal({
-      templateUrl: "../../../templates/yesno.html",
-      controller: "YesNoController"
-    }).then(function(modal) {
-      // The modal object has the element built, if this is a bootstrap modal
-      // you can call 'modal' to show it, if it's a custom modal just show or hide
-      // it as you need to.
-      modal.element.modal();
-      modal.close.then(function(result) {
-        $scope.message = result ? "You said Yes" : "You said No";
-      });
-    });
 
+
+
+var app = angular.module('GroupHugApp');
+
+app.controller('ComplexModalController', [
+  '$scope', '$element', 'title', 'close', 
+  function($scope, $element, title, close) {
+
+  $scope.name = null;
+  $scope.age = null;
+  $scope.title = title;
+  
+  //  This close function doesn't need to use jQuery or bootstrap, because
+  //  the button has the 'data-dismiss' attribute.
+  $scope.close = function() {
+    close({
+      name: $scope.name,
+      age: $scope.age
+    }, 500); // close, but give 500ms for bootstrap to animate
   };
 
+  //  This cancel function must use the bootstrap, 'modal' function because
+  //  the doesn't have the 'data-dismiss' attribute.
+  $scope.cancel = function() {
 
+    //  Manually hide the modal.
+    $element.modal('hide');
+    
+    //  Now call close, returning control to the caller.
+    close({
+      name: $scope.name,
+      age: $scope.age
+    }, 500); // close, but give 500ms for bootstrap to animate
+  };
 
+}]);
+var app = angular.module('GroupHugApp');
+
+app.controller('YesNoController', ['$scope', 'close', function($scope, close) {
+
+  $scope.close = function(result) {
+    close(result, 500); // close, but give 500ms for bootstrap to animate
+  };
+
+}]);
 angular
   .module("GroupHugApp")
   .controller("ThankyousEditController", ThankyousEditController);
