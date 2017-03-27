@@ -775,8 +775,6 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
 
 
   this.showAModal = function(message) {
-    console.log("showing a modal?", message);
-    window.alert("whoa " + message);
 
       // Just provide a template url, a controller and call 'showModal'.
       ModalService.showModal({
@@ -960,43 +958,6 @@ app.controller('YesNoController', ['$scope', 'close', function($scope, close) {
 }]);
 angular
   .module("GroupHugApp")
-  .controller("ThankyousEditController", ThankyousEditController);
-
-ThankyousEditController.$inject = ["Thankyou", "$state"];
-function ThankyousEditController(Thankyou, $state) {
-
-  this.selected = Thankyou.get($state.params);
-
-  this.save = function() {
-    this.selected.$update(function() {
-      $state.go("thankyousShow", $state.params)
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousIndexController", ThankyousIndexController);
-
-ThankyousIndexController.$inject = ["Thankyou"];
-function ThankyousIndexController(Thankyou) {
-  this.all = Thankyou.query();
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousShowController", ThankyousShowController);
-
-ThankyousShowController.$inject = ["Thankyou", "$state"];
-function ThankyousShowController(Thankyou, $state) {
-  this.selected = Thankyou.get($state.params)
-
-  this.delete = function() {
-    this.selected.$remove(function() {
-      $state.go("thankyousIndex");
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
   .controller("UsersEditController", UsersEditController);
 
 UsersEditController.$inject = ["User", "$state", "$auth"];
@@ -1059,4 +1020,41 @@ function UsersWelcomeController(User, $state, $auth) {
 
  
 
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousEditController", ThankyousEditController);
+
+ThankyousEditController.$inject = ["Thankyou", "$state"];
+function ThankyousEditController(Thankyou, $state) {
+
+  this.selected = Thankyou.get($state.params);
+
+  this.save = function() {
+    this.selected.$update(function() {
+      $state.go("thankyousShow", $state.params)
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousIndexController", ThankyousIndexController);
+
+ThankyousIndexController.$inject = ["Thankyou"];
+function ThankyousIndexController(Thankyou) {
+  this.all = Thankyou.query();
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousShowController", ThankyousShowController);
+
+ThankyousShowController.$inject = ["Thankyou", "$state"];
+function ThankyousShowController(Thankyou, $state) {
+  this.selected = Thankyou.get($state.params)
+
+  this.delete = function() {
+    this.selected.$remove(function() {
+      $state.go("thankyousIndex");
+    })
+  }
 }
