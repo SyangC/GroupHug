@@ -269,40 +269,6 @@ function RegisterController($auth, $state, $rootScope) {
   }
 }
 angular
-  .module('GroupHugApp')
-  .directive('date', date);
-
-function date() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$formatters.push(function(value) {
-        return new Date(value);
-      });
-    }
-  }
-}
-angular
-  .module('GroupHugApp')
-  .directive('file', file);
-
-function file() {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-      element.on('change', function(e) {
-        if(element.prop('multiple')) {
-          ngModel.$setViewValue(e.target.files);
-        } else {
-          ngModel.$setViewValue(e.target.files[0]);
-        }
-      });
-    }
-  }
-}
-angular
   .module("GroupHugApp")
   .factory("Contribution", Contribution);
 
@@ -400,6 +366,40 @@ function User($resource) {
   return $resource('/api/users/:id', { id: '@_id' }, {
     update: { method: "PUT" }
   });
+}
+angular
+  .module('GroupHugApp')
+  .directive('date', date);
+
+function date() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$formatters.push(function(value) {
+        return new Date(value);
+      });
+    }
+  }
+}
+angular
+  .module('GroupHugApp')
+  .directive('file', file);
+
+function file() {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+      element.on('change', function(e) {
+        if(element.prop('multiple')) {
+          ngModel.$setViewValue(e.target.files);
+        } else {
+          ngModel.$setViewValue(e.target.files[0]);
+        }
+      });
+    }
+  }
 }
 angular
   .module('GroupHugApp')
@@ -800,6 +800,22 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
         modal.close.then(function(result) {
           $scope.message = result
           console.log("Maybe......????", result)
+          var contributionHandler = JSON.stringify({
+              message:result.message,
+              name:result.name});
+            $http.put("api/contributions/"+contributionId, contributionHandler).
+              success(function(data, status, headers, config) {
+                  // this callback will be called asynchronously
+                  // when the response is available
+                  console.log("contributionhandler success",data);
+                  $state.go('.', {}, { reload: true });
+                     
+              }).
+              error(function(data, status, headers, config) {
+                  // called asynchronously if an error occurs
+                  // or server returns response with an error status.
+                  console.log("contributor handler failed",data);
+              });
         });
       });
 
@@ -822,10 +838,9 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
             .success(function (token, status, headers) {
               var paymentAmount = String(token.contributionAmount/100);
               var modalMessage = token.payorName+", thanks so much your payment of £"+paymentAmount+ ". "+token.message;
-              self.showAModal(modalMessage, token.contributionSuccessId);
-              $timeout(function () {
-                    $state.go('.', {}, { reload: true });
-                    }, 100);  
+              self.showAModal(modalMessage, token.contributionSuccessId)
+             
+                     
               this.contributionAmount = "";  
             
               })

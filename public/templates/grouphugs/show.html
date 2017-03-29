@@ -36,6 +36,12 @@
           <li >{{contributor.contributorId.firstName}} {{contributor.contributorId.lastName}}  ({{ contributor.contributorId.email}}) ...status.... {{contributor.contributorStatus}}</li>
         </ul>
 
+        <h3>Contributions made so far</h3>
+        <ul ng-repeat="contribution in grouphugsShow.selected.contributions">
+          <li ng-if="!!contribution.displayName">{{contribution.displayName}} gave {{contribution.amount/100 | currency:'£'}}...message.... {{ contribution.message}}</li>
+          <li ng-if="!contribution.displayName">{{contribution.name}} gave {{contribution.amount/100 | currency:'£'}}...message.... {{ contribution.message}}</li>
+        </ul>
+
         <h2>Add to the list of contributors:</h2>
         <ng-form name="add-Contibutor">
           <input placeholder="contributor's email address" type="email" name="newContributorEmail" ng-model="grouphugsShow.newContributorEmail"> 
@@ -78,8 +84,7 @@
 
           <h2>Contributions...{{grouphugsShow.contributionModal}}</h2>
 
-          <h3>So far £{{ grouphugsShow.selected.contributionTotal/100}} has been contributed</h3>
-          <h3 ng-if="grouphugsShow.contributionMessage">Whey {{grouphugsShow.contributionMessage}}</h3>
+          <h3>So far {{ grouphugsShow.selected.contributionTotal/100 | currency:'£'}} has been contributed</h3>
 
           <form name="contributionForm" id="form" onsubmit="return false;">
             <input type="text" name="amount" placeholder="Enter your contribution here £0.00"  ng-model = "grouphugsShow.contributionAmount" ng-pattern="/^\d*\.?\d*$/" required>

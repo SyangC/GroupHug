@@ -12,6 +12,7 @@ var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
 var chargeHandler = require("../controllers/chargeHandler");
 var contributorHandler = require("../controllers/contributorHandler");
+var contributionsController = require("../controllers/contributions");
 
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
@@ -123,6 +124,10 @@ router.route("/users/edit/:id")
   .all(secureRoute)
   .get(usersController.show)
   .put(usersController.update);
+
+router.route("/contributions/:id")
+  .all(secureRoute)
+  .put(contributionsController.addMessage);
 
 
 

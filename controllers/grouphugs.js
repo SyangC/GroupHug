@@ -30,7 +30,7 @@ function grouphugShow(req, res) {
     .populate('giftee')
     .populate('contributors.contributorId')
     .populate('experiences.experienceId')
-    .populate('contribution.contributionId')
+    .populate('contributions')
     .then(function(grouphug) {
       res.status(200).json(grouphug);
     })
