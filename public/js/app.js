@@ -779,12 +779,14 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
       // Just provide a template url, a controller and call 'showModal'.
       ModalService.showModal({
         templateUrl: "../../../templates/modals/complexModal.html",
-        controller:"YesNoController"
+        controller:"ModalsComplexController",
+        inputs:{
+          title: message
+        }
       }).then(function(modal) {
         // The modal object has the element built, if this is a bootstrap modal
         // you can call 'modal' to show it, if it's a custom modal just show or hide
         // it as you need to.
-        modal.element.modal();
         modal.close.then(function(result) {
           $scope.message = result ? "You said Yes" : "You said No";
         });
@@ -915,13 +917,13 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
 
 var app = angular.module('GroupHugApp');
 
-app.controller('ComplexModalController', [
-  '$scope', '$element', 'title', 'close', 
-  function($scope, $element, title, close) {
+app.controller('ModalsComplexController', [
+  '$scope', '$element', 'title','close', 
+  function($scope, $element,title, close) {
 
   $scope.name = null;
   $scope.age = null;
-  $scope.title = title;
+  $scope.title = title
   
   //  This close function doesn't need to use jQuery or bootstrap, because
   //  the button has the 'data-dismiss' attribute.
@@ -930,6 +932,7 @@ app.controller('ComplexModalController', [
       name: $scope.name,
       age: $scope.age
     }, 500); // close, but give 500ms for bootstrap to animate
+    console.log("Name ",$scope.name,"Age ",$scope.age);
   };
 
   //  This cancel function must use the bootstrap, 'modal' function because
@@ -944,6 +947,7 @@ app.controller('ComplexModalController', [
       name: $scope.name,
       age: $scope.age
     }, 500); // close, but give 500ms for bootstrap to animate
+    console.log("Name ",name,"Age ",age);
   };
 
 }]);
@@ -956,6 +960,43 @@ app.controller('YesNoController', ['$scope', 'close', function($scope, close) {
   };
 
 }]);
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousEditController", ThankyousEditController);
+
+ThankyousEditController.$inject = ["Thankyou", "$state"];
+function ThankyousEditController(Thankyou, $state) {
+
+  this.selected = Thankyou.get($state.params);
+
+  this.save = function() {
+    this.selected.$update(function() {
+      $state.go("thankyousShow", $state.params)
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousIndexController", ThankyousIndexController);
+
+ThankyousIndexController.$inject = ["Thankyou"];
+function ThankyousIndexController(Thankyou) {
+  this.all = Thankyou.query();
+}
+angular
+  .module("GroupHugApp")
+  .controller("ThankyousShowController", ThankyousShowController);
+
+ThankyousShowController.$inject = ["Thankyou", "$state"];
+function ThankyousShowController(Thankyou, $state) {
+  this.selected = Thankyou.get($state.params)
+
+  this.delete = function() {
+    this.selected.$remove(function() {
+      $state.go("thankyousIndex");
+    })
+  }
+}
 angular
   .module("GroupHugApp")
   .controller("UsersEditController", UsersEditController);
@@ -1020,41 +1061,4 @@ function UsersWelcomeController(User, $state, $auth) {
 
  
 
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousEditController", ThankyousEditController);
-
-ThankyousEditController.$inject = ["Thankyou", "$state"];
-function ThankyousEditController(Thankyou, $state) {
-
-  this.selected = Thankyou.get($state.params);
-
-  this.save = function() {
-    this.selected.$update(function() {
-      $state.go("thankyousShow", $state.params)
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousIndexController", ThankyousIndexController);
-
-ThankyousIndexController.$inject = ["Thankyou"];
-function ThankyousIndexController(Thankyou) {
-  this.all = Thankyou.query();
-}
-angular
-  .module("GroupHugApp")
-  .controller("ThankyousShowController", ThankyousShowController);
-
-ThankyousShowController.$inject = ["Thankyou", "$state"];
-function ThankyousShowController(Thankyou, $state) {
-  this.selected = Thankyou.get($state.params)
-
-  this.delete = function() {
-    this.selected.$remove(function() {
-      $state.go("thankyousIndex");
-    })
-  }
 }
