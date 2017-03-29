@@ -91,6 +91,9 @@ td, th {
 
 }
 
+
+
+
 .rating-select{
   width:20px;
 }
@@ -290,6 +293,10 @@ table td {
     padding: 20px;
     border: 1px solid #888;
     width: 40%;
+}
+
+.modal-message{
+  line-height: 1.5;
 }
 
 /* The Close Button */

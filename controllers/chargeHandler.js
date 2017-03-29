@@ -16,6 +16,7 @@ function stripeCharge(req, res) {
   var grouphugId = req.body.grouphugId;
   var description = req.body.grouphugDescription;
  
+ 
 
 
   // Create a charge: this will charge the user's card
@@ -47,22 +48,25 @@ function stripeCharge(req, res) {
         amount: amount
       })
       .then(function(contribution) {
-        console.log("contribution: ", contribution, contribution._id);
+      
+        //send receipt to perosn making conribution to stripe recorded email address
+        mailgun.mailgunMail('ContributionReceipt', req.body.email, 'Thank you for your contribution via Strip', "", "", "", "","", req.body.card.name, req.body.grouphugDescription, amount );
+        return res.status(200).json({ message: "Payment successful", contributionSuccessId: contribution._id, payorName: contribution.name, contributionAmount: contribution.amount});
       })
       .catch(function(err) {
         console.log("err: ", err);
+        return res.status(500).json({ message: "Payment Failed"});
       }) 
 
-      console.log("After contribution creation.");
-      //send receipt to perosn making conribution to stripe recorded email address
-      mailgun.mailgunMail('ContributionReceipt', req.body.email, 'Thank you for your contribution via Strip', "", "", "", "","", req.body.card.name, req.body.grouphugDescription, amount );
+      
 
       //
       
-      return res.status(200).json({ message: "Payment successful" });
+      
     }
     else{
       console.log("oooh payment went a bit wrong",err);
+      return res.status(500).json({ message: "Payment Failed", ContributionSuccessId: contributionId});
     }
 
     if (err && err.type === 'StripeCardError') {

@@ -6,20 +6,19 @@
         <h4 class="modal-title">{{title}}</h4>
       </div>
       <div class="modal-body">
-        <p>Here's a more complex modal, it contains a form, data is passed to the controller 
-         and data is returned from the modal.</p>
+        <p class="modal-message">Please enter a personal message to go with your contribution below. If you don't have time or don't know what to say we'll, automatically add the message 'Have a hug on me'</p>
 
     <form class="form-horizontal" role="form">
       <div class="form-group">
-        <label for="name" class="col-sm-2 control-label">Name</label>
+        <label for="name" class="col-sm-2 control-label">How would you like your name to be shown</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="name" placeholder="Your Name" ng-model="name">
         </div>
       </div>
       <div class="form-group">
-        <label for="age" class="col-sm-2 control-label">Age</label>
+        <label for="message" class="col-sm-2 control-label">Your lovely message...</label>
         <div class="col-sm-10">
-          <input type="number" class="form-control" id="age" placeholder="Age" ng-model="age">
+          <input type="text" class="form-control" id="contribution-message" placeholder="Your message goes here" ng-model="message">
         </div>
       </div>
     </form>
