@@ -56,7 +56,7 @@ function sendMotivationMail(grouphug){
 //     });
 // });
 
-//contributionSchema.set('toJSON', { getters: true });
+contributionSchema.set('toJSON', { getters: true });
 
 module.exports = mongoose.model("Contribution", contributionSchema);
 

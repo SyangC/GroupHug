@@ -302,6 +302,16 @@ function file() {
     }
   }
 }
+angular
+  .module("GroupHugApp")
+  .factory("Contribution", Contribution);
+
+Contribution.$inject = ["$resource"]
+function Contribution($resource) {
+  return $resource('/api/contributions/:id', { id: '@_id' }, {
+    update: { method: "PUT" }
+  });
+}
 // angular
 //   .module("GroupHugApp")
 //   .factory("Experience", Experience);
@@ -683,8 +693,8 @@ angular
 
 
 
-GrouphugsShowController.$inject = ["User", "Grouphug", "$state", "$scope", "$auth", "$http", "$timeout", "ModalService"];
-function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $timeout, ModalService) {
+GrouphugsShowController.$inject = ["User", "Grouphug", "$state", "$scope", "$auth", "$http", "$timeout", "ModalService", "Contribution"];
+function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $timeout, ModalService, Contribution) {
 
   var self = this
 
@@ -788,7 +798,8 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
         // you can call 'modal' to show it, if it's a custom modal just show or hide
         // it as you need to.
         modal.close.then(function(result) {
-          $scope.message = result ? "You said Yes" : "You said No";
+          $scope.message = result
+          console.log("Maybe......????", result)
         });
       });
 
@@ -911,11 +922,15 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
 
 
 
-var app = angular.module('GroupHugApp');
+angular
+  .module('GroupHugApp')
+  .controller('ModalsComplexController', ModalsComplexController);
 
-app.controller('ModalsComplexController', [
-  '$scope', '$element', 'title','close', 
-  function($scope, $element, title, close) {
+
+ModalsComplexController.$inject = [
+  '$scope', '$element', 'title','close', 'Contribution'];
+
+function ModalsComplexController($scope, $element, title, close, Contribution) {
 
   $scope.name = null;
   $scope.message = null;
@@ -946,7 +961,7 @@ app.controller('ModalsComplexController', [
     console.log("Name ",name,"Age ",age);
   };
 
-}]);
+};
 var app = angular.module('GroupHugApp');
 
 app.controller('YesNoController', ['$scope', 'close', function($scope, close) {
