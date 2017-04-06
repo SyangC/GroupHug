@@ -49,6 +49,18 @@
             }
         ]
     },
-    "groups": [],
+    "groups": [
+        {
+            "name": "buttons",
+            "title": "buttons",
+            "components": [
+                {
+                    "group": "buttons",
+                    "name": "default",
+                    "title": "Buttons"
+                }
+            ]
+        }
+    ],
     "version": "1.9.3"
 }
