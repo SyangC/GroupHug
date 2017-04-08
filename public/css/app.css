@@ -5,6 +5,11 @@ body {
   font-weight: 400;
 }
 
+.gap--sm  > div {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 /* GH Show page */
 
 #makelive {
