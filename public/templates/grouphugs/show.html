@@ -38,7 +38,7 @@
 
         <h3>Contributions made so far</h3>
         <ul ng-repeat="contribution in grouphugsShow.selected.contributions">
-          <li ng-if="contribution.displayName">{{contribution.displayName}} gave {{contribution.amount/100 | currency:'£'}}...message.... {{ contribution.message}}</li>
+          <li ng-if="!!contribution.displayName">{{contribution.displayName}} gave {{contribution.amount/100 | currency:'£'}}...message.... {{ contribution.message}}</li>
           <li ng-if="!contribution.displayName">{{contribution.name}} gave {{contribution.amount/100 | currency:'£'}}...message.... {{ contribution.message}}</li>
         </ul>
 
