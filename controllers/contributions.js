@@ -4,14 +4,11 @@ var Contribution = require('../models/contribution');
 
 
 function contributionAddMessage(req, res) {
-  console.log("req.body", req.body);
-  console.log("req.params.id", req.params.id);
   Contribution.findOne({_id: req.params.id})
     .then(function(contribution){
-    console.log(contribution);
     contribution.message = req.body.message;
-    contribution.displayName = req.body.name
-    return contribution.save();
+    contribution.displayName = req.body.name;
+    return Contribution.update({_id: contribution._id},{displayName: req.body.name, message: req.body.message });
     })
     .then(function(contribution) {
       res.status(200).json(contribution);

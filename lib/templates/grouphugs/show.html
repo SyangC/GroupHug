@@ -38,7 +38,7 @@
 
         <h3>Contributions made so far</h3>
         <ul ng-repeat="contribution in grouphugsShow.selected.contributions">
-          <li ng-if="!!contribution.displayName">{{contribution.displayName}} gave {{contribution.amount/100 | currency:'£'}}...message.... {{ contribution.message}}</li>
+          <li ng-if="contribution.displayName">{{contribution.displayName}} gave {{contribution.amount/100 | currency:'£'}}...message.... {{ contribution.message}}</li>
           <li ng-if="!contribution.displayName">{{contribution.name}} gave {{contribution.amount/100 | currency:'£'}}...message.... {{ contribution.message}}</li>
         </ul>
 
@@ -82,7 +82,7 @@
           </div>
           <button ng-click="grouphugsShow.saveWeightings()" class="btn" >Save ratings</button>
 
-          <h2>Contributions...{{grouphugsShow.contributionModal}}</h2>
+          <h2>Contributions...</h2>
 
           <h3>So far {{ grouphugsShow.selected.contributionTotal/100 | currency:'£'}} has been contributed</h3>
 
