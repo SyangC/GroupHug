@@ -5,6 +5,24 @@ body {
   font-weight: 400;
 }
 
+a:hover {
+  color: #FFA826 !important;
+  border-left: 3px #FFA826 solid;
+}
+
+/* Home */
+
+.parallax-window {
+  background-image: url('../img/women-spa-bg.png');
+  min-height: 600px;
+  background: transparent;
+}
+
+.parallax-window .hero-heading {
+  color: white;
+  text-align: center;
+}
+
 .gap--sm  > div {
   margin-top: 1rem;
   margin-bottom: 1rem;
