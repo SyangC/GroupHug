@@ -37,7 +37,7 @@
     "jsonwebtoken": "^7.1.9",
     "jquery": "3.2.1",
     "main-bower-files": "^2.13.1",
-    "mailgun-js":"latest",
+    "mailgun-js": "latest",
     "mongoose": "^4.6.3",
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
