@@ -669,11 +669,11 @@ function GrouphugsNewController(Grouphug, $state, $auth) {
 
   this.contributorEmailAddresses = [];
 
-  this.lock = "unlocked"
+  this.lock = "unlocked";
 
+  var self = this;
 
   this.create = function() {
-    self.lock = this.lock;
     self.lock ="locked";
     this.new.creator = this.currentUser._id
     self.currentUserId = this.currentUser._id
