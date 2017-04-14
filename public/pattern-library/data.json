@@ -30,7 +30,9 @@
         }
     },
     "assets": {
-        "css": ["/bootstrap/dist/css/bootstrap.css"],
+        "css": [
+            "/bootstrap/dist/css/bootstrap.css"
+        ],
         "js": []
     },
     "font_libraries": {
@@ -50,6 +52,20 @@
         ]
     },
     "groups": [
+        {
+            "name": "typography",
+            "title": "Typography",
+            "components": [
+                {
+                    "group": "typography",
+                    "name": "titles",
+                    "title": "hero-heading",
+                    "options": {
+                        "sample_dark_background": true
+                    }
+                }
+            ]
+        },
         {
             "name": "buttons",
             "title": "buttons",
