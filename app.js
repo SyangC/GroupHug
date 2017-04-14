@@ -12,7 +12,11 @@ var cookieParser = require('cookie-parser');
 // Bower
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
-// var webpack = require("webpack");
+// NG
+const angular = require('angular');
+angular.module('app', []);
+
+import 'bootstrap/dist/css/bootstrap.css';
 
 var routes = require("./config/routes");
 
