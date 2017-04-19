@@ -42,13 +42,25 @@ function grouphugShow(req, res) {
 function grouphugCreate(req, res) {
   console.log("req.files before", req.files);
   console.log("req.body before", req.body);
-  if(req.files !== undefined) {
-    req.body.pictures = Object.keys(req.files).map(function(key) {
-      return req.files[key].key;
+  console.log("req.transforms[1]----->>>>>",req.files[0].transforms);
+ /* if(req.files !== undefined) {
+    req.body.pictures = Object.keys(req.files[0].transforms).map(function(key) {
+      return req.files[0].transforms.key;
     });
-  }
+  }*/
+   if(req.files[0].transforms !== undefined) {
+    req.body.pictures = [];
+     for(i = 0; i < req.files[0].transforms.length; i++){
+      req.body.pictures.push(req.files[0].transforms[i].key);
+      if (req.files[0].transforms[i].id === 'main'){
+        req.body.mainImage = req.files[0].transforms[i].key;
+      }
+     }
+   }
   console.log("req.files after", req.files);
   console.log("req.body after", req.body);
+  console.log("req.pictures----->>>>>",req.body.pictures);
+  console.log("req.transforms----->>>>>",req.body.transforms);
   var user = {};
   User.findOne ({'email' : req.body.gifteeEmailAddress})
     .then(function(user, err){
@@ -88,7 +100,7 @@ function grouphugCreate(req, res) {
   });        
 };
 
-    
+   
 
 
 function grouphugUpdate(req, res) {
