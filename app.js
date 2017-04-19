@@ -9,6 +9,13 @@ var http = require('http');
 var bodyParser = require ("body-parser");
 var cookieParser = require('cookie-parser');
 
+import './lib/scss/app.scss';
+
+// import 'bootstrap/dist/css/bootstrap.css';
+
+var angular = require('angular');
+angular.module('app', []); 
+
 // Bower
 app.use(express.static(path.join(__dirname, 'bower_components')));
 

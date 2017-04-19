@@ -48,38 +48,34 @@
 
 	__webpack_require__(1);
 
-	__webpack_require__(2);
-
-	var express = __webpack_require__(7);
+	var express = __webpack_require__(6);
 	var app = express();
-	var path = __webpack_require__(8);
-	var morgan = __webpack_require__(9);
-	var mongoose = __webpack_require__(10);
-	var bluebird = __webpack_require__(11);
-	var cors = __webpack_require__(12);
-	var http = __webpack_require__(13);
-	var bodyParser = __webpack_require__(14);
-	var cookieParser = __webpack_require__(15);
+	var path = __webpack_require__(7);
+	var morgan = __webpack_require__(8);
+	var mongoose = __webpack_require__(9);
+	var bluebird = __webpack_require__(10);
+	var cors = __webpack_require__(11);
+	var http = __webpack_require__(12);
+	var bodyParser = __webpack_require__(13);
+	var cookieParser = __webpack_require__(14);
+
+	// import 'bootstrap/dist/css/bootstrap.css';
+
+	var angular = __webpack_require__(15);
+	angular.module('app', []);
 
 	// Bower
 	app.use(express.static(path.join(__dirname, 'bower_components')));
 
-	// NG
-	var angular = __webpack_require__(16);
-	angular.module('app', []);
-
-	// Booty and SCSS
-
-
-	var routes = __webpack_require__(17);
+	var routes = __webpack_require__(16);
 
 	// *** config file *** //
-	var config = __webpack_require__(56);
+	var config = __webpack_require__(55);
 
 	var environment = app.get("env");
 
 	var port = process.env.PORT || 3000;
-	var databaseUri = __webpack_require__(57)(environment);
+	var databaseUri = __webpack_require__(56)(environment);
 
 	mongoose.Promise = bluebird;
 	mongoose.connect(databaseUri);
@@ -107,21 +103,15 @@
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
-
-	module.exports = require("bootstrap/dist/css/bootstrap.css");
-
-/***/ },
-/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(3);
+	var content = __webpack_require__(2);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(5)(content, {});
+	var update = __webpack_require__(4)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -138,10 +128,10 @@
 	}
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(4)(undefined);
+	exports = module.exports = __webpack_require__(3)(undefined);
 	// imports
 
 
@@ -152,7 +142,7 @@
 
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -232,7 +222,7 @@
 	}
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -269,7 +259,7 @@
 		singletonElement = null,
 		singletonCounter = 0,
 		styleElementsInsertedAtTop = [],
-		fixUrls = __webpack_require__(6);
+		fixUrls = __webpack_require__(5);
 
 	module.exports = function(list, options) {
 		if(false) {
@@ -528,7 +518,7 @@
 
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -622,90 +612,90 @@
 	};
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = require("express");
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	module.exports = require("path");
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	module.exports = require("morgan");
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = require("mongoose");
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = require("bluebird");
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = require("cors");
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = require("http");
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = require("body-parser");
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = require("cookie-parser");
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = require("angular");
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var router = __webpack_require__(7).Router();
+	var router = __webpack_require__(6).Router();
 
-	var facebookController = __webpack_require__(18);
-	var twitterController = __webpack_require__(24);
-	var authController = __webpack_require__(26);
-	var usersController = __webpack_require__(36);
-	var grouphugsController = __webpack_require__(37);
-	var ecardsController = __webpack_require__(39);
-	var experiencesController = __webpack_require__(41);
-	var thankyousController = __webpack_require__(43);
-	var reviewsController = __webpack_require__(44);
-	var tagsController = __webpack_require__(46);
-	var chargeHandler = __webpack_require__(48);
-	var contributorHandler = __webpack_require__(51);
+	var facebookController = __webpack_require__(17);
+	var twitterController = __webpack_require__(23);
+	var authController = __webpack_require__(25);
+	var usersController = __webpack_require__(35);
+	var grouphugsController = __webpack_require__(36);
+	var ecardsController = __webpack_require__(38);
+	var experiencesController = __webpack_require__(40);
+	var thankyousController = __webpack_require__(42);
+	var reviewsController = __webpack_require__(43);
+	var tagsController = __webpack_require__(45);
+	var chargeHandler = __webpack_require__(47);
+	var contributorHandler = __webpack_require__(50);
 
-	var jwt = __webpack_require__(22);
-	var secret = __webpack_require__(23).secret;
+	var jwt = __webpack_require__(21);
+	var secret = __webpack_require__(22).secret;
 
-	var upload = __webpack_require__(52);
+	var upload = __webpack_require__(51);
 
 	function secureRoute(req, res, next) {
 	  if (!req.headers.authorization) return res.status(401).json({ message: "Unauthorized" });
@@ -773,15 +763,15 @@
 	module.exports = router;
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var User = __webpack_require__(19);
-	var request = __webpack_require__(21);
-	var jwt = __webpack_require__(22);
-	var secret = __webpack_require__(23).secret;
+	var User = __webpack_require__(18);
+	var request = __webpack_require__(20);
+	var jwt = __webpack_require__(21);
+	var secret = __webpack_require__(22).secret;
 
 	function login(req, res) {
 
@@ -838,13 +828,13 @@
 	};
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var mongoose = __webpack_require__(10);
-	var bcrypt = __webpack_require__(20);
+	var mongoose = __webpack_require__(9);
+	var bcrypt = __webpack_require__(19);
 
 	var userSchema = new mongoose.Schema({
 	  isActivated: { type: Boolean, default: true },
@@ -915,25 +905,25 @@
 	module.exports = mongoose.model("User", userSchema);
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = require("bcrypt");
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports) {
 
 	module.exports = require("request-promise");
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports = require("jsonwebtoken");
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -943,16 +933,16 @@
 	};
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var User = __webpack_require__(19);
-	var request = __webpack_require__(21);
-	var jwt = __webpack_require__(22);
-	var secret = __webpack_require__(23).secret;
-	var qs = __webpack_require__(25);
+	var User = __webpack_require__(18);
+	var request = __webpack_require__(20);
+	var jwt = __webpack_require__(21);
+	var secret = __webpack_require__(22).secret;
+	var qs = __webpack_require__(24);
 
 	function login(req, res) {
 	  if (!req.body.oauth_token || !req.body.oauth_verifier) {
@@ -1028,25 +1018,25 @@
 	};
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports) {
 
 	module.exports = require("qs");
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var jwt = __webpack_require__(22);
-	var Promise = __webpack_require__(11);
-	var User = __webpack_require__(19);
-	var secret = __webpack_require__(23).secret;
-	var email = __webpack_require__(27);
-	var mailgun = __webpack_require__(31);
-	var EmailTemplate = __webpack_require__(30);
-	var schedule = __webpack_require__(28);
+	var jwt = __webpack_require__(21);
+	var Promise = __webpack_require__(10);
+	var User = __webpack_require__(18);
+	var secret = __webpack_require__(22).secret;
+	var email = __webpack_require__(26);
+	var mailgun = __webpack_require__(30);
+	var EmailTemplate = __webpack_require__(29);
+	var schedule = __webpack_require__(27);
 
 	function login(req, res) {
 	  User.findOne({ email: req.body.email }, function (err, user) {
@@ -1088,15 +1078,15 @@
 	};
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var Promise = __webpack_require__(11);
-	var schedule = __webpack_require__(28);
-	var nodemailer = __webpack_require__(29);
-	var EmailTemplate = __webpack_require__(30);
+	var Promise = __webpack_require__(10);
+	var schedule = __webpack_require__(27);
+	var nodemailer = __webpack_require__(28);
+	var EmailTemplate = __webpack_require__(29);
 	var smtpConfig = {
 	  host: 'smtp.gmail.com',
 	  port: 465,
@@ -1212,24 +1202,24 @@
 	};
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports) {
 
 	module.exports = require("node-schedule");
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 	module.exports = require("nodemailer");
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var mongoose = __webpack_require__(10);
+	var mongoose = __webpack_require__(9);
 
 	var emailTemplateSchema = new mongoose.Schema({
 	  name: { type: String, required: true },
@@ -1243,19 +1233,19 @@
 	module.exports = mongoose.model("EmailTemplate", emailTemplateSchema);
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Promise = __webpack_require__(11);
+	var Promise = __webpack_require__(10);
 	var api_key = process.env.MAILGUN_SECERET_KEY;
 	/*var domain = 'sandbox55d3a9aba14444049b77f477f8cdc4e1.mailgun.org';*/
 	var domain = 'group-hug.co';
-	var mailgun = __webpack_require__(32)({ apiKey: api_key, domain: domain });
-	var User = __webpack_require__(19);
-	var Grouphug = __webpack_require__(33);
-	var EmailTemplate = __webpack_require__(30);
+	var mailgun = __webpack_require__(31)({ apiKey: api_key, domain: domain });
+	var User = __webpack_require__(18);
+	var Grouphug = __webpack_require__(32);
+	var EmailTemplate = __webpack_require__(29);
 
 	function mailgunParse(template) {
 	  var templateArray = template.html.split("|");
@@ -1359,19 +1349,19 @@
 	};
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = require("mailgun-js");
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var mongoose = __webpack_require__(10);
-	var s3 = __webpack_require__(34);
+	var mongoose = __webpack_require__(9);
+	var s3 = __webpack_require__(33);
 
 	var grouphugSchema = new mongoose.Schema({
 	  name: { type: String, required: true, maxlength: 100 }, // limited length to 100
@@ -1473,12 +1463,12 @@
 	module.exports = mongoose.model("Grouphug", grouphugSchema);
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var aws = __webpack_require__(35);
+	var aws = __webpack_require__(34);
 
 	module.exports = new aws.S3({
 	  secretAccessKey: process.env.AWS_SECRET_KEY,
@@ -1487,18 +1477,18 @@
 	});
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports) {
 
 	module.exports = require("aws-sdk");
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var User = __webpack_require__(19);
+	var User = __webpack_require__(18);
 
 	function userIndex(req, res) {
 	  User.find().then(function (users) {
@@ -1557,18 +1547,18 @@
 	};
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Grouphug = __webpack_require__(33);
-	var Thankyou = __webpack_require__(38);
-	var User = __webpack_require__(19);
-	var email = __webpack_require__(27);
-	var mailgun = __webpack_require__(31);
-	var EmailTemplate = __webpack_require__(30);
-	var schedule = __webpack_require__(28);
+	var Grouphug = __webpack_require__(32);
+	var Thankyou = __webpack_require__(37);
+	var User = __webpack_require__(18);
+	var email = __webpack_require__(26);
+	var mailgun = __webpack_require__(30);
+	var EmailTemplate = __webpack_require__(29);
+	var schedule = __webpack_require__(27);
 
 	function grouphugIndex(req, res) {
 	  Grouphug.find().populate('contributors.contributorId').then(function (grouphugs) {
@@ -1762,13 +1752,13 @@
 	};
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var mongoose = __webpack_require__(10);
-	var s3 = __webpack_require__(34);
+	var mongoose = __webpack_require__(9);
+	var s3 = __webpack_require__(33);
 
 	var thankyouSchema = new mongoose.Schema({
 	  title: { type: String },
@@ -1792,12 +1782,12 @@
 	module.exports = mongoose.model("Thankyou", thankyouSchema);
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Ecard = __webpack_require__(40);
+	var Ecard = __webpack_require__(39);
 
 	function ecardIndex(req, res) {
 	  Ecard.find().then(function (ecards) {
@@ -1883,13 +1873,13 @@
 	};
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var mongoose = __webpack_require__(10);
-	var s3 = __webpack_require__(34);
+	var mongoose = __webpack_require__(9);
+	var s3 = __webpack_require__(33);
 
 	var ecardSchema = new mongoose.Schema({
 	  title: { type: String, required: true, maxlength: 100 }, // limited length to 100
@@ -1940,12 +1930,12 @@
 	module.exports = mongoose.model("Ecard", ecardSchema);
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var Experience = __webpack_require__(42);
+	var Experience = __webpack_require__(41);
 
 	function experienceIndex(req, res) {
 	  Experience.find().then(function (experiences) {
@@ -2043,13 +2033,13 @@
 	};
 
 /***/ },
-/* 42 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var mongoose = __webpack_require__(10);
-	var s3 = __webpack_require__(34);
+	var mongoose = __webpack_require__(9);
+	var s3 = __webpack_require__(33);
 
 	var experienceSchema = new mongoose.Schema({
 	  name: { type: String, required: true, maxlength: 100 }, // limited length to 100
@@ -2083,12 +2073,12 @@
 	module.exports = mongoose.model("Experience", experienceSchema);
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var Thankyou = __webpack_require__(38);
+	var Thankyou = __webpack_require__(37);
 
 	function thankyouIndex(req, res) {
 	  Thankyou.find().then(function (thankyous) {
@@ -2188,12 +2178,12 @@
 	};
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Review = __webpack_require__(45);
+	var Review = __webpack_require__(44);
 
 	function reviewIndex(req, res) {
 	  Review.find().then(function (reviews) {
@@ -2246,12 +2236,12 @@
 	};
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var mongoose = __webpack_require__(10);
+	var mongoose = __webpack_require__(9);
 
 	var reviewSchema = new mongoose.Schema({
 	  title: { type: String, required: true, maxlength: 100 }, // limited length to 100
@@ -2265,12 +2255,12 @@
 	module.exports = mongoose.model("Review", reviewSchema);
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Tag = __webpack_require__(47);
+	var Tag = __webpack_require__(46);
 
 	function tagIndex(req, res) {
 	  Tag.find().then(function (tags) {
@@ -2323,12 +2313,12 @@
 	};
 
 /***/ },
-/* 47 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var mongoose = __webpack_require__(10);
+	var mongoose = __webpack_require__(9);
 
 	var tagSchema = new mongoose.Schema({
 	  name: { type: String, required: true },
@@ -2339,18 +2329,18 @@
 	module.exports = mongoose.model("Tag", tagSchema);
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Grouphug = __webpack_require__(33);
-	var Contribution = __webpack_require__(49);
-	var jwt = __webpack_require__(22);
-	var secret = __webpack_require__(23).secret;
+	var Grouphug = __webpack_require__(32);
+	var Contribution = __webpack_require__(48);
+	var jwt = __webpack_require__(21);
+	var secret = __webpack_require__(22).secret;
 	var stripe_Api_Key = process.env.STRIPE_SECRET_KEY;
-	var stripe = __webpack_require__(50)(stripe_Api_Key);
-	var mailgun = __webpack_require__(31);
+	var stripe = __webpack_require__(49)(stripe_Api_Key);
+	var mailgun = __webpack_require__(30);
 
 	function stripeCharge(req, res) {
 	  console.log("req.body.amount is:", req.body.amount);
@@ -2418,12 +2408,12 @@
 	};
 
 /***/ },
-/* 49 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var mongoose = __webpack_require__(10);
+	var mongoose = __webpack_require__(9);
 
 	var contributionSchema = new mongoose.Schema({
 	  name: { type: String },
@@ -2481,24 +2471,24 @@
 	module.exports = mongoose.model("Contribution", contributionSchema);
 
 /***/ },
-/* 50 */
+/* 49 */
 /***/ function(module, exports) {
 
 	module.exports = require("stripe");
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Grouphug = __webpack_require__(33);
-	var Contribution = __webpack_require__(49);
-	var User = __webpack_require__(19);
-	var jwt = __webpack_require__(22);
-	var secret = __webpack_require__(23).secret;
-	var mailgun = __webpack_require__(31);
-	var EmailTemplate = __webpack_require__(30);
+	var Grouphug = __webpack_require__(32);
+	var Contribution = __webpack_require__(48);
+	var User = __webpack_require__(18);
+	var jwt = __webpack_require__(21);
+	var secret = __webpack_require__(22).secret;
+	var mailgun = __webpack_require__(30);
+	var EmailTemplate = __webpack_require__(29);
 
 	function contributorCreate(req, res) {
 	  console.log("Contributor req.body", req.body);
@@ -2583,15 +2573,15 @@
 	};
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var s3 = __webpack_require__(34);
-	var multer = __webpack_require__(53);
-	var multerS3 = __webpack_require__(54);
-	var uuid = __webpack_require__(55);
+	var s3 = __webpack_require__(33);
+	var multer = __webpack_require__(52);
+	var multerS3 = __webpack_require__(53);
+	var uuid = __webpack_require__(54);
 
 	module.exports = multer({
 	  storage: multerS3({
@@ -2609,25 +2599,25 @@
 	});
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports) {
 
 	module.exports = require("multer");
 
 /***/ },
-/* 54 */
+/* 53 */
 /***/ function(module, exports) {
 
 	module.exports = require("multer-s3");
 
 /***/ },
-/* 55 */
+/* 54 */
 /***/ function(module, exports) {
 
 	module.exports = require("uuid");
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2642,7 +2632,7 @@
 	module.exports = config;
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports) {
 
 	"use strict";
