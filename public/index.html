@@ -2,67 +2,108 @@
 <html ng-app="GroupHugApp">
 <head>
   <title>GroupHug</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta charset="utf-8">
 
-  <link rel="stylesheet" href="./css/reset.css">
+  <!-- Booty + CSS -->
+  <link rel='stylesheet' href='/bootstrap/dist/css/bootstrap.css' />
   <link rel="stylesheet" href="./css/app.css">
-  <link href="./css/fine-uploader-gallery.min.css" rel="stylesheet">
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,600|Pacifico" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 
-  <script src="../bower_components/angular/angular.min.js"></script>
-
-  <script src="../bower_components/angular-resource/angular-resource.min.js"></script>
-
-  <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-
-  <script src="../bower_components/angular-modal-service/dst/angular-modal-service.min.js"></script>
-
-
-  <script src="../bower_components/satellizer/dist/satellizer.min.js"></script>
-
+  <!-- NG CDNs -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-resource.min.js"></script>
+  <script src="//npmcdn.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="//cdn.jsdelivr.net/satellizer/0.13.1/satellizer.min.js"></script>
   <script src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
 
+  <!-- NG: node_modules -->
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/angular-jwt/dist/angular-jwt.min.js"></script>
+  <script src="node_modules/angular-resource/angular-resource.min.js"></script>
+  <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="node_modules/angular-stripe/src/index.js"></script>
+
+  <!-- Stripe -->
   <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-
   <script src="https://checkout.stripe.com/checkout.js"></script>
-
   <script src="https://cdn.rawgit.com/laurihy/angular-payments/2472bc9befa256780d106a8e53a9dea12b7341ed/lib/angular-payments.js"></script>
-
-  <script src="/js/app.js"></script>
-
   <script src="/js/payment.js"></script>
 
+  <!-- Custom JS -->
+  <script src="/js/app.js"></script>
 </head>
+
 <body ng-controller="MainController as main">
-<header>
-  <ul>
-    <li><a ui-sref="home">Home</a></li>
 
-    <li ng-if="!main.currentUser"><a ui-sref="login">Login</a></li>
-    <li ng-if="!main.currentUser"><a ui-sref="register">Register</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin'"><a ui-sref="adminUi">Admin UI</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="usersWelcome({ id: main.currentUser._id})">My GroupHugs</a></li>
-
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin' "><a ui-sref="experiencesIndex">All Experiences</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin'"><a ui-sref="experiencesNew">New Experiences</a></li>
-
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true && main.currentUser.role == 'superAdmin'"><a ui-sref="grouphugsIndex">All Grouphugs</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="grouphugsNew">Create A Grouphug</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == false"><a ui-sref="usersEdit({ id: main.currentUser._id})">Complete Your Registration</a></li>
-    <li ng-if="main.currentUser && main.currentUser.isActivated == true"><a ui-sref="usersShow({ id: main.currentUser._id})">Show My Details</a></li>
-    <li ng-if="main.currentUser"><a ng-click="main.logout()">Log Out...{{main.currentUser.email}}</a></li>
+  <nav class="navbar navbar-toggleable-xl navbar-light bg-faded">
+    <div class="container">
+      <a class="navbar-brand" ui-sref="home">GroupHug</a>
+      <div class="navbar-collapse collapse">
+        <ul class="navbar-nav">
+          <li ng-if="!main.currentUser" class="nav-item">
+            <a ui-sref="login" class="nav-link">Login</a>
+          </li>
+          <li ng-if="!main.currentUser" class="nav-item">
+            <a ui-sref="register" class="nav-link">Register</a></li>
+          <li ng-if="main.currentUser && main.currentUser.isActivated === true && main.currentUser.role == 'superAdmin'">
+            <a ui-sref="adminUi" class="nav-link">Admin UI</a>
+          </li>
+          <li ng-if="main.currentUser && main.currentUser.isActivated === true" class="nav-item">
+            <a ui-sref="usersWelcome({ id: main.currentUser._id})" class="nav-link">My GroupHugs</a>
+          </li>
+          <li ng-if="main.currentUser && main.currentUser.isActivated === true && main.currentUser.role == 'superAdmin' " class="nav-item">
+            <a ui-sref="experiencesIndex" class="nav-link">All Experiences</a>
+          </li>
+          <li ng-if="main.currentUser && main.currentUser.isActivated === true && main.currentUser.role == 'superAdmin'" class="nav-item">
+            <a ui-sref="experiencesNew" class="nav-link">New Experiences</a>
+          </li>
+          <li ng-if="main.currentUser && main.currentUser.isActivated === true && main.currentUser.role == 'superAdmin'" class="nav-item">
+            <a ui-sref="grouphugsIndex" class="nav-link">All Grouphugs</a>
+          </li>
+          <li ng-if="main.currentUser && main.currentUser.isActivated === true" class="nav-item">
+            <a ui-sref="grouphugsNew" class="nav-link">Create A Grouphug</a>
+          </li>
+          <li ng-if="main.currentUser && main.currentUser.isActivated === false" class="nav-item">
+            <a ui-sref="usersEdit({ id: main.currentUser._id})" class="nav-link">Complete Your Registration</a>
+          </li>
+          <li ng-if="main.currentUser && main.currentUser.isActivated === true" class="nav-item">
+            <a ui-sref="usersShow({ id: main.currentUser._id})" class="nav-link">Show My Details</a>
+          </li>
+          <li ng-if="main.currentUser" class="nav-item">
+            <a ng-click="main.logout()" class="nav-link">Log Out</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <!--   <li><a ui-sref="usersIndex">Users Index</a></li>
     <li><a ui-sref="usersShow">Show Users</a></li> -->
-  </ul>
+    <main ui-view></main>
 
-</header>
+  <script type="text/javascript" src='/jquery/dist/jquery.min.js'></script>
+  <script src="/js/jquery.migrate.js"></script>
+  <script src="/js/parallax.min.js"></script>
 
-  <main ui-view></main>
-  
-
+  <!-- <script src="bundle.js"></script> -->
+  <footer>
+    <nav class="navbar navbar-toggleable-xl navbar-light bg-faded">
+      <div class="container">
+        <div class="navbar-collapse collapse">
+          <ul class="navbar-nav">
+            <li><a href="#" class="nav-link">About</a></li>
+            <li><a href="#" class="nav-link">Team</a></li>
+            <li><a href="#" class="nav-link">Contact</a></li>
+            <li><a href="#" class="nav-link">FAQ</a></li>
+            <li><a href="#" class="nav-link">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </footer>
 </body>
 </html>

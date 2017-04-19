@@ -2,7 +2,6 @@ var webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
 var here = require('path-here'); // <- Add path-here
 
-
 module.exports = {
   target: 'node',
   externals: [nodeExternals()],
