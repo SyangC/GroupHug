@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/SyangC/GroupHug.git"
   },
-  "author": "Ben Blowers, Becky Bolton, Shu-yang and Chia Julian Wyatt",
+  "author": "Ben Blowers, Becky Bolton, Shu-yang Chia and Julian Wyatt",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SyangC/GroupHug/issues"
@@ -40,8 +40,6 @@
     "mailgun-js": "^0.8.2",
     "gulp": "^3.9.1",
     "jquery": "3.2.1",
-    "json-loader": "^0.5.4",
-    "jsonwebtoken": "^7.1.9",
     "main-bower-files": "^2.13.1",
     "mongoose": "^4.6.3",
     "morgan": "^1.7.0",
