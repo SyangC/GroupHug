@@ -12,8 +12,8 @@ a:hover {
 /* Home */
 
 .parallax-window {
-  background-image: url('../img/women-spa-bg.png');
-  min-height: 600px;
+  /*background-image: url('../img/women-spa-bg.png');*/
+  min-height: 100vh;
   background: transparent;
 }
 
@@ -26,6 +26,46 @@ a:hover {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+.centered {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 2;
+  max-width: 100%;
+}
+
+.dark-bg {
+  /*background-color: #000;*/
+  color: #FFA826;
+}
+
+/*footer ul li {
+  text-decoration: none;
+  display: inline;
+  margin-right: 10px;
+  margin-top: 20px;
+}*/
+
+/* BUTTONS */
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #fff;
+
+  font-size: 18px;
+  font-weight: 600;
+
+  margin: 5px;
+  border-radius: 5px;
+  padding: 10px 20px;
+}
+
+.facebook { background: #435f9c; }
+.twitter  { background: #00aced; }
 
 /* GH Show page */
 

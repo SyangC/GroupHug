@@ -1,6 +1,6 @@
 var webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
-var path = require('path');
+var here = require('path-here'); // <- Add path-here
 
 
 module.exports = {
@@ -8,8 +8,8 @@ module.exports = {
   externals: [nodeExternals()],
   entry: './app.js',
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js'
+    path: here('dist'), // <- changed to this
+    filename: 'bundle.js' // <- changed to this
 },
   module: {
     loaders: [

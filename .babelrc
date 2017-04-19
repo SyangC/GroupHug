@@ -1,5 +1,5 @@
 {
   "presets": [
-    'es2015', 'angular', 'stage-0'
+    "babel-preset-env", "es2015", "angular", "stage-0"
   ]
 }
