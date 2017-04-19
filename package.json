@@ -1,25 +1,27 @@
 {
   "name": "grouphug",
   "version": "1.0.0",
-  "description": "",
+  "description": "Give experiences not things",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "webpack",
-    "start": "node app"
+    "start": "node app",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SyangC/GroupHug.git"
   },
-  "author": "Ben Blowers, Becky Bolton and Shu-yang Chia",
+  "author": "Ben Blowers, Becky Bolton, Shu-yang Chia and Julian Wyatt",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SyangC/GroupHug/issues"
   },
   "homepage": "https://github.com/SyangC/GroupHug#readme",
   "dependencies": {
-    "angular": "^1.5.8",
+    "angular": "^1.6.4",
     "angular-jwt": "^0.1.7",
     "angular-resource": "^1.5.8",
     "angular-stripe": "^4.2.12",
@@ -32,16 +34,17 @@
     "cors": "^2.8.1",
     "debug": "^2.2.0",
     "express": "^4.14.0",
-    "gulp": "^3.9.1",
+    "fine-uploader": "^5.11.5",
     "json-loader": "^0.5.4",
     "jsonwebtoken": "^7.1.9",
+    "mailgun-js": "^0.8.2",
+    "gulp": "^3.9.1",
     "jquery": "3.2.1",
     "main-bower-files": "^2.13.1",
-    "mailgun-js":"latest",
     "mongoose": "^4.6.3",
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
-    "multer-s3": "^2.4.0",
+    "multer-s3-transform": "^2.3.2",
     "node-mailer": "^0.1.1",
     "node-schedule": "^1.2.0",
     "nodemailer": "^2.6.4",
@@ -51,19 +54,24 @@
     "sass": "^0.5.0",
     "satellizer": "^0.15.5",
     "sdk": "^0.5.0",
-    "stripe": "^4.12.0",
+    "sharp": "^0.17.3",
+    "snyk": "^1.25.2",
+    "stripe": "^4.15.1",
     "uuid": "^3.0.0"
   },
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-angular": "0.0.5",
-    "babel-core": "^6.18.0",
-    "babel-loader": "^6.2.5",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^6.4.1",
     "babel-preset-angular": "^6.0.15",
+    "babel-preset-env": "^1.3.3",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-0": "^6.16.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
+    "css-loader": "^0.28.0",
+    "extract-text-webpack-plugin": "^1.0.1",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.13",
     "gulp-concat": "^2.6.0",
@@ -78,7 +86,10 @@
     "mocha": "^3.1.2",
     "node-sass": "^3.10.1",
     "sass-loader": "^4.0.2",
+    "scss-loader": "0.0.1",
+    "style-loader": "^0.16.1",
     "webpack": "^1.13.2",
     "webpack-node-externals": "^1.5.4"
-  }
+  },
+  "snyk": true
 }

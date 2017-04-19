@@ -1,11 +1,13 @@
-angular
-  .module("GroupHugApp", ["ngResource", "ui.router","angular-jwt", "satellizer", "angularPayments"])
+ angular
+  .module("GroupHugApp", ["ngResource", "ui.router","angular-jwt", "satellizer", "angularPayments", "angularModalService"])
   .config(oAuthConfig)
   .config(setupInterceptor)
   .config(Router)
   .config(function() {
-    Stripe.setPublishableKey("pk_test_UwzuaWQwCBqL92hiVkmzupiJ");
-  })
+    Stripe.setPublishableKey("pk_test_UwzuaWQwCBqL92hiVkmzupiJ")
+  });
+
+ 
 
 oAuthConfig.$inject = ["$authProvider"];
 function oAuthConfig($authProvider) {
@@ -139,13 +141,17 @@ function Router($stateProvider, $urlRouterProvider) {
       templateUrl: "/templates/unauthorised.html",
       controller: "MainController as main"
     })
+   
 
 
 
     $urlRouterProvider.otherwise("/");
+
+
 }
 angular
   .module("GroupHugApp")
+
 angular
   .module("GroupHugApp")
   .controller("LoginController", LoginController);
@@ -296,6 +302,16 @@ function file() {
     }
   }
 }
+angular
+  .module("GroupHugApp")
+  .factory("Contribution", Contribution);
+
+Contribution.$inject = ["$resource"]
+function Contribution($resource) {
+  return $resource('/api/contributions/:id', { id: '@_id' }, {
+    update: { method: "PUT" }
+  });
+}
 // angular
 //   .module("GroupHugApp")
 //   .factory("Experience", Experience);
@@ -423,6 +439,7 @@ angular
 function formData() {
   return {
     transform: function(data) {
+      console.log("data entering formData transform", data);
       var formData = new FormData();
       angular.forEach(data, function(value, key) {
         if(!!value && value._id) value = value._id;
@@ -439,6 +456,7 @@ function formData() {
           }
         }
       });
+      console.log("formData just before being sent off", formData);
       return formData;
     }
   }
@@ -468,6 +486,59 @@ function TokenService($window, jwtHelper) {
     return $window.localStorage.removeItem('token');
   }
 
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesEditController", ExperiencesEditController);
+
+ExperiencesEditController.$inject = ["Experience", "$state"];
+function ExperiencesEditController(Experience, $state) {
+
+  this.selected = Experience.get($state.params);
+
+  this.save = function() {
+    this.selected.$update(function() {
+      $state.go("experiencesShow", $state.params)
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesIndexController", ExperiencesIndexController);
+
+ExperiencesIndexController.$inject = ["Experience", "$state"];
+function ExperiencesIndexController(Experience) {
+  this.all = Experience.query();
+  console.log("experiences All", this.all);
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesNewController", ExperiencesNewController);
+
+ExperiencesNewController.$inject = ["Experience", "$state"]
+function ExperiencesNewController(Experience, $state) {
+
+  this.new = {};
+
+  this.create = function() {
+    Experience.save(this.new, function() {
+      $state.go("experiencesIndex");
+    })
+  }
+}
+angular
+  .module("GroupHugApp")
+  .controller("ExperiencesShowController", ExperiencesShowController);
+
+ExperiencesShowController.$inject = ["Experience", "$state"];
+function ExperiencesShowController(Experience, $state) {
+  this.selected = Experience.get($state.params)
+
+  this.delete = function() {
+    this.selected.$remove(function() {
+      $state.go("experiencesIndex");
+    })
+  }
 }
 angular
   .module("GroupHugApp")
@@ -548,59 +619,6 @@ function AdminUiController(User, Grouphug, Experience, $state, $auth, $rootScope
 }
 angular
   .module("GroupHugApp")
-  .controller("ExperiencesEditController", ExperiencesEditController);
-
-ExperiencesEditController.$inject = ["Experience", "$state"];
-function ExperiencesEditController(Experience, $state) {
-
-  this.selected = Experience.get($state.params);
-
-  this.save = function() {
-    this.selected.$update(function() {
-      $state.go("experiencesShow", $state.params)
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ExperiencesIndexController", ExperiencesIndexController);
-
-ExperiencesIndexController.$inject = ["Experience", "$state"];
-function ExperiencesIndexController(Experience) {
-  this.all = Experience.query();
-  console.log("experiences All", this.all);
-}
-angular
-  .module("GroupHugApp")
-  .controller("ExperiencesNewController", ExperiencesNewController);
-
-ExperiencesNewController.$inject = ["Experience", "$state"]
-function ExperiencesNewController(Experience, $state) {
-
-  this.new = {};
-
-  this.create = function() {
-    Experience.save(this.new, function() {
-      $state.go("experiencesIndex");
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
-  .controller("ExperiencesShowController", ExperiencesShowController);
-
-ExperiencesShowController.$inject = ["Experience", "$state"];
-function ExperiencesShowController(Experience, $state) {
-  this.selected = Experience.get($state.params)
-
-  this.delete = function() {
-    this.selected.$remove(function() {
-      $state.go("experiencesIndex");
-    })
-  }
-}
-angular
-  .module("GroupHugApp")
   .controller("GrouphugsEditController", GrouphugsEditController);
 
 GrouphugsEditController.$inject = ["Grouphug", "$state"];
@@ -653,14 +671,20 @@ function GrouphugsNewController(Grouphug, $state, $auth) {
 
   this.contributorEmailAddresses = [];
 
+  this.lock = "unlocked";
+
+  var self = this;
 
   this.create = function() {
+    self.lock ="locked";
     this.new.creator = this.currentUser._id
     self.currentUserId = this.currentUser._id
     console.log("sends this.new:", this.new);
     Grouphug.save(this.new, function() {
       console.log("Current user ID", self.currentUserId)
       $state.go('usersWelcome',{id: self.currentUserId});
+      self.lock = "unlcoked";
+
     })
   }
 }
@@ -671,8 +695,8 @@ angular
 
 
 
-GrouphugsShowController.$inject = ["User", "Grouphug", "$state", "$scope", "$auth", "$http", "$timeout"];
-function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $timeout) {
+GrouphugsShowController.$inject = ["User", "Grouphug", "$state", "$scope", "$auth", "$http", "$timeout", "ModalService", "Contribution"];
+function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $timeout, ModalService, Contribution) {
 
   var self = this
 
@@ -680,44 +704,39 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     console.log("res", res);
   })
 
+  this.contributionMessage = "Hey";
+
   this.delete = function() {
     this.selected.$remove(function() {
       $state.go("grouphugsIndex");
     })
   }
 
-  this.contributionAmount;
+  this.contributionAmount = null;
+
+ 
+
   this.allUsers = User.query();
+
 
   this.allUserEmails = function(){
     var tempUserEmails =[];
     for (i=0; i < this.allUsers.length; i++){
       tempUserEmails.push(this.allUsers[i].email);
     }
-    console.log('User Emails', tempUserEmails);
     return tempUserEmails
   }
 
   this.newContributorEmail = null
 
   this.addContributor = function(){
-    console.log(this.selected.gifteeFirstName);
-    console.log(this.selected.contributorEmailAddresses);
-
-
-    
+  
     if(this.newContributorEmail){
       if(this.selected.contributorEmailAddresses.indexOf(this.newContributorEmail) > -1 ){
          console.log("user already in contributor list can't be added");
          this.newContributorEmail = null;
        }
         else {
-          if(this.allUserEmails().indexOf(this.newContributorEmail) === -1){
-            console.log("Adding a group hug user"); 
-          };
-          console.log("user is ok to add");
-          console.log(this.allUsers);
-          console.log("adding ",this.newContributorEmail, "to the list", this.selected.contributorEmailAddresses,"for ",this.selected.gifteeFirstName,"length",this.selected.contributorEmailAddresses.length);
           this.selected.contributorEmailAddresses.push(this.newContributorEmail);
           this.selected.$update();
           this.newContributorEmail = null;
@@ -765,65 +784,101 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     
   }
 
-  this.contributionMessage = null;
+
+
+  this.showAModal = function(message, contributionId ) {
+
+      // Just provide a template url, a controller and call 'showModal'.
+      ModalService.showModal({
+        templateUrl: "../../../templates/modals/complexModal.html",
+        controller:"ModalsComplexController",
+        inputs:{
+          title: message
+        }
+      }).then(function(modal) {
+        // The modal object has the element built, if this is a bootstrap modal
+        // you can call 'modal' to show it, if it's a custom modal just show or hide
+        // it as you need to.
+        modal.close.then(function(result) {
+          $scope.message = result
+          console.log("Maybe......????", result)
+          if (!result.message){result.message = "Have a GroupHug from me"};
+          var contributionHandler = JSON.stringify({
+              message:result.message,
+              name:result.name});
+            $http.put("api/contributions/"+contributionId, contributionHandler).
+              success(function(data, status, headers, config) {
+                  // this callback will be called asynchronously
+                  // when the response is available
+                  console.log("contributionhandler success",data);
+                  $state.go('.', {}, { reload: true });
+                     
+              }).
+              error(function(data, status, headers, config) {
+                  // called asynchronously if an error occurs
+                  // or server returns response with an error status.
+                  console.log("contributor handler failed",data);
+              });
+        });
+      });
+
+    };
 
   this.checkout = function(grouphugName) {
 
-    self.chargeAmount = Math.round(parseFloat(this.contributionAmount)*100);
-    var handler = StripeCheckout.configure({
-      key: "pk_test_UwzuaWQwCBqL92hiVkmzupiJ",
-      image: "https://stripe.com/img/documentation/checkout/marketplace.png",
-      locale: "auto",
-      token: function(token) {
-        console.log("<<<docfor contribution process",grouphugName);
-        token.amount = self.chargeAmount;
-        token.grouphugId = $state.params.id;
-        token.grouphugDescription = grouphugName;
+      self.chargeAmount = Math.round(parseFloat(this.contributionAmount)*100);
+      var handler = StripeCheckout.configure({
+        key: "pk_test_UwzuaWQwCBqL92hiVkmzupiJ",
+        image: "https://stripe.com/img/documentation/checkout/marketplace.png",
+        locale: "auto",
+        token: function(token) {
+          console.log("<<<docfor contribution process",grouphugName);
+          token.amount = self.chargeAmount;
+          token.grouphugId = $state.params.id;
+          token.grouphugDescription = grouphugName;
 
-        $http.post("/api/charge", token)
-          .success(function (token, status, headers) {
-            console.log("success: ");
-            console.log("token: ", token);
-            console.log("status: ", status);
-            console.log("headers: ", headers);
-            console.log("payment complete");
-            this.contributionMessage = "Your payment was received successfully";
-            $timeout(function () {
-                  $state.go('.', {}, { reload: true });
-                  }, 100);  
-            this.contributionAmount = "";  
-          
-            })
+          $http.post("/api/charge", token)
+            .success(function (token, status, headers) {
+              var paymentAmount = String(token.contributionAmount/100);
+              var modalMessage = token.payorName+", thanks so much your payment of £"+paymentAmount+ ". "+token.message;
+              self.showAModal(modalMessage, token.contributionSuccessId)
+             
+                     
+              this.contributionAmount = "";  
+            
+              })
 
-          .error(function (token, status, header) {
-            console.log("failure: ");
-            console.log("token: ", token);
-            console.log("status: ", status);
-            console.log("headers: ", headers);
+            .error(function (token, status, header) {
+              console.log("failure: ");
+              console.log("token: ", token);
+              console.log("status: ", status);
+              console.log("headers: ", headers);
 
-          });
-      }
-    });
+            });
+        }
+      });
 
 
 
 
 
 
-    handler.open({
-      name: "GroupHug",
-      description: "Please enter your payment details below",
-      zipCode: true,
-      currency: "gbp",
-      amount: self.chargeAmount,
-      billingAddress: true
-    });
-    
-    window.addEventListener("popstate", function() {
-      handler.close();
-    });
+      handler.open({
+        name: "GroupHug",
+        description: "Please enter your payment details below",
+        zipCode: true,
+        currency: "gbp",
+        amount: self.chargeAmount,
+        billingAddress: true
+      });
+      
+      window.addEventListener("popstate", function() {
+        handler.close();
+      });
 
-  }
+    }
+
+
 
   this.makelive = function(){
     window.alert("live");
@@ -872,9 +927,6 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     }
   }
 
-
-
-
   $scope.stripeCallback = function (code, result) {
     if (result.error) {
       window.alert('it failed! error: ' + result.error.message);
@@ -883,6 +935,60 @@ function GrouphugsShowController(User, Grouphug, $state, $scope, $auth, $http, $
     }
   };
 }
+
+
+
+
+
+angular
+  .module('GroupHugApp')
+  .controller('ModalsComplexController', ModalsComplexController);
+
+
+ModalsComplexController.$inject = [
+  '$scope', '$element', 'title','close', 'Contribution'];
+
+function ModalsComplexController($scope, $element, title, close, Contribution) {
+
+  $scope.name = null;
+  $scope.message = null;
+  $scope.title = title
+  
+  //  This close function doesn't need to use jQuery or bootstrap, because
+  //  the button has the 'data-dismiss' attribute.
+  $scope.close = function() {
+    close({
+      name: $scope.name,
+      message: $scope.message
+    }, 500); // close, but give 500ms for bootstrap to animate
+    console.log("Name ",$scope.name,"Age ",$scope.message);
+  };
+
+  //  This cancel function must use the bootstrap, 'modal' function because
+  //  the doesn't have the 'data-dismiss' attribute.
+  $scope.cancel = function() {
+
+    //  Manually hide the modal.
+    $element.modal('hide');
+    
+    //  Now call close, returning control to the caller.
+    close({
+      name: $scope.name,
+      age: $scope.age
+    }, 500); // close, but give 500ms for bootstrap to animate
+    console.log("Name ",name,"Age ",age);
+  };
+
+};
+var app = angular.module('GroupHugApp');
+
+app.controller('YesNoController', ['$scope', 'close', function($scope, close) {
+
+  $scope.close = function(result) {
+    close(result, 500); // close, but give 500ms for bootstrap to animate
+  };
+
+}]);
 angular
   .module("GroupHugApp")
   .controller("ThankyousEditController", ThankyousEditController);

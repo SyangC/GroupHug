@@ -1,38 +1,53 @@
-
-
-
-
-<div class="col-md-8 col-md-offset-2">
-  <div class="thumbnail">
-    <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcToWXet6ifvpSHOfr1To_xUJ1FfMxzMvo_BnkGwqxwODBitGjv7Sg">
-    <div class="caption" ng-controller="UsersWelcomeController as usersWelcome">
-      <h2 ng-if="usersWelcome.selected.displayName">Welcome Back  {{ usersWelcome.selected.displayName }}</h2>
-      <h2 ng-if="!usersWelcome.selected.displayName">Welcome Back  {{ usersWelcome.selected.firstName }}</h2>
-      <h2 ng-if="usersWelcome.selected.invitations.length == 0 && usersWelcome.selected.grouphugs.length == 0 && usersWelcome.selected.gifts == 0">Lets get started  - to create a grouphug <a ui-sref="grouphugsNew">click here</a></h2>
-      <div ng-if="usersWelcome.selected.gifts > 0"class="showlabel">
-      <h3>Whoah! you've been give a Group Hug!!</h3>
+<div class="row gap--sm">
+  <div class="col-md-8 col-md-offset-2">
+    <img src="http://placehold.it/150x150/">
+  </div>
+</div>
+<div class="row gap--sm">
+  <div class="caption" ng-controller="UsersWelcomeController as usersWelcome">
+    <h5 ng-if="usersWelcome.selected.displayName">
+      Welcome back, {{ usersWelcome.selected.displayName }}.
+    </h5>
+    <h5 ng-if="!usersWelcome.selected.displayName">
+      Welcome back, {{ usersWelcome.selected.firstName }}.
+    </h5>
+    <h5 ng-if="usersWelcome.selected.invitations.length == 0 && usersWelcome.selected.grouphugs.length == 0 && usersWelcome.selected.gifts == 0">
+      Lets get started!<br />
+      To create a Grouphug, &nbsp; 
+      <a ui-sref="grouphugsNew">click here</a>.
+    </h5>
+    <div ng-if="usersWelcome.selected.gifts > 0" class="showlabel">
+      <h3>Whoa! you've been given a Group Hug!!</h3>
         <ul ng-repeat="gift in usersWelcome.selected.gifts">
-        <li><a ui-sref="grouphugsShow({ id: gift.id})">{{gift}}</a></li>
-       
+          <li>
+            <a ui-sref="grouphugsShow({ id: gift.id})">
+              {{gift}}
+            </a>
+          </li>
         </ul>
-      </div>
-      <div ng-if="usersWelcome.selected.invitations.length > 0" class="showlabel">
-        <h3>You have pending Invitations:</h3>
-        <ul ng-repeat="invitation in usersWelcome.selected.invitations">
-        <li><a ui-sref="grouphugsShow({ id: invitation.id})">{{invitation.name}}, a group hug for {{invitation.gifteeFirstName}} {{invitation.gifteeLastName}}</a></li>
-       
-        </ul>
-      </div>
-
-      <div ng-if="usersWelcome.selected.grouphugs.length > 0"class="showlabel">
-        <h3>Here are your group hugs - click the title to see details</h3>
-        <ul ng-repeat="grouphug in usersWelcome.selected.grouphugs">
-        <li><a ui-sref="grouphugsShow({ id: grouphug.id})">{{grouphug.name}}</a></li>
-       
-        </ul>
-      </div>
+    </div>
+    <div ng-if="usersWelcome.selected.invitations.length > 0" class="showlabel">
+      <h3>You have pending Invitations:</h3>
+      <ul ng-repeat="invitation in usersWelcome.selected.invitations">
+        <li>
+          <a ui-sref="grouphugsShow({ id: invitation.id})">
+            {{invitation.name}}, a group hug for {{invitation.gifteeFirstName}} {{invitation.gifteeLastName}}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div ng-if="usersWelcome.selected.grouphugs.length > 0" class="showlabel">
+      <h3>Here are your group hugs - click the title to see details</h3>
+      <ul ng-repeat="grouphug in usersWelcome.selected.grouphugs">
+        <li>
+          <a ui-sref="grouphugsShow({ id: grouphug.id})">
+            {{grouphug.name}}
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
+
 
 <p ng-if="usersWelcome.selected.role === 'superAdmin'"><a ui-sref="adminUi">Back</a></p>

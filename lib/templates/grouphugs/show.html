@@ -16,8 +16,8 @@
 
         <h3>Date:</h3>
         <p>{{ grouphugsShow.selected.date | date:'MMMM d, y' }}</p>
-
-
+       
+        
         <p ng-if="grouphugsShow.selected.status != 'active'">This Grouphug has not yet been made active by the lovely people at group hug headquarters so you cannot yet make contributions as the team are still trawling through their big book of experiences. You can start adding names of people who you would like to invite to make contributions they will not be notified until the GroupHug becomes active and you press the big PUBLISH button"</p>
 
         
@@ -34,6 +34,12 @@
         <h3>Also Starring</h3>
         <ul ng-repeat="contributor in grouphugsShow.selected.contributors">
           <li >{{contributor.contributorId.firstName}} {{contributor.contributorId.lastName}}  ({{ contributor.contributorId.email}}) ...status.... {{contributor.contributorStatus}}</li>
+        </ul>
+
+        <h3>Contributions made so far</h3>
+        <ul ng-repeat="contribution in grouphugsShow.selected.contributions">
+          <li ng-if="!!contribution.displayName">{{contribution.displayName}} gave {{contribution.amount/100 | currency:'£'}}...message.... {{ contribution.message}}</li>
+          <li ng-if="!contribution.displayName">{{contribution.name}} gave {{contribution.amount/100 | currency:'£'}}...message.... {{ contribution.message}}</li>
         </ul>
 
         <h2>Add to the list of contributors:</h2>
@@ -78,8 +84,7 @@
 
           <h2>Contributions...</h2>
 
-          <h3>So far £{{ grouphugsShow.selected.contributionTotal/100}} has been contributed</h3>
-          <h3 ng-if="grouphugsShow.contributionMessage">Whey {{grouphugsShow.contributionMessage}}</h3>
+          <h3>So far {{ grouphugsShow.selected.contributionTotal/100 | currency:'£'}} has been contributed</h3>
 
           <form name="contributionForm" id="form" onsubmit="return false;">
             <input type="text" name="amount" placeholder="Enter your contribution here £0.00"  ng-model = "grouphugsShow.contributionAmount" ng-pattern="/^\d*\.?\d*$/" required>
@@ -104,11 +109,11 @@
 
 
 
-
   <button ui-sref="grouphugsEdit({ id: grouphugsShow.selected._id })" class="btn">Edit the group hug details </button>
   <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">Back</a>
   <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">Back</a>
   <h1>Pictures</h1>
   <img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">
+  <img ng-src="{{grouphugsShow.selected.mainImage}}">
 </div>
 <div id="unauthorised" ng-if="!main.currentUser">You do not have permission to view this page - sorry</div>

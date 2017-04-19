@@ -12,6 +12,7 @@ var reviewsController = require("../controllers/reviews");
 var tagsController = require("../controllers/tags");
 var chargeHandler = require("../controllers/chargeHandler");
 var contributorHandler = require("../controllers/contributorHandler");
+var contributionsController = require("../controllers/contributions");
 
 var jwt = require("jsonwebtoken");
 var secret = require("./tokens").secret;
@@ -35,7 +36,9 @@ function requireRole(role) {
       if(req.headers.authorization){
           var token = req.headers.authorization.replace("Bearer ", "");
           jwt.verify(token, secret, function(err, payload) {
-          if(err || !payload || payload.role != "superAdmin") return res.status(403).json({ message: "Bad Role" }); 
+          if(err || !payload || payload.role != "superAdmin"){
+            return res.status(403).json({ message: "Bad Role" }); 
+          } 
           next();
           });
             
@@ -121,6 +124,10 @@ router.route("/users/edit/:id")
   .all(secureRoute)
   .get(usersController.show)
   .put(usersController.update);
+
+router.route("/contributions/:id")
+  .all(secureRoute)
+  .put(contributionsController.addMessage);
 
 
 
