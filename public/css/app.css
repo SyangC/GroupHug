@@ -13,8 +13,10 @@ a:hover {
 
 .parallax-window {
   /*background-image: url('../img/women-spa-bg.png');*/
-  min-height: 100vh;
-  background: transparent;
+  background-color: gray;
+  min-height: 400px;
+  text-align: center;
+  // background: transparent;
 }
 
 .parallax-window .hero-heading {
@@ -28,10 +30,10 @@ a:hover {
 }
 
 .centered {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
+  // position: absolute;
+  // left: 50%;
+  // top: 50%;
+  // transform: translate(-50%,-50%);
   z-index: 2;
   max-width: 100%;
 }
