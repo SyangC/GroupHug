@@ -1,59 +1,62 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
 
+      <h1>Edit your profile</h1>
+      <div class="col-sm-6">
 
-<h1>This is the User Edit</h1>
-<div class="col-sm-6">
+        <div class="thumbnail">
+          <img src="http://placehold.it/150x150" />
+        </div>
 
-  <div class="thumbnail">
-    <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcToWXet6ifvpSHOfr1To_xUJ1FfMxzMvo_BnkGwqxwODBitGjv7Sg">
+          <form name="userForm" ng-submit="usersEdit.save(userForm.$valid)" novalidate>
+            <div class="form-group" ng-class="{ 'has-error' : userForm.firstName.$invalid && !userForm.firstName.$pristine }">
+              <label>First Name</label>
+              <input type="text" name="firstName" class="form-control" ng-model="usersEdit.selected.firstName" placeholder="Enter your first name" required>
+              <p ng-show="userForm.firstName.$invalid && !userForm.firstName.$pristine" class="help-block">You first name is required.</p>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error' : userForm.lastName.$invalid && !userForm.lastName.$pristine }">
+              <label>Last Name</label>
+              <input type="text" name="lastName" class="form-control" ng-model="usersEdit.selected.lastName" placeholder="Enter your last name" required>
+              <p ng-show="userForm.lastName.$invalid && !userForm.lastName.$pristine" class="help-block">You surname is required.</p>
+            </div>
+               
+            <div class="form-group" ng-class="{ 'has-error' : userForm.displayName.$invalid && !userForm.displayName.$pristine }">
+              <label>Name to display</label>
+              <input type="text" name="displayName" class="form-control" ng-model="usersEdit.selected.displayName" ng-maxlength="100" placeholder ="choose a displayName 6 - 100 characters this can be an email address">
+              
+              <p ng-show="userForm.displayName.$error.maxlength" class="help-block">displayName is too long.</p>
+            </div>
+                
+            <div class="form-group" ng-class="{'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+              <label>Email</label>
+              <input type="email" name="email" class="form-control" ng-model="usersEdit.selected.email" placeholder="Enter the email address for Grouphug to use">
+              <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : userForm.contactNumber.$invalid && !userForm.contactNumber.$pristine }">
+              <label>Contact Number</label>
+              <input type="text" name="contactNumber" class="form-control" ng-model="usersEdit.selected.contactNumber" ng-minlength="10" ng-maxlength="12"placeholder="Enter the contact number mobile or landline">
+              <p ng-show="userForm.contactNumber.$invalid && !userForm.contactNumber.$pristine" class="help-block">Enter a valid contact number 10 to 12 digits.</p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : userForm.password.$invalid && !userForm.password.$pristine }">
+              <label>Password</label>
+              <input type="password" name="password" class="form-control" ng-model="usersEdit.selected.password" placeholder="Change your password here (you may use a previous one)" required ng-minlength="8" ng-maxlength="12">
+              <p ng-show="userForm.password.$invalid && !userForm.password.$pristine" class="help-block">Enter a valid password 8 to 12 characters.</p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : userForm.passwordConfirmation.$invalid && !userForm.passwordConfirmation.$pristine }">
+              <label>Confirm Password</label>
+              <input type="password" name="passwordConfirmation" class="form-control" ng-model="usersEdit.selected.passwordConfirmation" placeholder="Confirm your new password"  equal ="{{userEdit.selected.password}}">
+              <p ng-show="userForm.passwordConfirmation.$error.equal && !userForm.passwordConfirmation.$pristine" class="help-block">Passwords must match</p>
+            </div>
+                  
+            <button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid">Save</button>
+            <a ui-sref="home" class="btn btn-warning">Back</a>
+          </form>
+        </div>
+    </div>
   </div>
-
-    <form name="userForm" ng-submit="usersEdit.save(userForm.$valid)" novalidate>
-      <div class="form-group" ng-class="{ 'has-error' : userForm.firstName.$invalid && !userForm.firstName.$pristine }">
-        <label>First Name</label>
-        <input type="text" name="firstName" class="form-control" ng-model="usersEdit.selected.firstName" placeholder="Enter your first name" required>
-        <p ng-show="userForm.firstName.$invalid && !userForm.firstName.$pristine" class="help-block">You first name is required.</p>
-      </div>
-
-      <div class="form-group" ng-class="{ 'has-error' : userForm.lastName.$invalid && !userForm.lastName.$pristine }">
-        <label>Last Name</label>
-        <input type="text" name="lastName" class="form-control" ng-model="usersEdit.selected.lastName" placeholder="Enter your last name" required>
-        <p ng-show="userForm.lastName.$invalid && !userForm.lastName.$pristine" class="help-block">You surname is required.</p>
-      </div>
-         
-      <div class="form-group" ng-class="{ 'has-error' : userForm.displayName.$invalid && !userForm.displayName.$pristine }">
-        <label>Name to display</label>
-        <input type="text" name="displayName" class="form-control" ng-model="usersEdit.selected.displayName" ng-maxlength="100" placeholder ="choose a displayName 6 - 100 characters this can be an email address">
-        
-        <p ng-show="userForm.displayName.$error.maxlength" class="help-block">displayName is too long.</p>
-      </div>
-          
-      <div class="form-group" ng-class="{'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
-        <label>Email</label>
-        <input type="email" name="email" class="form-control" ng-model="usersEdit.selected.email" placeholder="Enter the email address for Grouphug to use">
-        <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
-      </div>
-
-      <div class="form-group" ng-class="{'has-error' : userForm.contactNumber.$invalid && !userForm.contactNumber.$pristine }">
-        <label>Contact Number</label>
-        <input type="text" name="contactNumber" class="form-control" ng-model="usersEdit.selected.contactNumber" ng-minlength="10" ng-maxlength="12"placeholder="Enter the contact number mobile or landline">
-        <p ng-show="userForm.contactNumber.$invalid && !userForm.contactNumber.$pristine" class="help-block">Enter a valid contact number 10 to 12 digits.</p>
-      </div>
-
-      <div class="form-group" ng-class="{'has-error' : userForm.password.$invalid && !userForm.password.$pristine }">
-        <label>Password</label>
-        <input type="password" name="password" class="form-control" ng-model="usersEdit.selected.password" placeholder="Change your password here (you may use a previous one)" required ng-minlength="8" ng-maxlength="12">
-        <p ng-show="userForm.password.$invalid && !userForm.password.$pristine" class="help-block">Enter a valid password 8 to 12 characters.</p>
-      </div>
-
-      <div class="form-group" ng-class="{'has-error' : userForm.passwordConfirmation.$invalid && !userForm.passwordConfirmation.$pristine }">
-        <label>Confirm Password</label>
-        <input type="password" name="passwordConfirmation" class="form-control" ng-model="usersEdit.selected.passwordConfirmation" placeholder="Confirm your new password"  equal ="{{userEdit.selected.password}}">
-        <p ng-show="userForm.passwordConfirmation.$error.equal && !userForm.passwordConfirmation.$pristine" class="help-block">Passwords must match</p>
-      </div>
-            
-      <button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid">Save</button>
-    </form>
-  </div>
- 
-
-<p><a ui-sref="home">Back</a></p>
+</div>
