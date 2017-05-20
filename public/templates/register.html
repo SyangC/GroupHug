@@ -1,34 +1,30 @@
-<div class="row mt-5 gap--sm">
-  <div class="col-md-8 offset-md-2 gap--sm">
-    <div>
-      <h2 class="hero-heading">Register</h2>
-    </div>
-    <div>
-      <form ng-submit="register.submit()">
-        <div class="form-group">
-          <input type="text" name="firstName" class="form-control" ng-model="register.user.firstName" placeholder="First Name">
-        </div>
-        <div class="form-group">
-          <input type="text" name="lastName" class="form-control" ng-model="register.user.lastName" placeholder="Last Name">
-        </div>
-        <div class="form-group">
-          <input type="text" name="displayName" class="form-control" ng-model="register.user.displayName" placeholder="Display name">
-        </div>
-        <div class="form-group">
-          <input type="email" name="email" class="form-control" ng-model="register.user.email" placeholder="Email">
-        </div>
-        <div class="form-group">
-          <input type="telephone" name="telephone" class="form-control" ng-model="register.user.contactNumber" placeholder="Best telephone Number">
-        </div>
-        <div class="form-group">
-          <input type="password" name="password" class="form-control" ng-model="register.user.password" placeholder="Password">
-        </div>
-        <div class="form-group">
-          <input type="password" name="password" class="form-control" ng-model="register.user.passwordConfirmation" placeholder="Password">
-        </div>
+<div id="wrapper">
+  <h2>Register</h2>
 
-        <input type="submit" value="Submit" class="btn btn-primary">
-      </form>
+  <form ng-submit="register.submit()">
+  
+    <div class="form-group">
+      <input type="text" name="firstName" class="form-control" ng-model="register.user.firstName" placeholder="First Name">
     </div>
-  </div>
+    <div class="form-group">
+      <input type="text" name="lastName" class="form-control" ng-model="register.user.lastName" placeholder="Last Name">
+    </div>
+    <div class="form-group">
+      <input type="text" name="displayName" class="form-control" ng-model="register.user.displayName" placeholder="displayName">
+    </div>
+    <div class="form-group">
+      <input type="email" name="email" class="form-control" ng-model="register.user.email" placeholder="Email">
+    </div>
+    <div class="form-group">
+      <input type="telephone" name="telephone" class="form-control" ng-model="register.user.contactNumber" placeholder="Best telephone Number">
+    </div>
+    <div class="form-group">
+      <input type="password" name="password" class="form-control" ng-model="register.user.password" placeholder="Password">
+    </div>
+    <div class="form-group">
+      <input type="password" name="password" class="form-control" ng-model="register.user.passwordConfirmation" placeholder="Password">
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-primary">
+  </form>
 </div>

@@ -1,323 +1,338 @@
-  <div class="row mt-5">
-    <div class="col-md-12">
-      <h2>Start a New GroupHug</h2>
-      <p>
-        Hey!
-      </p>
-      <p>
-        Welcome to GroupHug. We're going to help you look like a superhero and give your friend a show-stopping, memory-making, happiness-guaranteed, awesome experience. 
-      </p>
-      <p>
-        Answer these questions and the GroupHug Gurus (that's us!) will have a think — and get back to you once we've created a Bespoke Experience Menu for your friend that we're proud of. That usually takes two days.
-      </p>
-      <p>
-        Please send some pictures of your friend (at least one!) to <a href="mailto:guru@grouphug.guru">guru@grouphug.guru</a> — we'll put this on their page so it's clear whose page it is. (If you have pictures of your friend and people in the group, even better.)
-      </p>
-      <p>
-        OK, let's get started . . . 
-      </p>
-    </div>
+<div class="wrapper">
+
+  <div class="new-grouphug-blurb">
+
+    <h1>Start a New GroupHug</h1>
+
+    <p>
+      Hey!
+    </p>
+
+    <p>
+      Welcome to GroupHug. We're going to help you look like a superhero and give your friend a show-stopping, memory-making, happiness-guaranteed, awesome experience. 
+    </p>
+
+    
+    <p>
+      Answer these questions and the GroupHug Gurus (that's us!) will have a think — and get back to you once we've created a Bespoke Experience Menu for your friend that we're proud of. That usually takes two days.
+    </p>
+
+    <p>
+      Please send some pictures of your friend (at least one!) to guru@grouphug.guru — we'll put this on their page so it's clear whose page it is. (If you have pictures of your friend and people in the group, even better.)
+    </p>
+
+    <p>
+      OK, let's get started . . . 
+    </p>
+
   </div>
 
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <form name="grouphugForm" ng-submit="grouphugsNew.create(grouphugForm.$valid)" novalidate>
+  <br />
 
-      <!-- Do we need this field if we're referencing creator's user_id? -->
+  <hr />
 
-      <br />
+  <br />
 
-        <div class="form-group" ng-class="{'has-error' : grouphugForm.ghname.$invalid && !grouphugForm.ghname.$pristine }">
-          <label>GroupHug Name?</label>
+  <div id="new-grouphug-form-wrapper">
 
-          <input type="text" name="ghname" class="form-control" ng-model="grouphugsNew.new.name" placeholder="Give your group hug a name" required>
+    <form name="grouphugForm" ng-submit="grouphugsNew.create(grouphugForm.$valid)" novalidate>
 
-          <p ng-show="grouphugForm.ghname.$invalid && !grouphugForm.ghname.$pristine" class="help-block">You must give your grouphug a name of at least 10 characters e.g. Jim's Birthday Bash</p>
-        </div>
 
-      <br />
-     <!--  How many people is your group hug for?
-      <select name="groupSize-category" ng-model="grouphugsNew.new.gifteeGroupSize" class="selectOne">
-        <option disabled selected>Please select</option>
-        <option ng-repeat="groupSize in grouphugsNew.groupSizes" >{{groupSize}}</option>
-      </select>
-      <br/> -->
+    <!-- Do we need this field if we're referencing creator's user_id? -->
+
+
+    <br />
+
+      <div class="form-group" ng-class="{'has-error' : grouphugForm.ghname.$invalid && !grouphugForm.ghname.$pristine }">
+        <label>GroupHug Name?</label>
+        <input type="text" name="ghname" class="form-control" ng-model="grouphugsNew.new.name" placeholder="Give your group hug a name" required ng-minlength="10" ng-maxlength="100">
+        <p ng-show="grouphugForm.ghname.$invalid && !grouphugForm.ghname.$pristine" class="help-block">You must give your grouphug a name of at least 10 characters e.g. Jim's Birthday Bash</p>
+      </div>
+
+    <br />
+   <!--  How many people is your group hug for?
+    <select name="groupSize-category" ng-model="grouphugsNew.new.gifteeGroupSize" class="selectOne">
+      <option disabled selected>Please select</option>
+      <option ng-repeat="groupSize in grouphugsNew.groupSizes" >{{groupSize}}</option>
+    </select>
+    <br/> -->
+
+    <br/>
+
+    <div>What's your friend's name?</div>
+    <!-- <div ng-if="grouphugsNew.new.gifteeGroupSize === 'A couple' || grouphugsNew.new.gifteeGroupSize === 'A group'">Enter details for the main contact</div> -->
+    <br />
+    <div ng-if="grouphugsNew.new.gifteeGroupSize === 'One person' ">
+     Please enter your friend's email? It's important this is the correct email for us to contact them by:
+      (Don't worry, we won't email them yet. This is for after you've given the Experience Gift Card so we can organise the experience!)
+    </div>
+    <div ng-if="grouphugsNew.new.gifteeGroupSize === 'A couple' || grouphugsNew.new.gifteeGroupSize === 'A group' ">
+     Please enter the main contact's email? It's important this is the correct email for us to contact them by:
+      (Don't worry, we won't email them yet. This is for after you've given the Experience Gift Card so we can organise the experience!)
+    </div>
+    <div>
+     
+
+      <div class="form-group" ng-class="{ 'has-error' : grouphugForm.gifteeFirstName.$invalid && !grouphugForm.gifteeFirstName.$pristine }">
+        <input type="text" name="gifteeFirstName" class="form-control" ng-model="grouphugsNew.new.gifteeFirstName" placeholder="Your Friend's First Name" required ng-minlength="2" ng-maxlength="100">
+        <p ng-show="grouphugForm.gifteeFirstName.$invalid && !grouphugForm.gifteeFirstName.$pristine" class="help-block">You must provide the recipients first name minimum 2 characters maximum 100 characters</p>
+        
+      </div>
+
+
+      <div class="form-group" ng-class="{ 'has-error' : grouphugForm.gifteeLastName.$invalid && !grouphugForm.gifteeFirstName.$pristine }">
+        <input type="text" name="gifteeLastName" class="form-control" ng-model="grouphugsNew.new.gifteeLastName" placeholder="Your Friend's Last Name" required ng-minlength="2" ng-maxlength="100">
+        <p ng-show="grouphugForm.gifteeLastName.$invalid && !grouphugForm.gifteeLastName.$pristine" class="help-block">You must provide the recipients last name minmum 2 characters maximum 100 characters</p>
+      </div>    
+
+      <div class="form-group" novalidate>
+        <input type="text" name="giftee-nickname" class="form-control" ng-model="grouphugsNew.new.gifteeNickname" placeholder="Your Friend's Nickname">
+      <br/>
+      What's their email?
+      <div class="form-group" ng-class="{'has-error' : grouphugForm.friendEmail.$invalid && !grouphugForm.friendEmail.$pristine }">
+        <input type="email" name="friendEmail" class="form-control" ng-model="grouphugsNew.new.gifteeEmailAddress" placeholder="Your Friend's Email" required>
+        <p ng-show="grouphugForm.friendEmail.$invalid && !grouphugForm.friendEmail.$pristine" class="help-block">Please use a valid email format.</p>
+      </div>
+      <br/>
+      Where do they live?
+
+      </div> <div class="form-group" ng-class="{'has-error' : grouphugForm.gifteePostalTown.$invalid && !grouphugForm.gifteePostalTown.$pristine }">
+        <input type="text" name="gifteePostalTown" class="form-control" ng-model="grouphugsNew.new.gifteePostalTown" placeholder="If they live in London, please tell us where e.g. Notting Hill or Clapham" required>
+        <p ng-show="grouphugForm.gifteePostalTown.$invalid && !grouphugForm.gifteePostalTown.$pristine" class="help-block">Please provide a postal town</p>
+      </div>
 
       <br/>
 
-      <div>What's your friend's name?</div>
-      <!-- <div ng-if="grouphugsNew.new.gifteeGroupSize === 'A couple' || grouphugsNew.new.gifteeGroupSize === 'A group'">Enter details for the main contact</div> -->
+      <div class="form-group" ng-class="{'has-error' : grouphugForm.gifteeContactNumber.$invalid && !grouphugForm.gifteeContactNumber.$pristine }">
+        <label>Contact Number</label>
+        <input type="telephone" name="gifteeContactNumber" class="form-control" ng-model="grouphugsNew.new.gifteeContactNumber" ng-minlength="10" ng-maxlength="12" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" placeholder="Enter the best contact number mobile or landline">
+        <p ng-show="grouphugForm.gifteeContactNumber.$invalid && !grouphugForm.gifteeContactNumber.$pristine" class="help-block">Please provide a valid telephone number (numerals only)</p>
+      </div>
+
+      <br/>
+
+      How old is your friend? <br/>
+        <select name="gifteeAge" ng-model="grouphugsNew.new.gifteeAge" class="selectOne" required>
+          <option disabled selected>Please select</option>
+          <option ng-repeat="age in grouphugsNew.ages"  ng-value="grouphugsNew.new.gifteeAge" ng-disabled="grouphugsNew.new.gifteeAge.contains(age.id)">{{age}}</option>
+        </select>
+        <p ng-show="grouphugForm.gifteeAge.$error.required" class="help-block">We need to check ages to ensure we choose suitable Grouphug experiences</p>
+
       <br />
-      <div ng-if="grouphugsNew.new.gifteeGroupSize === 'One person' ">
-       Please enter your friend's email? It's important this is the correct email for us to contact them by:
-        (Don't worry, we won't email them yet. This is for after you've given the Experience Gift Card so we can organise the experience!)
-      </div>
-      <div ng-if="grouphugsNew.new.gifteeGroupSize === 'A couple' || grouphugsNew.new.gifteeGroupSize === 'A group' ">
-       Please enter the main contact's email? It's important this is the correct email for us to contact them by:
-        (Don't worry, we won't email them yet. This is for after you've given the Experience Gift Card so we can organise the experience!)
-      </div>
-      <div>
-       
 
-        <div class="form-group" ng-class="{ 'has-error' : grouphugForm.gifteeFirstName.$invalid && !grouphugForm.gifteeFirstName.$pristine }">
-          <input type="text" name="gifteeFirstName" class="form-control" ng-model="grouphugsNew.new.gifteeFirstName" placeholder="Your Friend's First Name" required ng-minlength="2" ng-maxlength="100">
-          <p ng-show="grouphugForm.gifteeFirstName.$invalid && !grouphugForm.gifteeFirstName.$pristine" class="help-block">You must provide the recipients first name minimum 2 characters maximum 100 characters</p>
-          
-        </div>
+      What gender is your friend <br/>
 
+      <select name="gifteeGender" ng-model="grouphugsNew.new.gifteeGender" class="selectOne" required>
+        <option disabled selected>Please select</option>
+        <option ng-repeat="gender in grouphugsNew.genders" ng-value="grouphugsNew.new.gifteeGender"  ng-disabled="grouphugsNew.new.gifteeGender.contains(gender.id)">{{gender}}</option>
+      </select>
+      <p ng-show="grouphugForm.gifteeGender.$error.required" class="help-block">Providing the recipients gender helps ensure we provide an even better selection but you can choose 'prefer not to say'</p>
 
-        <div class="form-group" ng-class="{ 'has-error' : grouphugForm.gifteeLastName.$invalid && !grouphugForm.gifteeFirstName.$pristine }">
-          <input type="text" name="gifteeLastName" class="form-control" ng-model="grouphugsNew.new.gifteeLastName" placeholder="Your Friend's Last Name" required ng-minlength="2" ng-maxlength="100">
-          <p ng-show="grouphugForm.gifteeLastName.$invalid && !grouphugForm.gifteeLastName.$pristine" class="help-block">You must provide the recipients last name minmum 2 characters maximum 100 characters</p>
-        </div>    
-
-        <div class="form-group" novalidate>
-          <input type="text" name="giftee-nickname" class="form-control" ng-model="grouphugsNew.new.gifteeNickname" placeholder="Your Friend's Nickname">
-        <br/>
-        What's their email?
-        <div class="form-group" ng-class="{'has-error' : grouphugForm.friendEmail.$invalid && !grouphugForm.friendEmail.$pristine }">
-          <input type="email" name="friendEmail" class="form-control" ng-model="grouphugsNew.new.gifteeEmailAddress" placeholder="Your Friend's Email" required>
-          <p ng-show="grouphugForm.friendEmail.$invalid && !grouphugForm.friendEmail.$pristine" class="help-block">Please use a valid email format.</p>
-        </div>
-        <br/>
-        Where do they live?
-
-        </div> <div class="form-group" ng-class="{'has-error' : grouphugForm.gifteePostalTown.$invalid && !grouphugForm.gifteePostalTown.$pristine }">
-          <input type="text" name="gifteePostalTown" class="form-control" ng-model="grouphugsNew.new.gifteePostalTown" placeholder="If they live in London, please tell us where e.g. Notting Hill or Clapham" required>
-          <p ng-show="grouphugForm.gifteePostalTown.$invalid && !grouphugForm.gifteePostalTown.$pristine" class="help-block">Please provide a postal town</p>
-        </div>
-
-        <br/>
-
-        <div class="form-group" ng-class="{'has-error' : grouphugForm.gifteeContactNumber.$invalid && !grouphugForm.gifteeContactNumber.$pristine }">
-          <label>Contact Number</label>
-          <input type="telephone" name="gifteeContactNumber" class="form-control" ng-model="grouphugsNew.new.gifteeContactNumber" ng-minlength="10" ng-maxlength="12" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" placeholder="Enter the best contact number mobile or landline">
-          <p ng-show="grouphugForm.gifteeContactNumber.$invalid && !grouphugForm.gifteeContactNumber.$pristine" class="help-block">Please provide a valid telephone number (numerals only)</p>
-        </div>
-
-        <br/>
-
-        How old is your friend? <br/>
-          <select name="gifteeAge" ng-model="grouphugsNew.new.gifteeAge" class="selectOne" required>
-            <option disabled selected>Please select</option>
-            <option ng-repeat="age in grouphugsNew.ages"  ng-value="grouphugsNew.new.gifteeAge" ng-disabled="grouphugsNew.new.gifteeAge.contains(age.id)">{{age}}</option>
-          </select>
-          <p ng-show="grouphugForm.gifteeAge.$error.required" class="help-block">We need to check ages to ensure we choose suitable Grouphug experiences</p>
-
-        <br />
-
-        What gender is your friend <br/>
-
-        <select name="gifteeGender" ng-model="grouphugsNew.new.gifteeGender" class="selectOne" required>
-          <option disabled selected>Please select</option>
-          <option ng-repeat="gender in grouphugsNew.genders" ng-value="grouphugsNew.new.gifteeGender"  ng-disabled="grouphugsNew.new.gifteeGender.contains(gender.id)">{{gender}}</option>
-        </select>
-        <p ng-show="grouphugForm.gifteeGender.$error.required" class="help-block">Providing the recipients gender helps ensure we provide an even better selection but you can choose 'prefer not to say'</p>
-
-        <br />
+      <br />
 
 
 
-        <br />
-      </div>
-        What's the occassion? <br />
+      <br />
+    </div>
+      What's the occassion? <br />
 
-        <select name="grouphugOccassion" ng-model="grouphugsNew.new.occassion" class="selectOne" required>
-          <option disabled selected>Please select</option>
-          <option ng-repeat="occassion in grouphugsNew.occassions" ng-value="grouphugsNew.new.occassion" ng-disabled="grouphugsNew.new.occassion.contains(occassion.id)">{{occassion}}</option>
-        </select>
-        <p ng-show="grouphugForm.grouphugOccassion.$error.required" class="help-block">Please help us further by telling us why you are giving the a grouphug</p>
+      <select name="grouphugOccassion" ng-model="grouphugsNew.new.occassion" class="selectOne" required>
+        <option disabled selected>Please select</option>
+        <option ng-repeat="occassion in grouphugsNew.occassions" ng-value="grouphugsNew.new.occassion" ng-disabled="grouphugsNew.new.occassion.contains(occassion.id)">{{occassion}}</option>
+      </select>
+      <p ng-show="grouphugForm.grouphugOccassion.$error.required" class="help-block">Please help us further by telling us why you are giving the a grouphug</p>
 
-        <br />
+      <br />
 
-        When's the occasion… when are you going to give your friend the GroupHug? <br />
+      When's the occasion… when are you going to give your friend the GroupHug? <br />
 
-        <input type="date" name="grouphugDate" ng-model="grouphugsNew.new.date" required min="{{grouphugsNew.minDate}}">
-        <p ng-show="(grouphugForm.grouphugDate.$error.required || grouphugForm.grouphugDate.$invalid) && !grouphugForm.grouphugDate.$pristine " class="help-block">please provide a valid date when the Grouphug should be given to the recipient</p>
-        <p ng-show="grouphugForm.grouphugDate.$error.min {{minDate}}  " class="help-block">the date must be in the future {{grouphugsNew.minDate}}</p>
+      <input type="date" name="grouphugDate" ng-model="grouphugsNew.new.date" required min="{{grouphugsNew.minDate}}">
+      <p ng-show="(grouphugForm.grouphugDate.$error.required || grouphugForm.grouphugDate.$invalid) && !grouphugForm.grouphugDate.$pristine " class="help-block">please provide a valid date when the Grouphug should be given to the recipient</p>
+      <p ng-show="grouphugForm.grouphugDate.$error.min {{minDate}}  " class="help-block">the date must be in the future {{grouphugsNew.minDate}}</p>
 
-        <br />
+      <br />
 
-        What's your relationship to the person you're giving a gift to? <br />
+      What's your relationship to the person you're giving a gift to? <br />
 
-        <select name="category" ng-model="grouphugsNew.new.gifteeRelationship" class="selectOne">
-          <option disabled selected>Please select</option>
-          <option ng-repeat="relation in grouphugsNew.relations" ng-value="grouphugsNew.new.gifteeRelationship" ng-disabled="grouphugsNew.new.gifteeRelationship.contains(relation.id)">{{relation}}</option>
-        </select>
+      <select name="category" ng-model="grouphugsNew.new.gifteeRelationship" class="selectOne">
+        <option disabled selected>Please select</option>
+        <option ng-repeat="relation in grouphugsNew.relations" ng-value="grouphugsNew.new.gifteeRelationship" ng-disabled="grouphugsNew.new.gifteeRelationship.contains(relation.id)">{{relation}}</option>
+      </select>
 
-        <br />
+      <br />
 
-        <hr />
+      <hr />
 
-        <!-- Experience Weighting Box -->
+      <!-- Experience Weighting Box -->
 
-        <h2>What do you think they'd like to do?</h2>
+      <h2>What do you think they'd like to do?</h2>
 
-        <hr />
-        <div class='form-group>'>
-          <p ng-show="grouphugForm.question1answers.$error.required || grouphugForm.question2answers.$error.required || grouphugForm.question3answers.$error.required || grouphugForm.question4answers.$error.required || grouphugForm.question5answers.$error.required || grouphugForm.question6answers.$error.required || grouphugForm.question7answers.$error.required || grouphugForm.question8answers.$error.required || grouphugForm.question9answers.$error.required || grouphugForm.question10answers.$error.required||
-          grouphugForm.question11answers.$error.required " class="help-block">please select an option for each question</p>       
+      <hr />
+      <div class='form-group>'>
+        <p ng-show="grouphugForm.question1answers.$error.required || grouphugForm.question2answers.$error.required || grouphugForm.question3answers.$error.required || grouphugForm.question4answers.$error.required || grouphugForm.question5answers.$error.required || grouphugForm.question6answers.$error.required || grouphugForm.question7answers.$error.required || grouphugForm.question8answers.$error.required || grouphugForm.question9answers.$error.required || grouphugForm.question10answers.$error.required||
+        grouphugForm.question11answers.$error.required " class="help-block">please select an option for each question</p>       
 
-          <table>
+        <table>
+
+        <tr>
+          <td></td>
+          <td>Never!</td>
+          <td>Now and Then</td>
+          <td>Sometimes</td>
+          <td>Often</td>
+          <td>Yes, yes, yes! Every time!</td>
+        </tr>
 
           <tr>
-            <td></td>
-            <td>Never!</td>
-            <td>Now and Then</td>
-            <td>Sometimes</td>
-            <td>Often</td>
-            <td>Yes, yes, yes! Every time!</td>
+            <td class="table-title">Luxurious - They like the finer things in life</td>
+            <td><input type="radio" name="question1answers" ng-model = "grouphugsNew.new.question1" value="1" required/></td>
+            <td><input type="radio" name="question1answers" ng-model = "grouphugsNew.new.question1" value="2" required/></td>
+            <td><input type="radio" name="question1answers" ng-model = "grouphugsNew.new.question1" value="3" required/></td>
+            <td><input type="radio" name="question1answers" ng-model = "grouphugsNew.new.question1" value="4" required/></td>
+            <td><input type="radio" name="question1answers" ng-model = "grouphugsNew.new.question1" value="5" required/></td>
+          </tr> 
+
+          <tr>
+            <td class="table-title">Pampering — ahhhh, spa!</td>
+            <td><input type="radio" name="question2answers" ng-model = "grouphugsNew.new.question2" value="1" required/></td>
+            <td><input type="radio" name="question2answers" ng-model = "grouphugsNew.new.question2" value="2" required/></td>
+            <td><input type="radio" name="question2answers" ng-model = "grouphugsNew.new.question2" value="3" required/></td>
+            <td><input type="radio" name="question2answers" ng-model = "grouphugsNew.new.question2" value="4" required/></td>
+            <td><input type="radio" name="question2answers" ng-model = "grouphugsNew.new.question2" value="5" required/></td>
+            
+          </tr>         
+          <tr>
+            <td class="table-title">Active — they love exercise</td>
+            <td><input type="radio" name="question3answers" ng-model = "grouphugsNew.new.question3" value="1" required/></td>
+            <td><input type="radio" name="question3answers" ng-model = "grouphugsNew.new.question3" value="2" required/></td>
+            <td><input type="radio" name="question3answers" ng-model = "grouphugsNew.new.question3" value="3" required/></td>
+            <td><input type="radio" name="question3answers" ng-model = "grouphugsNew.new.question3" value="4" required/></td>
+            <td><input type="radio" name="question3answers" ng-model = "grouphugsNew.new.question3" value="5" required/></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Cultural — for them, escape means exercising the mind</td>
+            <td><input type="radio" name="question4answers" ng-model = "grouphugsNew.new.question4" value="1" required/></td>
+            <td><input type="radio" name="question4answers" ng-model = "grouphugsNew.new.question4" value="2" required/></td>
+            <td><input type="radio" name="question4answers" ng-model = "grouphugsNew.new.question4" value="3" required/></td>
+            <td><input type="radio" name="question4answers" ng-model = "grouphugsNew.new.question4" value="4" required/></td>
+            <td><input type="radio" name="question4answers" ng-model = "grouphugsNew.new.question4" value="5" required/></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Creative — they like learning how to do things</td>
+            <td><input type="radio" name="question5answers" ng-model = "grouphugsNew.new.question5" value="1" required/></td>
+            <td><input type="radio" name="question5answers" ng-model = "grouphugsNew.new.question5" value="2" required/></td>
+            <td><input type="radio" name="question5answers" ng-model = "grouphugsNew.new.question5" value="3" required/></td>
+            <td><input type="radio" name="question5answers" ng-model = "grouphugsNew.new.question5" value="4" required/></td>
+            <td><input type="radio" name="question5answers" ng-model = "grouphugsNew.new.question5" value="5" required/></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Social — being with others makes their day/night/weekend</td>
+            <td><input type="radio" name="question6answers" ng-model = "grouphugsNew.new.question6" value="1" required/></td>
+            <td><input type="radio" name="question6answers" ng-model = "grouphugsNew.new.question6" value="2" required/></td>
+            <td><input type="radio" name="question6answers" ng-model = "grouphugsNew.new.question6" value="3" required/></td>
+            <td><input type="radio" name="question6answers" ng-model = "grouphugsNew.new.question6" value="4" required/></td>
+            <td><input type="radio" name="question6answers" ng-model = "grouphugsNew.new.question6" value="5" required/></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Foodie — food makes their eyes grow wider</td>
+            <td><input type="radio" name="question7answers" ng-model = "grouphugsNew.new.question7" value="1" required/></td>
+            <td><input type="radio" name="question7answers" ng-model = "grouphugsNew.new.question7" value="2" required/></td>
+            <td><input type="radio" name="question7answers" ng-model = "grouphugsNew.new.question7" value="3" required/></td>
+            <td><input type="radio" name="question7answers" ng-model = "grouphugsNew.new.question7" value="4" required/></td>
+            <td><input type="radio" name="question7answers" ng-model = "grouphugsNew.new.question7" value="5" required/></td>
+          </tr>   
+
+          <tr>
+            <td class="table-title">Boozie — they're happiest drinking with friends</td>
+            <td><input type="radio" name="question8answers" ng-model = "grouphugsNew.new.question8" value="1" required/></td>
+            <td><input type="radio" name="question8answers" ng-model = "grouphugsNew.new.question8" value="2" required/></td>
+            <td><input type="radio" name="question8answers" ng-model = "grouphugsNew.new.question8" value="3" required/></td>
+            <td><input type="radio" name="question8answers" ng-model = "grouphugsNew.new.question8" value="4" required/></td>
+            <td><input type="radio" name="question8answers" ng-model = "grouphugsNew.new.question8" value="5" required/></td>
+          </tr>      
+
+          <tr>
+            <td class="table-title">Healthy — wellbeing is key</td>
+            <td><input type="radio" name="question9answers" ng-model = "grouphugsNew.new.question9" value="1" required/></td>
+            <td><input type="radio" name="question9answers" ng-model = "grouphugsNew.new.question9" value="2" required/></td>
+            <td><input type="radio" name="question9answers" ng-model = "grouphugsNew.new.question9" value="3" required/></td>
+            <td><input type="radio" name="question9answers" ng-model = "grouphugsNew.new.question9" value="4" required/></td>
+            <td><input type="radio" name="question9answers" ng-model = "grouphugsNew.new.question9" value="5" required/></td>
+          </tr>        
+
+          <tr>
+            <td class="table-title">Travel -they love discovering new places</td>
+            <td><input type="radio" name="question10answers" ng-model = "grouphugsNew.new.question10" value="1" required/></td>
+            <td><input type="radio" name="question10answers" ng-model = "grouphugsNew.new.question10" value="2" required/></td>
+            <td><input type="radio" name="question10answers" ng-model = "grouphugsNew.new.question10" value="3" required/></td>
+            <td><input type="radio" name="question10answers" ng-model = "grouphugsNew.new.question10" value="4" required/></td>
+            <td><input type="radio" name="question10answers" ng-model = "grouphugsNew.new.question10" value="5" required/></td>
           </tr>
 
-            <tr>
-              <td class="table-title">Luxurious - They like the finer things in life</td>
-              <td><input type="radio" name="question1answers" ng-model = "grouphugsNew.new.question1" value="1" required/></td>
-              <td><input type="radio" name="question1answers" ng-model = "grouphugsNew.new.question1" value="2" required/></td>
-              <td><input type="radio" name="question1answers" ng-model = "grouphugsNew.new.question1" value="3" required/></td>
-              <td><input type="radio" name="question1answers" ng-model = "grouphugsNew.new.question1" value="4" required/></td>
-              <td><input type="radio" name="question1answers" ng-model = "grouphugsNew.new.question1" value="5" required/></td>
-            </tr> 
+          <tr>
+            <td class="table-title">Exciting — adrenalin is all</td>
+            <td><input type="radio" name="question11answers" ng-model = "grouphugsNew.new.question11" value="1" required/></td>
+            <td><input type="radio" name="question11answers" ng-model = "grouphugsNew.new.question11" value="2" required/></td>
+            <td><input type="radio" name="question11answers" ng-model = "grouphugsNew.new.question11" value="3" required/></td>
+            <td><input type="radio" name="question11answers" ng-model = "grouphugsNew.new.question11" value="4" required/></td>
+            <td><input type="radio" name="question11answers" ng-model = "grouphugsNew.new.question11" value="5" required/></td>
+          </tr>
 
-            <tr>
-              <td class="table-title">Pampering — ahhhh, spa!</td>
-              <td><input type="radio" name="question2answers" ng-model = "grouphugsNew.new.question2" value="1" required/></td>
-              <td><input type="radio" name="question2answers" ng-model = "grouphugsNew.new.question2" value="2" required/></td>
-              <td><input type="radio" name="question2answers" ng-model = "grouphugsNew.new.question2" value="3" required/></td>
-              <td><input type="radio" name="question2answers" ng-model = "grouphugsNew.new.question2" value="4" required/></td>
-              <td><input type="radio" name="question2answers" ng-model = "grouphugsNew.new.question2" value="5" required/></td>
-              
-            </tr>         
-            <tr>
-              <td class="table-title">Active — they love exercise</td>
-              <td><input type="radio" name="question3answers" ng-model = "grouphugsNew.new.question3" value="1" required/></td>
-              <td><input type="radio" name="question3answers" ng-model = "grouphugsNew.new.question3" value="2" required/></td>
-              <td><input type="radio" name="question3answers" ng-model = "grouphugsNew.new.question3" value="3" required/></td>
-              <td><input type="radio" name="question3answers" ng-model = "grouphugsNew.new.question3" value="4" required/></td>
-              <td><input type="radio" name="question3answers" ng-model = "grouphugsNew.new.question3" value="5" required/></td>
-            </tr>        
+        </table>
+      </div>
 
-            <tr>
-              <td class="table-title">Cultural — for them, escape means exercising the mind</td>
-              <td><input type="radio" name="question4answers" ng-model = "grouphugsNew.new.question4" value="1" required/></td>
-              <td><input type="radio" name="question4answers" ng-model = "grouphugsNew.new.question4" value="2" required/></td>
-              <td><input type="radio" name="question4answers" ng-model = "grouphugsNew.new.question4" value="3" required/></td>
-              <td><input type="radio" name="question4answers" ng-model = "grouphugsNew.new.question4" value="4" required/></td>
-              <td><input type="radio" name="question4answers" ng-model = "grouphugsNew.new.question4" value="5" required/></td>
-            </tr>        
+      Ideas - last form segment
 
-            <tr>
-              <td class="table-title">Creative — they like learning how to do things</td>
-              <td><input type="radio" name="question5answers" ng-model = "grouphugsNew.new.question5" value="1" required/></td>
-              <td><input type="radio" name="question5answers" ng-model = "grouphugsNew.new.question5" value="2" required/></td>
-              <td><input type="radio" name="question5answers" ng-model = "grouphugsNew.new.question5" value="3" required/></td>
-              <td><input type="radio" name="question5answers" ng-model = "grouphugsNew.new.question5" value="4" required/></td>
-              <td><input type="radio" name="question5answers" ng-model = "grouphugsNew.new.question5" value="5" required/></td>
-            </tr>        
+      <hr />
 
-            <tr>
-              <td class="table-title">Social — being with others makes their day/night/weekend</td>
-              <td><input type="radio" name="question6answers" ng-model = "grouphugsNew.new.question6" value="1" required/></td>
-              <td><input type="radio" name="question6answers" ng-model = "grouphugsNew.new.question6" value="2" required/></td>
-              <td><input type="radio" name="question6answers" ng-model = "grouphugsNew.new.question6" value="3" required/></td>
-              <td><input type="radio" name="question6answers" ng-model = "grouphugsNew.new.question6" value="4" required/></td>
-              <td><input type="radio" name="question6answers" ng-model = "grouphugsNew.new.question6" value="5" required/></td>
-            </tr>        
+      <h2>Any Ideas in Mind Already?</h2>
 
-            <tr>
-              <td class="table-title">Foodie — food makes their eyes grow wider</td>
-              <td><input type="radio" name="question7answers" ng-model = "grouphugsNew.new.question7" value="1" required/></td>
-              <td><input type="radio" name="question7answers" ng-model = "grouphugsNew.new.question7" value="2" required/></td>
-              <td><input type="radio" name="question7answers" ng-model = "grouphugsNew.new.question7" value="3" required/></td>
-              <td><input type="radio" name="question7answers" ng-model = "grouphugsNew.new.question7" value="4" required/></td>
-              <td><input type="radio" name="question7answers" ng-model = "grouphugsNew.new.question7" value="5" required/></td>
-            </tr>   
+      <br />
 
-            <tr>
-              <td class="table-title">Boozie — they're happiest drinking with friends</td>
-              <td><input type="radio" name="question8answers" ng-model = "grouphugsNew.new.question8" value="1" required/></td>
-              <td><input type="radio" name="question8answers" ng-model = "grouphugsNew.new.question8" value="2" required/></td>
-              <td><input type="radio" name="question8answers" ng-model = "grouphugsNew.new.question8" value="3" required/></td>
-              <td><input type="radio" name="question8answers" ng-model = "grouphugsNew.new.question8" value="4" required/></td>
-              <td><input type="radio" name="question8answers" ng-model = "grouphugsNew.new.question8" value="5" required/></td>
-            </tr>      
+      Anything you'd been thinking about?
 
-            <tr>
-              <td class="table-title">Healthy — wellbeing is key</td>
-              <td><input type="radio" name="question9answers" ng-model = "grouphugsNew.new.question9" value="1" required/></td>
-              <td><input type="radio" name="question9answers" ng-model = "grouphugsNew.new.question9" value="2" required/></td>
-              <td><input type="radio" name="question9answers" ng-model = "grouphugsNew.new.question9" value="3" required/></td>
-              <td><input type="radio" name="question9answers" ng-model = "grouphugsNew.new.question9" value="4" required/></td>
-              <td><input type="radio" name="question9answers" ng-model = "grouphugsNew.new.question9" value="5" required/></td>
-            </tr>        
+      <br />
 
-            <tr>
-              <td class="table-title">Travel -they love discovering new places</td>
-              <td><input type="radio" name="question10answers" ng-model = "grouphugsNew.new.question10" value="1" required/></td>
-              <td><input type="radio" name="question10answers" ng-model = "grouphugsNew.new.question10" value="2" required/></td>
-              <td><input type="radio" name="question10answers" ng-model = "grouphugsNew.new.question10" value="3" required/></td>
-              <td><input type="radio" name="question10answers" ng-model = "grouphugsNew.new.question10" value="4" required/></td>
-              <td><input type="radio" name="question10answers" ng-model = "grouphugsNew.new.question10" value="5" required/></td>
-            </tr>
+      <div class="form-group">
+        <input type="text" name="idea" class="form-control" ng-model ="grouphugsNew.new.creatorIdea">
+      </div>
 
-            <tr>
-              <td class="table-title">Exciting — adrenalin is all</td>
-              <td><input type="radio" name="question11answers" ng-model = "grouphugsNew.new.question11" value="1" required/></td>
-              <td><input type="radio" name="question11answers" ng-model = "grouphugsNew.new.question11" value="2" required/></td>
-              <td><input type="radio" name="question11answers" ng-model = "grouphugsNew.new.question11" value="3" required/></td>
-              <td><input type="radio" name="question11answers" ng-model = "grouphugsNew.new.question11" value="4" required/></td>
-              <td><input type="radio" name="question11answers" ng-model = "grouphugsNew.new.question11" value="5" required/></td>
-            </tr>
+      <br />
 
-          </table>
-        </div>
+      Anything they've mentioned that they especially enjoyed?
 
-        Ideas - last form segment
+      <br />
 
-        <hr />
+      <div class="form-group">
+        <input type="text" name="idea" class="form-control" ng-model ="grouphugsNew.new.gifteeMention">
+      </div>
 
-        <h2>Any Ideas in Mind Already?</h2>
+      <br />
 
-        <br />
+      Do they have any passions or hobbies or unfulfilled dreams we should know about?
 
-        Anything you'd been thinking about?
+      <br />
 
-        <br />
+      <div class="form-group">
+        <input type="text" name="idea" class="form-control" ng-model ="grouphugsNew.new.gifteePassion">
+      </div>
 
-        <div class="form-group">
-          <input type="text" name="idea" class="form-control" ng-model ="grouphugsNew.new.creatorIdea">
-        </div>
+      <br />
 
-        <br />
+     
+    
+      
+      <input type="file" file name="pictures" ng-model="grouphugsNew.new.pictures" placeholder="pictures" multiple class="file-upload">
+      <p ng-show="grouphugForm.$invalid">Items highlighted in red must be completed to be able to save your grouphug...</p>
+      <button type="submit" class="btn btn-primary" ng-disabled="grouphugForm.$invalid || grouphugsNew.lock === 'locked' " >Save - {{grouphugsNew.lock}}</button>
 
-        Anything they've mentioned that they especially enjoyed?
-
-        <br />
-
-        <div class="form-group">
-          <input type="text" name="idea" class="form-control" ng-model ="grouphugsNew.new.gifteeMention">
-        </div>
-
-        <br />
-
-        Do they have any passions or hobbies or unfulfilled dreams we should know about?
-
-        <br />
-
-        <div class="form-group">
-          <input type="text" name="idea" class="form-control" ng-model ="grouphugsNew.new.gifteePassion">
-        </div>
-
-        <br />
-
-       
-        <div class="mb-5">
-          <input type="file" file name="pictures" ng-model="grouphugsNew.new.pictures" placeholder="pictures" multiple class="file-upload">
-          <p ng-show="grouphugForm.$invalid">Items highlighted in red must be completed to be able to save your grouphug...</p>
-          <button type="submit" class="btn btn-primary" ng-disabled="grouphugForm.$invalid">Save</button>
-
-          <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi" class="btn btn-danger">CANCEL</a>
-          <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})" class="btn btn-danger">CANCEL</a>
-        </div>
-      </form>
-    </div>
+      <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">CANCEL</a>
+      <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">CANCEL</a>
+    </form>
   </div>
+
+</div>

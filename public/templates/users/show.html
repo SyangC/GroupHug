@@ -1,78 +1,61 @@
-<div class="row gap--sm" ng-controller="UsersShowController as usersShow">
-  <div>
-    <h1>{{ usersShow.selected.displayName }}</h1><br />
-    <img src="http://placehold.it/150x150" />
-  </div>
-</div>
-<div class="row gap--sm">
-  <div class="col-md-6">
-    <h3>Display Name</h3>
-      {{ usersShow.selected.displayName }}
-    </div>
-  <div class="col-md-6">
-    <h3>First Name</h3>
-      {{ usersShow.selected.firstName }}
-    </div>
-  </div>
-</div>
 
-<div class="row gap--sm">
-  <div class="col-md-6">
-    <h5>Last Name</h5>
-    {{ usersShow.selected.lastName }}
+
+<h2>These are the details we have for you...</h2>
+
+<div class="col-md-8 col-md-offset-2">
+  <div class="thumbnail">
+    <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcToWXet6ifvpSHOfr1To_xUJ1FfMxzMvo_BnkGwqxwODBitGjv7Sg">
   </div>
-  <div class="col-md-6">
-    <h5>Email Address</h5>
-    {{ usersShow.selected.email }}
+   <div class="caption" ng-controller="UsersShowController as usersShow">
+     <div>
+       <div class="showlabel">Display Name</div>
+       {{ usersShow.selected.displayName }}
+     </div>
+     <div>
+       <div class="showlabel">First Name</div>
+       {{ usersShow.selected.firstName }}
+     </div>
+     <div>
+       <div class="showlabel">Last Name</div>
+       {{ usersShow.selected.lastName }}
+     </div>
+     <div>
+       <div class="showlabel">Email Address</div>
+       {{ usersShow.selected.email }}
+     </div>
+     <div>
+       <div class="showlabel">ContactNumber</div>
+       {{ usersShow.selected.contactNumber }}
+     </div>
+     <div>
+       <div class="showlabel">Role</div>
+       {{ usersShow.selected.role }}
+     </div>
+     <div class="showlabel">
+     <h3>Grouphugs:</h3>
+       <ul ng-repeat="grouphug in usersShow.selected.grouphugs">
+        <li>{{grouphug.name}}</li>
+       </ul>
+     </div>
+     <div class="showlabel">
+      <h3>Gifts:</h3>
+      <ul ng-repeat="gift in usersShow.selected.gifts">
+        <li>{{gift}}</li>
+      </ul>
+     </div>
+     <h3>Pending Invitations:</h3>
+       <ul ng-repeat="invitation in usersShow.selected.invitations">
+        <li>{{invitation.name}}, a group hug for {{invitation.gifteeFirstName}}{{invitation.gifteeLastName}}</li>
+      </ul>
+     </div>
+     <!-- <p>Total GroupHugs as Giftee: {{ usersShow.selected.something }}</p>
+     <p>Total GroupHugs as Creator: {{ usersShow.selected.somethingElse }}</p>
+     <p>Total GroupHugs as Contributor: {{ usersShow.selected.anotherThing }}</p> -->
+     <button ui-sref="usersEdit({ id: usersShow.selected._id})" class="btn btn-primary">Edit </button>
+     <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">Back</a>
+     <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">Back</a>
   </div>
 </div>
-
-<div class="row gap--sm">
-  <div class="col-md-6">
-   <h5>ContactNumber</h5>
-   {{ usersShow.selected.contactNumber }}
-  </div>
-
-  <div class="col-md-6">
-    <h5>Role</h5>
-    {{ usersShow.selected.role }}
-  </div>
-</div>
-<div class="row gap--sm">
-  <div class="col-md-6">
-    <h5>Grouphugs:</h5>
-    <ul ng-repeat="grouphug in usersShow.selected.grouphugs">
-      <li>{{grouphug.name}}</li>
-    </ul>
-  </div>
-
-  <div class="col-md-6">
-    <h5>Gifts:</h5>
-    <ul ng-repeat="gift in usersShow.selected.gifts">
-      <li>{{gift}}</li>
-    </ul>
-  </div>
-</div>
-
-<div class="row gap--sm">
-  <div class="col-md-12">
-   <h5>Pending Invitations:</h5>
-     <ul ng-repeat="invitation in usersShow.selected.invitations">
-      <li>{{invitation.name}}, a group hug for {{invitation.gifteeFirstName}}{{invitation.gifteeLastName}}</li>
-    </ul>
-   <!-- <p>Total GroupHugs as Giftee: {{ usersShow.selected.something }}</p>
-   <p>Total GroupHugs as Creator: {{ usersShow.selected.somethingElse }}</p>
-   <p>Total GroupHugs as Contributor: {{ usersShow.selected.anotherThing }}</p> -->
-  </div>
-</div>
-<div class="row gap--sm">
-  <div>
-   <button ui-sref="usersEdit({ id: usersShow.selected._id})" class="btn btn-primary">Edit </button>
-   <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi" class="btn btn-primary">Back</a>
-   <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})" class="btn btn-primary">Back</a>
-  </div>
-</div>
-
 
 
   

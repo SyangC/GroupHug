@@ -1,5 +1,4 @@
 <div ng-if="main.currentUser">
-  <h1>This is the GroupHug show</h1>
 
   <div class="col-md-8 col-md-offset-2">
     <div class="thumbnail">
@@ -104,16 +103,16 @@
       <!-- <button ng-click="grouphugsShow.delete()" class="btn">Delete</button>
    -->
     </div>
-    
+    <button ui-sref="grouphugsEdit({ id: grouphugsShow.selected._id })" class="btn">Edit the group hug details </button>
+    <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">Back</a>
+    <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">Back</a>
+    <h1>Pictures</h1>
+    <img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">
+    <img ng-src="{{grouphugsShow.selected.mainImage}}">
   </div>
 
 
 
-  <button ui-sref="grouphugsEdit({ id: grouphugsShow.selected._id })" class="btn">Edit the group hug details </button>
-  <a ng-if="main.currentUser.role ==='superAdmin'" ui-sref="adminUi">Back</a>
-  <a ng-if="main.currentUser.role !='superAdmin'" ui-sref="usersWelcome({id: main.currentUser._id})">Back</a>
-  <h1>Pictures</h1>
-  <img ng-repeat="picture in grouphugsShow.selected.pictures" ng-src="{{ picture }}">
-  <img ng-src="{{grouphugsShow.selected.mainImage}}">
+ 
 </div>
 <div id="unauthorised" ng-if="!main.currentUser">You do not have permission to view this page - sorry</div>

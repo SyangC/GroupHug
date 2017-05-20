@@ -14,6 +14,7 @@ module.exports = multer({
     },*/
     shouldTransform: function (req, file, cb) {
          cb(null, /^image/i.test(file.mimetype))
+         console.log("!!!!!!!req.body = ",req.body)
        },
     transforms: [{
         id: 'original',

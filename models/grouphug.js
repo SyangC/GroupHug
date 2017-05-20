@@ -75,6 +75,8 @@ grouphugSchema.path('pictures')
   });
 
 
+
+
 grouphugSchema.pre('save', function(next) {
   
   var doc = this;
