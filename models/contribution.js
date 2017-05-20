@@ -4,7 +4,9 @@ var contributionSchema = new mongoose.Schema({
   name: { type: String },
   stripeToken: { type: String },
   grouphug: { type: mongoose.Schema.ObjectId, ref: "Grouphug" },
-  amount: { type: Number }
+  amount: { type: Number },
+  displayName: {type: String, default: ""},
+  message: {type: String, default:"Have a hug on me"}
 });
 
 contributionSchema.pre('save', function(next) {

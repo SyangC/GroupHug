@@ -1,0 +1,33 @@
+<div class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">{{title}}</h4>
+      </div>
+      <div class="modal-body">
+        <p class="modal-message">Please enter a personal message to go with your contribution below. If you don't have time or don't know what to say we'll, automatically add the message 'Have a hug on me'</p>
+
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">How would you like your name to be shown</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="name" placeholder="Your Name" ng-model="name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="message" class="col-sm-2 control-label">Your lovely message...</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="contribution-message" placeholder="Your message goes here" ng-model="message">
+        </div>
+      </div>
+    </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal">OK</button>
+        <button class="btn btn-default" ng-click="close()" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
